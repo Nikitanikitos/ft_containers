@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 17:07:01 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 17:19:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ public:
 		_ptr = _ptr->prev;
 		return (*this);
 	};
+
+	IteratorList<T>		&operator++(int) {
+		IteratorList<T>		temp(_ptr);
+
+		_ptr = _ptr->next;
+		return (temp);
+	};
+
+	IteratorList<T>		&operator--(int) {
+		IteratorList<T>		temp(_ptr);
+
+		_ptr = _ptr->prev;
+		return (temp);
+	};
 };
 
 template<class T>
@@ -78,6 +92,20 @@ public:
 	ReverseIteratorList<T>		&operator--() {
 		_ptr = _ptr->next;
 		return (*this);
+	};
+
+	ReverseIteratorList<T>		operator++(int) {
+		ReverseIteratorList<T>	temp(_ptr);
+
+		_ptr = _ptr->prev;
+		return (temp);
+	};
+
+	ReverseIteratorList<T>		operator--(int) {
+		ReverseIteratorList<T>	temp(_ptr);
+
+		_ptr = _ptr->next;
+		return (temp);
 	};
 };
 
