@@ -5,8 +5,6 @@
 class 	A {};
 
 int main() {
-	ft::list<int> qwe;
-
 
 
 	return (0);
