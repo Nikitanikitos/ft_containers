@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 16:49:13 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 17:07:01 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,38 @@ public:
 
 	IteratorList<T>		&operator--() {
 		_ptr = _ptr->prev;
+		return (*this);
+	};
+};
+
+template<class T>
+class	ReverseIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
+{
+private:
+	T*		_ptr;
+
+public:
+	ReverseIteratorList(T *p = 0) : _ptr(p) { };
+	ReverseIteratorList(const ReverseIteratorList<T> &it) : _ptr(it._ptr) { };
+	~ReverseIteratorList() { };
+
+	ReverseIteratorList<T>		&operator=(const ReverseIteratorList<T> &it) {
+		if (this != &it)
+			_ptr = it._ptr;
+		return (*this);
+	};
+
+	bool		operator!=(const ReverseIteratorList<T> &it) const { return (_ptr != it._ptr); };
+	bool		operator==(const ReverseIteratorList<T> &it) const { return (_ptr == it._ptr); };
+	T			&operator*() { return (_ptr->value); };
+
+	ReverseIteratorList<T>		&operator++() {
+		_ptr = _ptr->prev;
+		return (*this);
+	};
+
+	ReverseIteratorList<T>		&operator--() {
+		_ptr = _ptr->next;
 		return (*this);
 	};
 };

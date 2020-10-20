@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 16:02:07 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 17:06:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 # define list_hpp
 
 # include <iostream>
-#include "Iterator_list.hpp"
+# include "Iterator_list.hpp"
 
 namespace ft
 {
-	namespace
-	{
+	namespace {
 		template<bool B, class T = void>
 		struct enable_if {};
 
@@ -38,18 +37,18 @@ namespace ft
 		};
 
 	public:
-		typedef T												value_type;
-		typedef Alloc											allocator_type;
-		typedef typename allocator_type::reference				reference;
-		typedef typename allocator_type::const_reference		const_reference;
-		typedef typename allocator_type::pointer				pointer;
-		typedef typename allocator_type::const_pointer			const_pointer;
-		typedef IteratorList<s_list>							iterator;
-		typedef IteratorList<const s_list>						const_iterator;
-		typedef std::reverse_iterator<iterator>					reverse_iterator;
-		typedef std::reverse_iterator<const_iterator>			const_reverse_iterator;
-		typedef std::ptrdiff_t									difference_type;
-		typedef std::size_t										size_type;
+		typedef				T									value_type;
+		typedef				Alloc								allocator_type;
+		typedef typename	allocator_type::reference			reference;
+		typedef typename	allocator_type::const_reference		const_reference;
+		typedef typename	allocator_type::pointer				pointer;
+		typedef typename	allocator_type::const_pointer		const_pointer;
+		typedef 			IteratorList<s_list>				iterator;
+		typedef				IteratorList<const s_list>			const_iterator;
+		typedef				ReverseIteratorList<s_list>			reverse_iterator;
+		typedef				ReverseIteratorList<const s_list>	const_reverse_iterator;
+		typedef				std::ptrdiff_t						difference_type;
+		typedef				std::size_t							size_type;
 
 		typedef typename allocator_type::template rebind<s_list>::other		alloc_rebind;
 
@@ -73,18 +72,18 @@ namespace ft
 		list& operator=(const list& x);
 		~list() { };
 
-		iterator				begin()  { return (_first_node); };
-		const_iterator			begin() const  { return (_first_node); };
-		iterator				end() { return (_last_node->next); };
-		const_iterator			end() const { return (_last_node->next); };
-		reverse_iterator		rbegin();
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator		rend();
-		const_reverse_iterator	rend() const;
+		iterator				begin()  { return (_first_node); }
+		const_iterator			begin() const  { return (_first_node); }
+		iterator				end() { return (_last_node->next); }
+		const_iterator			end() const { return (_last_node->next); }
+		reverse_iterator		rbegin() { return (_last_node); }
+		const_reverse_iterator	rbegin() const { return (_last_node); }
+		reverse_iterator		rend() { return (_first_node); }
+		const_reverse_iterator	rend() const { return (_first_node); }
 
-		bool    		empty() const;
-		size_type		size() const;
-		size_type		max_size() const;
+		bool    				empty() const { return (_size == 0); }
+		size_type				size() const {return (_size); };
+		size_type				max_size() const;
 
 		reference		front();
 		const_reference	front() const;
