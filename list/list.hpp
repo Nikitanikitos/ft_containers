@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 18:01:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 18:22:44 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ namespace ft
 		typedef typename	allocator_type::const_pointer		const_pointer;
 		typedef 			IteratorList<s_list, T>				iterator;
 		typedef				IteratorList<const s_list, T>		const_iterator;
-		typedef				ReverseIteratorList<s_list>			reverse_iterator;
-		typedef				ReverseIteratorList<const s_list>	const_reverse_iterator;
+		typedef				RevIteratorList<s_list, T>			reverse_iterator;
+		typedef				RevIteratorList<const s_list, T>	const_reverse_iterator;
 		typedef				std::ptrdiff_t						difference_type;
 		typedef				std::size_t							size_type;
 
@@ -68,8 +68,7 @@ namespace ft
 
 		template <class InputIterator>
 		list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) :
-				_alloc(alloc) { };
+				typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 
 		list(const list& x);
 		list& operator=(const list& x);
@@ -130,7 +129,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
-																						: _size(n) {
+																		: _size(n), _alloc(alloc) {
 		s_list	*temp_node;
 
 		_first_node = _alloc_rebind.allocate(1);
@@ -148,10 +147,11 @@ namespace ft
 		_last_node = temp_node;
 	}
 
-//	template<class T, class Alloc>
-//	template<class InputIterator>
-//	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
-//					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) { }
+	template<class T, class Alloc>
+	template<class InputIterator>
+	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
+					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) :
+			_alloc(alloc) { }
 
 	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
