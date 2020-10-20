@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
+/*   Updated: 2020/10/20 16:05:12 by imicah           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include <list>
 #include "list/list.hpp"
 
-class 	A {};
-
 int main() {
+	ft::list<int>	qwe(4);
+	std::list<int>::iterator 	q;
+	ft::list<int>::iterator		it = qwe.begin();
 
-
-	ft::list<int>	qwe(3, 23);
-
-	std::list<int>	ewq(3, 23);
+	for (; it != qwe.end(); ++it) {
+//		std::cout << *it << std::endl;
+	}
 	return (0);
 }

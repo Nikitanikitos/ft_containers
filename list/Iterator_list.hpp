@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 12:42:56 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 15:56:54 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ template<class T>
 class	IteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
-	T*		p;
+	T*		_ptr;
 
 public:
-	IteratorList(T *p);
+	IteratorList(T *p = 0);
 	IteratorList(const IteratorList<T> &iterator);
 	~IteratorList();
 
@@ -38,10 +38,10 @@ public:
 };
 
 template <class T>
-IteratorList<T>::IteratorList(T *p) : p(p) { }
+IteratorList<T>::IteratorList(T *p) : _ptr(p) { }
 
 template <class T>
-IteratorList<T>::IteratorList(const IteratorList<T> &iterator) : p(iterator.p) { }
+IteratorList<T>::IteratorList(const IteratorList<T> &iterator) : _ptr(iterator._ptr) { }
 
 template <class T>
 IteratorList<T>::~IteratorList() { }
@@ -49,29 +49,29 @@ IteratorList<T>::~IteratorList() { }
 template<class T>
 IteratorList<T>		&IteratorList<T>::operator=(const IteratorList<T> &iterator) {
 	if (this != &iterator)
-		p = iterator.p;
+		_ptr = iterator._ptr;
 	return (*this);
 }
 
 template<class T>
-bool	IteratorList<T>::operator==(const IteratorList<T> &iterator) const { return (p == iterator.p); }
+bool	IteratorList<T>::operator==(const IteratorList<T> &iterator) const { return (_ptr == iterator._ptr); }
 
 template<class T>
-bool	IteratorList<T>::operator!=(const IteratorList<T> &iterator) const { return (p != iterator.p); }
+bool	IteratorList<T>::operator!=(const IteratorList<T> &iterator) const { return (_ptr != iterator._ptr); }
 
 template<class T>
 IteratorList<T>		&IteratorList<T>::operator++() {
-	p++;
+	_ptr = _ptr->next;
 	return (*this);
 }
 
 template<class T>
 IteratorList<T>		&IteratorList<T>::operator--() {
-	p--;
+	_ptr = _ptr->prev;
 	return (*this);
 }
 
 template<class T>
-T	&IteratorList<T>::operator*() { return (*p); }
+T	&IteratorList<T>::operator*() { return (_ptr->value); }
 
 #endif
