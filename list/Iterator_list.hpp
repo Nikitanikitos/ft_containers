@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 12:41:40 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 12:42:56 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define Iterator_hpp
 
 #include <iostream>
+# include <iterator>
 
 template<class T>
 class	IteratorList : public std::iterator<std::bidirectional_iterator_tag, T>

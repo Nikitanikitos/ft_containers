@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 13:14:52 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 14:16:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ namespace ft
 			struct s_list<T>	*next;
 			struct s_list<T>	*prev;
 		};
+
+		template<bool B, class T = void>
+		struct enable_if {};
+
+		template<class T>
+		struct enable_if<true, T> { typedef T type; };
 	}
 
 	template<class T, class Alloc = std::allocator<T> >
@@ -38,6 +44,7 @@ namespace ft
 		typedef typename allocator_type::const_reference					const_reference;
 		typedef typename allocator_type::pointer							pointer;
 		typedef typename allocator_type::const_pointer						const_pointer;
+		typedef typename allocator_type::template rebind<s_list<T> >::other	alloc_rebind;
 		typedef std::iterator<std::bidirectional_iterator_tag, T>			iterator;
 		typedef std::iterator<std::bidirectional_iterator_tag, const T>		const_iterator;
 		typedef std::reverse_iterator<iterator>								reverse_iterator;
@@ -50,18 +57,37 @@ namespace ft
 		s_list<value_type>	*_first_node;
 		s_list<value_type>	*_last_node;
 		size_type			_size;
+		alloc_rebind		_alloc;
 
 	public:
 		explicit list(const allocator_type& alloc = allocator_type())
 											: _list(0), _first_node(0), _last_node(0), _size(0) { };
+
 		explicit list(size_type n, const value_type& val = value_type(),
-				 									const allocator_type& alloc = allocator_type());
+												const allocator_type& alloc = allocator_type()) : _size(n) {
+			s_list<value_type>	*temp_node;
+
+			_first_node = _alloc.allocate(1);
+			_first_node->value = val;
+			_first_node->next = 0;
+			_first_node->prev = 0;
+			temp_node = _first_node;
+			for (int i = 1; i < n; ++i) {
+				temp_node->next = _alloc.allocate(1);
+				temp_node->next->value = val;
+				temp_node->next->prev = temp_node;
+				temp_node->next->next = 0;
+				temp_node = temp_node->next;
+			}
+			_last_node = temp_node;
+		};
+
 		template <class InputIterator>
-		list(InputIterator first, InputIterator last,
-													const allocator_type& alloc = allocator_type());
+		list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+					typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 		list (const list& x);
 		list& operator=(const list& x);
-		~list();
+		~list() { };
 
 		iterator				begin();
 		const_iterator			begin() const;
