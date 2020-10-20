@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 13:10:23 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 13:14:52 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,15 @@ namespace ft
 		typedef std::ptrdiff_t												difference_type;
 		typedef std::size_t													size_type;
 
-		explicit list(const allocator_type& alloc = allocator_type());
+	private:
+		s_list<value_type>	*_list;
+		s_list<value_type>	*_first_node;
+		s_list<value_type>	*_last_node;
+		size_type			_size;
+
+	public:
+		explicit list(const allocator_type& alloc = allocator_type())
+											: _list(0), _first_node(0), _last_node(0), _size(0) { };
 		explicit list(size_type n, const value_type& val = value_type(),
 				 									const allocator_type& alloc = allocator_type());
 		template <class InputIterator>
@@ -107,6 +115,19 @@ namespace ft
 		void			sort(Compare comp);
 		void			reverse();
 	};
+
+	template <class T, class Alloc>
+	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 }
 
 #endif
