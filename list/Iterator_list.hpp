@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 17:19:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/20 18:01:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,96 +17,97 @@
 #include <iostream>
 # include <iterator>
 
-template<class T>
+template<class T, class U>
 class	IteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
 	T*		_ptr;
 
 public:
-	IteratorList(T *p = 0) : _ptr(p) { };
-	IteratorList(const IteratorList<T> &it) : _ptr(it._ptr) { };
-	~IteratorList() { };
+	IteratorList(T *p = 0) : _ptr(p) { }
+	IteratorList(const IteratorList<T, U> &it) : _ptr(it._ptr) { }
+	~IteratorList() { }
 
-	IteratorList<T>		&operator=(const IteratorList<T> &it) {
+	IteratorList<T, U>		&operator=(const IteratorList<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
-	};
+	}
 
-	bool				operator!=(const IteratorList<T> &it) const { return (_ptr != it._ptr); };
-	bool				operator==(const IteratorList<T> &it) const { return (_ptr == it._ptr); };
-	T					&operator*() { return (_ptr->value); };
+	bool				operator!=(const IteratorList<T, U> &it) const { return (_ptr != it._ptr); }
+	bool				operator==(const IteratorList<T, U> &it) const { return (_ptr == it._ptr); }
 
-	IteratorList<T>		&operator++() {
+	U			&operator*() { return (_ptr->value); }
+
+	IteratorList<T, U>		&operator++() {
 		_ptr = _ptr->next;
 		return (*this);
-	};
+	}
 
-	IteratorList<T>		&operator--() {
+	IteratorList<T, U>		&operator--() {
 		_ptr = _ptr->prev;
 		return (*this);
-	};
+	}
 
-	IteratorList<T>		&operator++(int) {
-		IteratorList<T>		temp(_ptr);
+	IteratorList<T, U>		&operator++(int) {
+		IteratorList<T, U>		temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
-	};
+	}
 
-	IteratorList<T>		&operator--(int) {
-		IteratorList<T>		temp(_ptr);
+	IteratorList<T, U>		&operator--(int) {
+		IteratorList<T, U>		temp(_ptr);
 
 		_ptr = _ptr->prev;
 		return (temp);
-	};
+	}
 };
 
-template<class T>
+template<class T, class U>
 class	ReverseIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
 	T*		_ptr;
 
 public:
-	ReverseIteratorList(T *p = 0) : _ptr(p) { };
-	ReverseIteratorList(const ReverseIteratorList<T> &it) : _ptr(it._ptr) { };
-	~ReverseIteratorList() { };
+	ReverseIteratorList(T *p = 0) : _ptr(p) { }
+	ReverseIteratorList(const ReverseIteratorList<T, U> &it) : _ptr(it._ptr) { }
+	~ReverseIteratorList() { }
 
-	ReverseIteratorList<T>		&operator=(const ReverseIteratorList<T> &it) {
+	ReverseIteratorList<T, U>		&operator=(const ReverseIteratorList<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
-	};
+	}
 
-	bool		operator!=(const ReverseIteratorList<T> &it) const { return (_ptr != it._ptr); };
-	bool		operator==(const ReverseIteratorList<T> &it) const { return (_ptr == it._ptr); };
+	bool		operator!=(const ReverseIteratorList<T, U> &it) const { return (_ptr != it._ptr); }
+	bool		operator==(const ReverseIteratorList<T, U> &it) const { return (_ptr == it._ptr); }
 	T			&operator*() { return (_ptr->value); };
 
-	ReverseIteratorList<T>		&operator++() {
+	ReverseIteratorList<T, U>		&operator++() {
 		_ptr = _ptr->prev;
 		return (*this);
-	};
+	}
 
-	ReverseIteratorList<T>		&operator--() {
+	ReverseIteratorList<T, U>		&operator--() {
 		_ptr = _ptr->next;
 		return (*this);
-	};
+	}
 
-	ReverseIteratorList<T>		operator++(int) {
-		ReverseIteratorList<T>	temp(_ptr);
+	ReverseIteratorList<T, U>		operator++(int) {
+		ReverseIteratorList<T, U>	temp(_ptr);
 
 		_ptr = _ptr->prev;
 		return (temp);
-	};
+	}
 
-	ReverseIteratorList<T>		operator--(int) {
-		ReverseIteratorList<T>	temp(_ptr);
+	ReverseIteratorList<T, U>		operator--(int) {
+		ReverseIteratorList<T, U>	temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
-	};
+	}
 };
 
 #endif
