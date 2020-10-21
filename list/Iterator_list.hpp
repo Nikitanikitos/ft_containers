@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 18:05:38 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 13:05:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ public:
 	bool				operator!=(const IteratorList<T, U> &it) const { return (_ptr != it._ptr); }
 	bool				operator==(const IteratorList<T, U> &it) const { return (_ptr == it._ptr); }
 
-	U			&operator*() { return (_ptr->value); }
+	U			&operator*() { return (*_ptr->value); }
 
 	IteratorList<T, U>		&operator++() {
 		_ptr = _ptr->next;

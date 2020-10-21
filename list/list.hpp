@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 13:19:13 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 13:39:20 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,13 @@ namespace ft
 	template<class InputIterator>
 	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) :
-			_alloc(alloc) { }
+																					_alloc(alloc) {
+		push_front(*first);
+		first++;
+		_last_node = _first_node;
+		for(; first != last; first++)
+			push_front(*first);
+	}
 
 	template<class T, class Alloc>
 	list<T, Alloc>::~list() {
@@ -150,7 +156,9 @@ namespace ft
 
 		for (int i = 0; i < _size; ++i) {
 			temp_node = _first_node;
-
+			_first_node = _first_node->next;
+			_alloc.deallocate(temp_node->value, 1);
+			_alloc_rebind.deallocate(temp_node, 1);
 		}
 	}
 
@@ -190,6 +198,11 @@ namespace ft
 			_first_node = temp_node;
 		}
 		_size++;
+	}
+
+	template<class T, class Alloc>
+	list<T, Alloc>::list(const list &x) {
+
 	}
 
 	template <class T, class Alloc>
