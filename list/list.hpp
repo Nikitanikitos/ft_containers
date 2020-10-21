@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/20 18:22:44 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 13:19:13 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft
 	{
 	private:
 		struct				s_list {
-			T				value;
+			T				*value;
 			struct s_list	*next;
 			struct s_list	*prev;
 		};
@@ -72,7 +72,7 @@ namespace ft
 
 		list(const list& x);
 		list& operator=(const list& x);
-		~list() { };
+		~list();
 
 		iterator				begin()  { return (_first_node); }
 		const_iterator			begin() const  { return (_first_node); }
@@ -129,22 +129,13 @@ namespace ft
 
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
-																		: _size(n), _alloc(alloc) {
-		s_list	*temp_node;
-
-		_first_node = _alloc_rebind.allocate(1);
-		_first_node->value = val;
-		_first_node->next = 0;
-		_first_node->prev = 0;
-		temp_node = _first_node;
-		for (int i = 1; i < n; ++i) {
-			temp_node->next = _alloc_rebind.allocate(1);
-			temp_node->next->value = val;
-			temp_node->next->prev = temp_node;
-			temp_node->next->next = 0;
-			temp_node = temp_node->next;
-		}
-		_last_node = temp_node;
+																	: _alloc(alloc) {
+		if (n == 0)
+			return ;
+		push_front(val);
+		_last_node = _first_node;
+		for (int i = 1; i < n; ++i)
+			push_front(val);
 	}
 
 	template<class T, class Alloc>
@@ -152,6 +143,54 @@ namespace ft
 	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) :
 			_alloc(alloc) { }
+
+	template<class T, class Alloc>
+	list<T, Alloc>::~list() {
+		s_list		*temp_node;
+
+		for (int i = 0; i < _size; ++i) {
+			temp_node = _first_node;
+
+		}
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::push_back(const value_type &val) {
+		value_type	*value_node = _alloc.allocate(1);
+		s_list		*temp_node = _alloc_rebind.allocate(1);
+
+		_alloc.construct(value_node, val);
+		temp_node->value = value_node;
+		temp_node->next = 0;
+		temp_node->prev = 0;
+		if (!_last_node)
+			_last_node = temp_node;
+		else {
+			_last_node->next = temp_node->next;
+			temp_node->prev = _last_node;
+			_first_node = temp_node;
+		}
+		_size++;
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::push_front(const value_type &val) {
+		s_list		*temp_node	= _alloc_rebind.allocate(1);
+		value_type	*value_node	= _alloc.allocate(1);
+
+		_alloc.construct(value_node, val);
+		temp_node->value = value_node;
+		temp_node->next = 0;
+		temp_node->prev = 0;
+		if (!_first_node)
+			_first_node = temp_node;
+		else {
+			temp_node->next = _first_node;
+			_first_node->prev = temp_node;
+			_first_node = temp_node;
+		}
+		_size++;
+	}
 
 	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);

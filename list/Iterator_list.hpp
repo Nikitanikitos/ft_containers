@@ -83,7 +83,7 @@ public:
 
 	bool		operator!=(const RevIteratorList<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const RevIteratorList<T, U> &it) const { return (_ptr == it._ptr); }
-	T			&operator*() { return (_ptr->value); };
+	T			&operator*() { return (*_ptr->value); };
 
 	RevIteratorList<T, U>		&operator++() {
 		_ptr = _ptr->prev;
