@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 13:39:20 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 14:12:50 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
-																	: _alloc(alloc) {
+										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
 		if (n == 0)
 			return ;
 		push_front(val);
@@ -141,13 +141,24 @@ namespace ft
 	template<class T, class Alloc>
 	template<class InputIterator>
 	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
-					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) :
-																					_alloc(alloc) {
+					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *)
+										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
 		push_front(*first);
-		first++;
 		_last_node = _first_node;
-		for(; first != last; first++)
+		++first;
+		for(; first != last; ++first)
 			push_front(*first);
+	}
+
+	template<class T, class Alloc>
+	list<T, Alloc>::list(const list &x) : _first_node(0), _last_node(0), _size(0), _alloc(x._alloc) {
+		const_iterator	it = x.begin();
+
+		push_front(*it);
+		_last_node = _first_node;
+		++it;
+		for(; it != x.end(); ++it)
+			push_front(*it);
 	}
 
 	template<class T, class Alloc>
@@ -198,11 +209,6 @@ namespace ft
 			_first_node = temp_node;
 		}
 		_size++;
-	}
-
-	template<class T, class Alloc>
-	list<T, Alloc>::list(const list &x) {
-
 	}
 
 	template <class T, class Alloc>
