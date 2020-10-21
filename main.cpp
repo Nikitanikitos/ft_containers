@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 13:48:38 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:56:05 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@
 
 int main() {
 
-	ft::list<char>		list(3, 'q');
+	ft::list<int>		list;
 //	ft::list<char>::iterator	begin = list.begin();
 //	ft::list<char>::iterator	end = list.end();
 //
-	ft::list<char>		list_2(list);
+	ft::list<int>		list_2;
 
+	list.push_back(2);
+	list.push_back(6);
+
+//	list.push_front()
+	list_2 = list;
 	return (0);
 }

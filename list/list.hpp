@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 14:12:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 15:59:51 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,31 @@ namespace ft
 	}
 
 	template<class T, class Alloc>
+	list<T, Alloc> & list<T,Alloc>::operator=(const list<T, Alloc> &list) {
+		if (this == &list)
+			return (*this);
+		const_iterator	begin = list.begin();
+		const_iterator	end = list.end();
+		size_type		i = 0;
+		s_list			*temp_node = _first_node;
+
+		for (; begin != end; begin++) {
+			if (_size >= list._size)
+				break ;
+			else if (i++ < _size) {
+				_alloc.destroy(temp_node->value);
+				_alloc.construct(temp_node->value, *begin);
+				temp_node = temp_node->next;
+			}
+			else if (_size < list._size)
+				push_back(*begin);
+		}
+		while (_size > list._size)
+			pop_back();
+		return (*this);
+	}
+
+	template<class T, class Alloc>
 	list<T, Alloc>::~list() {
 		s_list		*temp_node;
 
@@ -182,12 +207,17 @@ namespace ft
 		temp_node->value = value_node;
 		temp_node->next = 0;
 		temp_node->prev = 0;
-		if (!_last_node)
+		if (!_last_node) {
 			_last_node = temp_node;
+			_first_node = _last_node;
+		}
 		else {
-			_last_node->next = temp_node->next;
 			temp_node->prev = _last_node;
-			_first_node = temp_node;
+			_last_node = temp_node;
+		}
+		if (_size == 1) {
+			_first_node->next = _last_node;
+			_last_node->prev = _first_node;
 		}
 		_size++;
 	}
@@ -202,7 +232,10 @@ namespace ft
 		temp_node->next = 0;
 		temp_node->prev = 0;
 		if (!_first_node)
+		{
 			_first_node = temp_node;
+			_last_node = _first_node;
+		}
 		else {
 			temp_node->next = _first_node;
 			_first_node->prev = temp_node;
@@ -211,8 +244,30 @@ namespace ft
 		_size++;
 	}
 
+	template<class T, class Alloc>
+	void list<T, Alloc>::pop_front() {
+		s_list	*temp_node;
+
+		temp_node = _first_node;
+		_first_node = _first_node->next;
+		_alloc.deallocate(temp_node->value, 1);
+		_alloc_rebind.deallocate(temp_node, 1);
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::pop_back() {
+		s_list	*temp_node;
+
+		temp_node = _last_node;
+		_last_node = _last_node->prev;
+		_alloc.deallocate(temp_node->value, 1);
+		_alloc_rebind.deallocate(temp_node, 1);
+	}
+
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	}
+
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
