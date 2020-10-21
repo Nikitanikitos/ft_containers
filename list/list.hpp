@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 21:05:15 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 22:13:50 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ namespace ft
 			_last_node->next = temp_node;
 			_last_node = temp_node;
 		}
+		_tie_end_node();
 		_size++;
 	}
 
@@ -263,6 +264,7 @@ namespace ft
 			_first_node->prev = temp_node;
 			_first_node = temp_node;
 		}
+		_tie_end_node();
 		_size++;
 	}
 
