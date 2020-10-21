@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 16:04:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 19:33:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,35 +55,48 @@ namespace ft
 	private:
 		s_list			*_first_node;
 		s_list			*_last_node;
+		s_list			*_end_node;
 		size_type		_size;
 		alloc_rebind	_alloc_rebind;
 		allocator_type	_alloc;
 
+		void _create_end_node() {
+			value_type	*value_node = _alloc.allocate(1);
+
+			_alloc.construct(value_node, T());
+			_end_node = _alloc_rebind.allocate(1);
+			_end_node->next = _end_node;
+			_end_node->prev = _end_node;
+			_end_node->value = value_node;
+		}
+
 	public:
 		explicit list(const allocator_type& alloc = allocator_type())
-									: _first_node(0), _last_node(0), _size(0), _alloc(alloc) { };
+									: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+			_create_end_node();
+		};
 
-		explicit list(size_type n, const value_type& val = value_type(),
+		explicit list(size_type, const value_type& val = value_type(),
 													const allocator_type& alloc = allocator_type());
 
 		template <class InputIterator>
-		list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+		list(InputIterator, InputIterator, const allocator_type& alloc = allocator_type(),
 				typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 
-		list(const list& x);
-		list& operator=(const list& x);
+		list(const list& list);
+		list& operator=(const list&);
 		~list();
 
-		iterator				begin()  { return (_first_node); }
-		const_iterator			begin() const  { return (_first_node); }
-		iterator				end() { return (_last_node->next); }
-		const_iterator			end() const { return (_last_node->next); }
-		reverse_iterator		rbegin() { return (_last_node); }
-		const_reverse_iterator	rbegin() const { return (_last_node); }
-		reverse_iterator		rend() { return (_first_node); }
-		const_reverse_iterator	rend() const { return (_first_node); }
+		iterator				begin()  { return (_end_node->next); }
+		const_iterator			begin() const  { return (_end_node->next); }
+		iterator				end() { return (_end_node); }
+		const_iterator			end() const { return (_end_node); }
+		reverse_iterator		rbegin() { return (_end_node->prev); }
+		const_reverse_iterator	rbegin() const { return (_end_node->prev); }
+		reverse_iterator		rend() { return (_end_node); }
+		const_reverse_iterator	rend() const { return (_end_node); }
 
-		bool    				empty() const { return (_size == 0); }
+		bool    				empty() const { return (!_size); }
 		size_type				size() const {return (_size); };
 		size_type				max_size() const;
 
@@ -130,12 +143,13 @@ namespace ft
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
 										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
-		if (n == 0)
-			return ;
-		push_front(val);
-		_last_node = _first_node;
-		for (int i = 1; i < n; ++i)
+		_create_end_node();
+
+		if (n == 0) return ;
+		for (int i = 0; i < n; ++i)
 			push_front(val);
+		_end_node->next = _first_node;
+		_end_node->prev = _last_node;
 	}
 
 	template<class T, class Alloc>
@@ -143,21 +157,22 @@ namespace ft
 	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *)
 										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
-		push_front(*first);
-		_last_node = _first_node;
-		++first;
+		_create_end_node();
 		for(; first != last; ++first)
 			push_front(*first);
+		_end_node->next = _first_node;
+		_end_node->prev = _last_node;
 	}
 
 	template<class T, class Alloc>
-	list<T, Alloc>::list(const list &x) : _first_node(0), _last_node(0), _size(0), _alloc(x._alloc) {
-		const_iterator	it = x.begin();
+	list<T, Alloc>::list(const list &list)
+								: _first_node(0), _last_node(0), _size(0), _alloc(list._alloc) {
+		const_iterator	it = list.begin();
 
 		push_front(*it);
 		_last_node = _first_node;
 		++it;
-		for(; it != x.end(); ++it)
+		for(; it != list.end(); ++it)
 			push_front(*it);
 	}
 
@@ -205,8 +220,8 @@ namespace ft
 
 		_alloc.construct(value_node, val);
 		temp_node->value = value_node;
-		temp_node->next = 0;
-		temp_node->prev = 0;
+		temp_node->next = _end_node;
+		temp_node->prev = _end_node;
 		if (!_last_node) {
 			_last_node = temp_node;
 			_first_node = _last_node;
@@ -226,8 +241,8 @@ namespace ft
 
 		_alloc.construct(value_node, val);
 		temp_node->value = value_node;
-		temp_node->next = 0;
-		temp_node->prev = 0;
+		temp_node->next = _end_node;
+		temp_node->prev = _end_node;
 		if (!_first_node)
 		{
 			_first_node = temp_node;
