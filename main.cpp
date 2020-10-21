@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 21:18:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 21:39:12 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "list.hpp"
 #include <list>
 
-TEST_CASE( "Default Constructors in list container", "[list]" ) {
+TEMPLATE_TEST_CASE( "Default Constructors in list container", "[list]", int, char) {
 
 	SECTION("CreateEmptyList_MatchWithOriginal") {
-		ft::list<int>		ft_list;
-		std::list<int>		list;
+		ft::list<TestType>		ft_list;
+		std::list<TestType>		list;
 
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
@@ -27,8 +27,8 @@ TEST_CASE( "Default Constructors in list container", "[list]" ) {
 
 	SECTION("CreateWithSize_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
-			ft::list<int>		ft_list(i);
-			std::list<int>		list(i);
+			ft::list<TestType>		ft_list(i);
+			std::list<TestType>		list(i);
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
@@ -39,8 +39,8 @@ TEST_CASE( "Default Constructors in list container", "[list]" ) {
 
 	SECTION("CreateWithSizeAndDefaultVal_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
-			ft::list<char>		ft_list(i, 'a' + i);
-			std::list<char>		list(i,'a' + i);
+			ft::list<TestType>		ft_list(i, 'a' + i);
+			std::list<TestType>		list(i,'a' + i);
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
@@ -51,13 +51,13 @@ TEST_CASE( "Default Constructors in list container", "[list]" ) {
 	}
 }
 
-TEST_CASE("Copy constructor in list container", "[list]") {
+TEMPLATE_TEST_CASE("Copy constructor in list container", "[list]", int, char) {
 
 	SECTION("CreateEmptyList_MatchWithOriginal") {
-		ft::list<int>		ft_list_for_copy;
-		std::list<int>		list_for_copy;
-		ft::list<int>		ft_list(ft_list_for_copy);
-		std::list<int>		list(list_for_copy);
+		ft::list<TestType>		ft_list_for_copy;
+		std::list<TestType>		list_for_copy;
+		ft::list<TestType>		ft_list(ft_list_for_copy);
+		std::list<TestType>		list(list_for_copy);
 
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
@@ -65,10 +65,10 @@ TEST_CASE("Copy constructor in list container", "[list]") {
 
 	SECTION("CreateWithSize_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
-			ft::list<int>		ft_list_for_copy(i);
-			std::list<int>		list_for_copy(i);
-			ft::list<int>		ft_list(ft_list_for_copy);
-			std::list<int>		list(list_for_copy);
+			ft::list<TestType>		ft_list_for_copy(i);
+			std::list<TestType>		list_for_copy(i);
+			ft::list<TestType>		ft_list(ft_list_for_copy);
+			std::list<TestType>		list(list_for_copy);
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
@@ -81,11 +81,11 @@ TEST_CASE("Copy constructor in list container", "[list]") {
 
 	SECTION("CreateWithSizeAndDefaultVal_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
-			ft::list<char>		ft_list_for_copy(i, 'a' + i);
-			std::list<char>		list_for_copy(i, 'a' + i);
+			ft::list<TestType>		ft_list_for_copy(i, 'a' + i);
+			std::list<TestType>		list_for_copy(i, 'a' + i);
 
-			ft::list<char>		ft_list(ft_list_for_copy);
-			std::list<char>		list(list_for_copy);
+			ft::list<TestType>		ft_list(ft_list_for_copy);
+			std::list<TestType>		list(list_for_copy);
 
 			*ft_list.begin();
 			REQUIRE(list.empty() == ft_list.empty());
@@ -98,13 +98,13 @@ TEST_CASE("Copy constructor in list container", "[list]") {
 	}
 }
 
-TEST_CASE("Assignation operator in list container", "[list]") {
+TEMPLATE_TEST_CASE("Assignation operator in list container", "[list]", int, char) {
 
 	SECTION("CreateEmptyList_MatchWithOriginal") {
-		ft::list<int>		ft_list_for_copy;
-		std::list<int>		list_for_copy;
-		ft::list<int>		ft_list = ft_list_for_copy;
-		std::list<int>		list = list_for_copy;
+		ft::list<TestType>		ft_list_for_copy;
+		std::list<TestType>		list_for_copy;
+		ft::list<TestType>		ft_list = ft_list_for_copy;
+		std::list<TestType>		list = list_for_copy;
 
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
@@ -112,11 +112,11 @@ TEST_CASE("Assignation operator in list container", "[list]") {
 
 	SECTION("CreateWithSize_MatchWithOriginal") {
 		for (int i = 0; i < 20; i++) {
-			ft::list<int>		ft_list_for_copy(i);
-			std::list<int>		list_for_copy(i);
+			ft::list<TestType>		ft_list_for_copy(i);
+			std::list<TestType>		list_for_copy(i);
 
-			ft::list<int>		ft_list = ft_list_for_copy;
-			std::list<int>		list = list_for_copy;
+			ft::list<TestType>		ft_list = ft_list_for_copy;
+			std::list<TestType>		list = list_for_copy;
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
@@ -128,11 +128,11 @@ TEST_CASE("Assignation operator in list container", "[list]") {
 
 	SECTION("CreateWithSizeAndDefaultVal_MatchWithOriginal") {
 		for (int i = 0; i < 20; i++) {
-			ft::list<char>		ft_list_for_copy(i, 'a' + i);
-			std::list<char>		list_for_copy(i, 'a' + i);
+			ft::list<TestType>		ft_list_for_copy(i, 'a' + i);
+			std::list<TestType>		list_for_copy(i, 'a' + i);
 
-			ft::list<char>		ft_list = ft_list_for_copy;
-			std::list<char>		list = list_for_copy;
+			ft::list<TestType>		ft_list = ft_list_for_copy;
+			std::list<TestType>		list = list_for_copy;
 
 			*ft_list.begin();
 			REQUIRE(list.empty() == ft_list.empty());
@@ -144,13 +144,13 @@ TEST_CASE("Assignation operator in list container", "[list]") {
 	}
 }
 
-TEST_CASE("Constructor via iterators in list container", "[list]") {
+TEMPLATE_TEST_CASE("Constructor via iterators in list container", "[list]", int, char) {
 
 	SECTION("CreateEmptyList_MatchWithOriginal") {
-		ft::list<int>		ft_list_for_copy;
-		std::list<int>		list_for_copy;
-		ft::list<int>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
-		std::list<int>		list(list_for_copy.begin(), list_for_copy.end());
+		ft::list<TestType>		ft_list_for_copy;
+		std::list<TestType>		list_for_copy;
+		ft::list<TestType>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
+		std::list<TestType>		list(list_for_copy.begin(), list_for_copy.end());
 
 		REQUIRE(list.empty() != ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
@@ -158,11 +158,11 @@ TEST_CASE("Constructor via iterators in list container", "[list]") {
 
 	SECTION("CreateWithSize_MatchWithOriginal") {
 		for (int i = 0; i < 20; i++) {
-			ft::list<int>		ft_list_for_copy(i);
-			std::list<int>		list_for_copy(i);
+			ft::list<TestType>		ft_list_for_copy(i);
+			std::list<TestType>		list_for_copy(i);
 
-			ft::list<int>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
-			std::list<int>		list(list_for_copy.begin(), list_for_copy.end());
+			ft::list<TestType>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
+			std::list<TestType>		list(list_for_copy.begin(), list_for_copy.end());
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
@@ -174,11 +174,11 @@ TEST_CASE("Constructor via iterators in list container", "[list]") {
 
 	SECTION("CreateWithSizeAndDefaultVal_MatchWithOriginal") {
 		for (int i = 0; i < 20; i++) {
-			ft::list<char>		ft_list_for_copy(i, 'a' + i);
-			std::list<char>		list_for_copy(i, 'a' + i);
+			ft::list<TestType>		ft_list_for_copy(i, 'a' + i);
+			std::list<TestType>		list_for_copy(i, 'a' + i);
 
-			ft::list<char>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
-			std::list<char>		list(list_for_copy.begin(), list_for_copy.end());
+			ft::list<TestType>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
+			std::list<TestType>		list(list_for_copy.begin(), list_for_copy.end());
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
