@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 22:13:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 23:18:43 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,11 @@ namespace ft
 
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
-										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
+										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
 		_create_end_node();
 
 		if (n == 0) return ;
-		for (int i = 0; i < n; ++i)
+		for (size_type i = 0; i < n; ++i)
 			push_front(val);
 		_tie_end_node();
 	}
@@ -166,7 +166,7 @@ namespace ft
 	template<class InputIterator>
 	list<T, Alloc>::list(InputIterator first, InputIterator last, const allocator_type &alloc,
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *)
-										: _first_node(0), _last_node(0), _alloc(alloc), _size(0) {
+										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
 		_create_end_node();
 		for(; first != last; ++first)
 			push_front(*first);
@@ -215,7 +215,7 @@ namespace ft
 	list<T, Alloc>::~list() {
 		s_list		*temp_node;
 
-		for (int i = 0; i < _size; ++i) {
+		for (size_type  i = 0; i < _size; ++i) {
 			temp_node = _first_node;
 			_first_node = _first_node->next;
 			_alloc.deallocate(temp_node->value, 1);
@@ -289,18 +289,18 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
-	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
-	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
-	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
-	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
+	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 }
 
 #endif
