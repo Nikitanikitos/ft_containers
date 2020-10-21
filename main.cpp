@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 19:39:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 20:31:06 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include "list.hpp"
 #include <list>
 
-TEST_CASE( "Constructors and destructor list container", "[list]" ) {
+TEST_CASE( "Default Constructors list container", "[list]" ) {
 
-	SECTION("List_CreateEmptylist_MatchWithOriginal") {
+	SECTION("DefaultConstructor_CreateEmptylist_MatchWithOriginal") {
 		ft::list<int>		ft_list;
 		std::list<int>		list;
 
@@ -25,7 +25,7 @@ TEST_CASE( "Constructors and destructor list container", "[list]" ) {
 		REQUIRE(list.size() == ft_list.size());
 	}
 
-	SECTION("List_CreateWithSize_MatchWithOriginal") {
+	SECTION("DefaultConstructor_CreateWithSize_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
 			ft::list<int>		ft_list(i);
 			std::list<int>		list(i);
@@ -33,10 +33,11 @@ TEST_CASE( "Constructors and destructor list container", "[list]" ) {
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
 			list.clear();
+			// TODO added ft_list.clear()
 		}
 	}
 
-	SECTION("List_CreateWithSizeAndDefaultVal_MatchWithOriginal") {
+	SECTION("DefaultConstructor_CreateWithSizeAndDefaultVal_MatchWithOriginal") {
 		for (int i = 0; i < 10; i++) {
 			ft::list<char>		ft_list(i, 'a' + i);
 			std::list<char>		list(i,'a' + i);
@@ -45,21 +46,61 @@ TEST_CASE( "Constructors and destructor list container", "[list]" ) {
 			REQUIRE(list.size() == ft_list.size());
 			REQUIRE(*list.begin() == *ft_list.begin());
 			list.clear();
+			// TODO added ft_list.clear()
 		}
-
 	}
 }
 
+TEST_CASE("Copy constructor list container", "[list]") {
+
+	SECTION("CopyConstructor_CreateEmptylist_MatchWithOriginal") {
+		ft::list<int>		ft_list_for_copy;
+		std::list<int>		list_for_copy;
+		ft::list<int>		ft_list(ft_list_for_copy);
+		std::list<int>		list(list_for_copy);
+
+		REQUIRE(list.empty() == ft_list.empty());
+		REQUIRE(list.size() == ft_list.size());
+	}
+
+	SECTION("DefaultConstructor_CreateWithSize_MatchWithOriginal") {
+		for (int i = 0; i < 10; i++) {
+			ft::list<int>		ft_list_for_copy(i);
+			std::list<int>		list_for_copy(i);
+
+			ft::list<int>		ft_list(ft_list_for_copy);
+			std::list<int>		list(list_for_copy);
+
+			REQUIRE(list.empty() == ft_list.empty());
+			REQUIRE(list.size() == ft_list.size());
+			list.clear();
+			// TODO added ft_list.clear()
+		}
+	}
+
+	SECTION("DefaultConstructor_CreateWithSizeAndDefaultVal_MatchWithOriginal") {
+		for (int i = 0; i < 10; i++) {
+			ft::list<char>		ft_list_for_copy(i, 'a' + i);
+			std::list<char>		list_for_copy(i, 'a' + i);
+
+			ft::list<char>		ft_list(ft_list_for_copy);
+			std::list<char>		list(list_for_copy);
+
+			*ft_list.begin();
+			REQUIRE(list.empty() == ft_list.empty());
+			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(*list.begin() == *ft_list.begin());
+			list.clear();
+			// TODO added ft_list.clear()
+		}
+	}
+
+}
+
 //int 	main() {
-//	for (int i = 0; i < 10; i++) {
-//		ft::list<char>		ft_list(i, 'a' + i);
-//		std::list<char>		list(i,'a' + i);
-//		std::list<char>::iterator	it;
+//	ft::list<int>		ft_list_for_copy;
+//	std::list<int>		list_for_copy;
+//	ft::list<int>		ft_list(ft_list_for_copy);
+//	std::list<int>		list(list_for_copy);
 //
-//		list.empty() == ft_list.empty();
-//		list.size() == ft_list.size();
-//		char w = *list.begin();
-//		char q = *ft_list.begin();
-//		list.clear();
-//	}
 //}

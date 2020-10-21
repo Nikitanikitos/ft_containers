@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 19:39:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 20:39:01 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ namespace ft
 		alloc_rebind	_alloc_rebind;
 		allocator_type	_alloc;
 
-		void _create_end_node() {
+		void	_create_end_node() {
 			value_type	*value_node = _alloc.allocate(1);
 
 			_alloc.construct(value_node, T());
@@ -68,6 +68,17 @@ namespace ft
 			_end_node->next = _end_node;
 			_end_node->prev = _end_node;
 			_end_node->value = value_node;
+		}
+
+		void	_tie_end_node() {
+			if (_first_node) {
+				_first_node->prev = _end_node;
+				_end_node->next = _first_node;
+			}
+			if (_last_node) {
+				_last_node->next = _end_node;
+				_end_node->prev = _last_node;
+			}
 		}
 
 	public:
@@ -148,8 +159,7 @@ namespace ft
 		if (n == 0) return ;
 		for (int i = 0; i < n; ++i)
 			push_front(val);
-		_end_node->next = _first_node;
-		_end_node->prev = _last_node;
+		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -160,8 +170,7 @@ namespace ft
 		_create_end_node();
 		for(; first != last; ++first)
 			push_front(*first);
-		_end_node->next = _first_node;
-		_end_node->prev = _last_node;
+		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -169,13 +178,10 @@ namespace ft
 								: _first_node(0), _last_node(0), _size(0), _alloc(list._alloc) {
 		const_iterator	it = list.begin();
 
-		push_front(*it);
-		_last_node = _first_node;
-		++it;
+		_create_end_node();
 		for(; it != list.end(); ++it)
 			push_front(*it);
-		_first_node->prev = _end_node;
-		_last_node->next = _end_node;
+		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -201,8 +207,7 @@ namespace ft
 		}
 		while (_size > list._size)
 			pop_back();
-		_first_node->prev = _end_node;
-		_last_node->next = _end_node;
+		_tie_end_node();
 		return (*this);
 	}
 
