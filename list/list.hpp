@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 23:18:43 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 23:19:43 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ namespace ft
 		size_type				size() const {return (_size); };
 		size_type				max_size() const;
 
-		reference		front();
-		const_reference	front() const;
-		reference		back();
-		const_reference	back() const;
+		reference		front() { return (_first_node); }
+		const_reference	front() const { return (_first_node); }
+		reference		back() { return (_last_node); }
+		const_reference	back() const { return (_last_node); }
 
 		template <class InputIterator>
 		void			assign(InputIterator first, InputIterator last);

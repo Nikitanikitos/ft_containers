@@ -1,14 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   main.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 23:59:32 by imicah           ###   ########.fr       */
+/*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
+/*   Updated: 2020/10/21 23:50:46 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#ifndef main_hpp
+# define main_hpp
+
 #include "catch.hpp"
+
+#endif
