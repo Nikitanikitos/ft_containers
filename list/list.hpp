@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 19:33:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 19:39:53 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,15 @@ namespace ft
 		++it;
 		for(; it != list.end(); ++it)
 			push_front(*it);
+		_first_node->prev = _end_node;
+		_last_node->next = _end_node;
 	}
 
 	template<class T, class Alloc>
 	list<T, Alloc> & list<T,Alloc>::operator=(const list<T, Alloc> &list) {
 		if (this == &list)
 			return (*this);
+
 		const_iterator	begin = list.begin();
 		const_iterator	end = list.end();
 		size_type		i = 0;
@@ -198,6 +201,8 @@ namespace ft
 		}
 		while (_size > list._size)
 			pop_back();
+		_first_node->prev = _end_node;
+		_last_node->next = _end_node;
 		return (*this);
 	}
 
