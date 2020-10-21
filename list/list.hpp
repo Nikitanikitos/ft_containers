@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 20:39:01 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/21 21:05:15 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ namespace ft
 			_end_node->value = value_node;
 		}
 
-		void	_tie_end_node() {
+		void	_tie_end_node() { // TODO think about better name
 			if (_first_node) {
 				_first_node->prev = _end_node;
 				_end_node->next = _first_node;
@@ -287,19 +287,18 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-	}
+	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 
 	template <class T, class Alloc>
-	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 	template <class T, class Alloc>
-	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 	template <class T, class Alloc>
-	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 	template <class T, class Alloc>
-	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 	template <class T, class Alloc>
-	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) { }
 }
 
 #endif
