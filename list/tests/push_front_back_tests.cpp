@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:36:49 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 00:22:15 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 12:07:49 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		list_number.push_back(42);
 
 		REQUIRE(list_number.size() == ft_list_number.size());
-		REQUIRE(*list_number.begin() == *ft_list_number.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_number.front() == ft_list_number.front());
+		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
 	SECTION("PushBackString") {
@@ -35,8 +35,8 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		list_string.push_back("Push Back String");
 
 		REQUIRE(list_string.size() == ft_list_string.size());
-		REQUIRE(*list_string.begin() == *ft_list_string.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_string.front() == ft_list_string.front());
+		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 
 	SECTION("PushFrontNumber") {
@@ -44,8 +44,8 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		list_number.push_front(42);
 
 		REQUIRE(list_number.size() == ft_list_number.size());
-		REQUIRE(*list_number.begin() == *ft_list_number.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_number.front() == ft_list_number.front());
+		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
 	SECTION("PushFrontString") {
@@ -53,8 +53,8 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		list_string.push_front("Push Front String");
 
 		REQUIRE(list_string.size() == ft_list_string.size());
-		REQUIRE(*list_string.begin() == *ft_list_string.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_string.front() == ft_list_string.front());
+		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 }
 
@@ -70,8 +70,8 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		list_number.push_back(42);
 
 		REQUIRE(list_number.size() == ft_list_number.size());
-		REQUIRE(*list_number.begin() == *ft_list_number.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_number.front() == ft_list_number.front());
+		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
 	SECTION("PushBackString") {
@@ -79,8 +79,8 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		list_string.push_back("Push Back String");
 
 		REQUIRE(list_string.size() == ft_list_string.size());
-		REQUIRE(*list_string.begin() == *ft_list_string.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_string.front() == ft_list_string.front());
+		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 
 	SECTION("PushFrontNumber") {
@@ -88,8 +88,8 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		list_number.push_front(42);
 
 		REQUIRE(list_number.size() == ft_list_number.size());
-		REQUIRE(*list_number.begin() == *ft_list_number.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_number.front() == ft_list_number.front());
+		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
 	SECTION("PushFrontString") {
@@ -97,8 +97,8 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		list_string.push_front("Push Front String");
 
 		REQUIRE(list_string.size() == ft_list_string.size());
-		REQUIRE(*list_string.begin() == *ft_list_string.begin());
-//		REQUIRE(*list.end() == *ft_list.end());
+		REQUIRE(list_string.front() == ft_list_string.front());
+		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 }
 
@@ -109,7 +109,6 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 	ft::list<std::string>				ft_list_string;
 	std::list<std::string>				list_string;
 	typename ft::list<T>::iterator		ft_it;
-	typename ft::list<T>::iterator		ft_it_end;
 	typename std::list<T>::iterator		it;
 
 	SECTION("PushBackNumber") {
@@ -120,10 +119,9 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 
 		ft_it = ft_list_number.begin();
 		it = list_number.begin();
-		ft_it_end = ++ft_list_number.end();
 
 		REQUIRE(list_number.size() == ft_list_number.size());
-		while (*ft_it != *ft_it_end) {
+		while (*ft_it != *ft_list_number.end()) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
@@ -138,9 +136,8 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 
 		ft_it = ft_list_number.begin();
 		it = list_number.begin();
-		ft_it_end = ++ft_list_number.end();
 		REQUIRE(list_number.size() == ft_list_number.size());
-		while (*ft_it != *ft_it_end) {
+		while (*ft_it != *ft_list_number.end()) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;

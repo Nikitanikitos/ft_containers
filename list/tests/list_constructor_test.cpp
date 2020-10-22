@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 23:59:16 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 12:07:47 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
+
 			list.clear();
 			// TODO added ft_list.clear()
 		}
