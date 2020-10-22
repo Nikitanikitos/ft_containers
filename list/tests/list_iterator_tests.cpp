@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 14:17:07 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 18:22:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,18 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
 		for (count_iterations = 0; it != list.end(); ++count_iterations)
 			++it;
 		REQUIRE(ft_count_iterations == count_iterations);
+	}
+}
+
+TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
+							   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+
+	ft::list<T> ft_list;
+	std::list<T> list;
+
+	SECTION("InEmptyList") {
+		typename ft::list<T>::const_iterator	ft_it = ft_list.begin();
+		typename std::list<T>::const_iterator	it = list.begin();
+
 	}
 }

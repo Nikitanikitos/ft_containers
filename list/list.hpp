@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 11:46:36 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 18:29:07 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ namespace ft
 		typedef typename	allocator_type::pointer				pointer;
 		typedef typename	allocator_type::const_pointer		const_pointer;
 		typedef 			IteratorList<s_list, T>				iterator;
-		typedef				IteratorList<const s_list, T>		const_iterator;
+		typedef				ConstIteratorList<s_list, T>		const_iterator;
 		typedef				RevIteratorList<s_list, T>			reverse_iterator;
-		typedef				RevIteratorList<const s_list, T>	const_reverse_iterator;
+		typedef				ConstRevIteratorList<s_list, T>		const_reverse_iterator;
 		typedef				std::ptrdiff_t						difference_type;
 		typedef				std::size_t							size_type;
 
@@ -99,7 +99,8 @@ namespace ft
 		~list();
 
 		iterator				begin()  { return (_end_node->next); }
-		const_iterator			begin() const  { return (_end_node->next); }
+		const_iterator			begin(typename enable_if<std::__is_input_iterator <const_iterator>::value>::type* = 0) const
+			{ return (_end_node->next); }
 		iterator				end() { return (_end_node); }
 		const_iterator			end() const { return (_end_node); }
 		reverse_iterator		rbegin() { return (_end_node->prev); }
