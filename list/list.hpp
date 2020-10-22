@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 18:29:07 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 18:39:51 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ namespace ft
 		~list();
 
 		iterator				begin()  { return (_end_node->next); }
-		const_iterator			begin(typename enable_if<std::__is_input_iterator <const_iterator>::value>::type* = 0) const
-			{ return (_end_node->next); }
+		const_iterator			begin() const { return (_end_node->next); }
 		iterator				end() { return (_end_node); }
 		const_iterator			end() const { return (_end_node); }
 		reverse_iterator		rbegin() { return (_end_node->prev); }
