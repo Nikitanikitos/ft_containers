@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 20:00:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 20:24:42 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ public:
 template<class T, class U>
 class	RevIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-private:
+protected:
 	T*		_ptr;
 
 public:
@@ -114,7 +114,9 @@ public:
 	ConstRevIteratorList(const RevIteratorList<T, U> &it) : RevIteratorList<T,U>(it) { }
 	~ConstRevIteratorList() { }
 
-	const U		&operator*() const { return (*(this->_ptr->value)); };
+//	const U		&operator*() const { return (*(this->_ptr->value)); };
+	const U		&operator*() const { return (*(this->_ptr->value)); }
+
 };
 
 #endif
