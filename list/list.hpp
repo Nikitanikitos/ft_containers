@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 18:39:51 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 23:12:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include "Iterator_list.hpp"
+# include "Reverse_iterator_list.hpp"
 
 namespace ft
 {

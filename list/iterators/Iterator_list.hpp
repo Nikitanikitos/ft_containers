@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 20:59:40 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 23:09:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 template<class T, class U>
 class	IteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-protected:
+private:
 	T*		_ptr;
 
 public:
@@ -27,7 +27,7 @@ public:
 	IteratorList(const IteratorList<T, U> &it) : _ptr(it._ptr) { }
 	~IteratorList() { }
 
-	virtual IteratorList<T, U>		&operator=(const IteratorList<T, U> &it) {
+	IteratorList<T, U>		&operator=(const IteratorList<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
@@ -54,73 +54,54 @@ public:
 		_ptr = _ptr->prev;
 		return (temp);
 	}
+
+	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 };
 
 template<class T, class U>
-class	ConstIteratorList : public IteratorList<T, U>
+class	ConstIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-public:
-	ConstIteratorList(T *p = 0) : IteratorList<T,U>(p) { }
-	ConstIteratorList(const IteratorList<T, U> &it) : IteratorList<T, U>(it) { }
+private:
+	T*	_ptr;
 
+public:
+	ConstIteratorList(T *ptr = 0) : _ptr(ptr) { }
+	ConstIteratorList(const IteratorList<T, U> &it) : _ptr(it._get_ptr()) { }
+	ConstIteratorList(const ConstIteratorList<T, U> &it) : _ptr(it._ptr) { }
 	~ConstIteratorList() { }
 
-	const U		&operator*() const { return (*(this->_ptr->value)); }
-	const U		*operator->() const { return (this->_ptr->value); }
-
-};
-
-template<class T, class U>
-class	RevIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
-{
-protected:
-	T*		_ptr;
-
-public:
-	RevIteratorList(T *p = 0) : _ptr(p) { }
-	RevIteratorList(const RevIteratorList<T, U> &it) : _ptr(it._ptr) { }
-	~RevIteratorList() { }
-
-	RevIteratorList<T, U>		&operator=(const RevIteratorList<T, U> &it) {
-		if (this != &it)
-			_ptr = it._ptr;
+	ConstIteratorList<T, U>		&operator=(const IteratorList<T, U> &it) {
+		_ptr = it._get_ptr();
 		return (*this);
 	}
 
-	bool	operator!=(const RevIteratorList<T, U> &it) const { return (_ptr != it._ptr); }
-	bool	operator==(const RevIteratorList<T, U> &it) const { return (_ptr == it._ptr); }
-	U		&operator*() const { return (*_ptr->value); };
-	U		*operator->() const { return (this->_ptr->value); }
-
-	RevIteratorList<T, U>		&operator++() { _ptr = _ptr->prev; return (*this); }
-	RevIteratorList<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
-
-	RevIteratorList<T, U>		operator++(int) {
-		RevIteratorList<T, U>	temp(_ptr);
-
-		_ptr = _ptr->prev;
-		return (temp);
+	ConstIteratorList<T, U>		&operator=(const ConstIteratorList<T, U> &it) {
+		if (this != &it)
+			_ptr - it._ptr;
+		return (*this);
 	}
 
-	RevIteratorList<T, U>		operator--(int) {
-		RevIteratorList<T, U>	temp(_ptr);
+	bool		operator!=(const ConstIteratorList<T, U> &it) const { return (_ptr != it._ptr); }
+	bool		operator==(const ConstIteratorList<T, U> &it) const { return (_ptr == it._ptr); }
+	const U		&operator*() const { return (*(this->_ptr->value)); }
+	const U		*operator->() const { return (this->_ptr->value); }
+
+	ConstIteratorList<T, U>		&operator++() { _ptr = _ptr->next; return (*this); }
+	ConstIteratorList<T, U>		&operator--() { _ptr = _ptr->prev; return (*this); }
+
+	ConstIteratorList<T, U>		operator++(int) {
+		IteratorList<T, U>		temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
 	}
-};
 
-template<class T, class U>
-class	ConstRevIteratorList : public RevIteratorList<T, U>
-{
-public:
-	ConstRevIteratorList(T *p = 0) : RevIteratorList<T,U>(p) { }
-	ConstRevIteratorList(const RevIteratorList<T, U> &it) : RevIteratorList<T,U>(it) { }
-	~ConstRevIteratorList() { }
+	ConstIteratorList<T, U>		operator--(int) {
+		IteratorList<T, U>		temp(_ptr);
 
-	const U		&operator*() const { return (*(this->_ptr->value)); }
-	const U		*operator->() const { return (this->_ptr->value); }
-
+		_ptr = _ptr->prev;
+		return (temp);
+	}
 };
 
 #endif

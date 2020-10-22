@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 20:55:35 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 22:03:58 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
-										((typename T, int V), T, V), (int, 10), (char, 20)) {
+											((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	ft::list<T>							ft_list;
 	std::list<T>						list;
@@ -80,10 +80,17 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
+
+	SECTION("Copy constructor") {
+		ft_it = ft_list.begin();
+		typename ft::list<T>::iterator		ft_it_copy(ft_it);
+
+		REQUIRE(*ft_it_copy == *ft_it);
+	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
-							   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	ft::list<T>								ft_list;
 	std::list<T>							list;
@@ -148,10 +155,17 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
+
+	SECTION("Copy constructor") {
+		ft_it = ft_list.begin();
+		typename ft::list<T>::const_iterator	ft_it_copy(ft_it);
+
+		REQUIRE(*ft_it_copy == *ft_it);
+	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	ft::list<T>									ft_list;
 	std::list<T>								list;
@@ -216,10 +230,17 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
+
+	SECTION("Copy constructor") {
+		ft_it = ft_list.rbegin();
+		typename ft::list<T>::reverse_iterator		ft_it_copy(ft_it);
+
+		REQUIRE(*ft_it_copy == *ft_it);
+	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+											 ((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	ft::list<T>										ft_list;
 	std::list<T>									list;
@@ -283,5 +304,12 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
+	}
+
+	SECTION("Copy constructor") {
+		ft_it = ft_list.rbegin();
+		typename ft::list<T>::const_reverse_iterator		ft_it_copy(ft_it);
+
+		REQUIRE(*ft_it_copy == *ft_it);
 	}
 }
