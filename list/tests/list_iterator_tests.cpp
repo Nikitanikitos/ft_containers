@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 20:43:39 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 20:55:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,8 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 
-	ft::list<T> ft_list;
-	std::list<T> list;
+	ft::list<T>										ft_list;
+	std::list<T>									list;
 	typename ft::list<T>::const_reverse_iterator	ft_it;
 	typename std::list<T>::const_reverse_iterator	it;
 

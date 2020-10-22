@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 20:24:42 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 20:59:40 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ public:
 	bool		operator!=(const IteratorList<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const IteratorList<T, U> &it) const { return (_ptr == it._ptr); }
 	U			&operator*() const { return (*_ptr->value); }
+	U			*operator->() const { return (_ptr->value); }
 
 	IteratorList<T, U>		&operator++() { _ptr = _ptr->next; return (*this); }
 	IteratorList<T, U>		&operator--() { _ptr = _ptr->prev; return (*this); }
@@ -65,6 +66,8 @@ public:
 	~ConstIteratorList() { }
 
 	const U		&operator*() const { return (*(this->_ptr->value)); }
+	const U		*operator->() const { return (this->_ptr->value); }
+
 };
 
 template<class T, class U>
@@ -87,6 +90,7 @@ public:
 	bool	operator!=(const RevIteratorList<T, U> &it) const { return (_ptr != it._ptr); }
 	bool	operator==(const RevIteratorList<T, U> &it) const { return (_ptr == it._ptr); }
 	U		&operator*() const { return (*_ptr->value); };
+	U		*operator->() const { return (this->_ptr->value); }
 
 	RevIteratorList<T, U>		&operator++() { _ptr = _ptr->prev; return (*this); }
 	RevIteratorList<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
@@ -114,8 +118,8 @@ public:
 	ConstRevIteratorList(const RevIteratorList<T, U> &it) : RevIteratorList<T,U>(it) { }
 	~ConstRevIteratorList() { }
 
-//	const U		&operator*() const { return (*(this->_ptr->value)); };
 	const U		&operator*() const { return (*(this->_ptr->value)); }
+	const U		*operator->() const { return (this->_ptr->value); }
 
 };
 
