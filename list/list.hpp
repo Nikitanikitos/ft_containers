@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 15:39:02 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 16:00:29 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,33 @@ namespace ft
 				_last_node->next = _end_node;
 				_end_node->prev = _last_node;
 			}
+		}
+
+		void	_assign_new_value_to_node(s_list *node, const value_type &val) {
+			_alloc.destroy(node->value);
+			_alloc.construct(node->value, val);
+		}
+
+		s_list	*_new_node_init(const value_type &val) {
+			value_type	*node_value = _alloc.allocate(1);
+			s_list		*node = _alloc_rebind.allocate(1);
+
+			_alloc.construct(node_value, val);
+			node->value = node_value;
+			node->next = _end_node;
+			node->prev = _end_node;
+			return (node);
+		}
+
+		void	_destroy_node(s_list *node) {
+			_alloc.deallocate(node->value, 1);
+			_alloc_rebind.deallocate(node, 1);
+			_size--;
+		}
+
+		void	_first_node_init(s_list *node) {
+			_last_node = node;
+			_first_node = _last_node;
 		}
 
 	public:
@@ -205,8 +232,7 @@ namespace ft
 			if (_size >= list._size)
 				break ;
 			else if (i++ < _size) {
-				_alloc.destroy(temp_node->value); // TODO заменить на метод (?)
-				_alloc.construct(temp_node->value, *begin);
+				_assign_new_value_to_node(temp_node, *begin);
 				temp_node = temp_node->next;
 			}
 			else if (_size < list._size)
@@ -232,21 +258,14 @@ namespace ft
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::push_back(const value_type &val) {
-		value_type	*value_node = _alloc.allocate(1);
-		s_list		*temp_node = _alloc_rebind.allocate(1);
+		s_list		*node = _new_node_init(val);
 
-		_alloc.construct(value_node, val);
-		temp_node->value = value_node; // TODO заменить на один метод
-		temp_node->next = _end_node;
-		temp_node->prev = _end_node;
-		if (!_last_node) {
-			_last_node = temp_node; // TODO заменить на один метод
-			_first_node = _last_node;
-		}
+		if (!_last_node)
+			_first_node_init(node);
 		else {
-			temp_node->prev = _last_node;
-			_last_node->next = temp_node;
-			_last_node = temp_node;
+			node->prev = _last_node;
+			_last_node->next = node;
+			_last_node = node;
 		}
 		_tie_end_node();
 		_size++;
@@ -254,22 +273,14 @@ namespace ft
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::push_front(const value_type &val) {
-		s_list		*temp_node	= _alloc_rebind.allocate(1);
-		value_type	*value_node	= _alloc.allocate(1);
+		s_list		*node = _new_node_init(val);
 
-		_alloc.construct(value_node, val);
-		temp_node->value = value_node;
-		temp_node->next = _end_node;
-		temp_node->prev = _end_node;
 		if (!_first_node)
-		{
-			_first_node = temp_node;
-			_last_node = _first_node;
-		}
+			_first_node_init(node);
 		else {
-			temp_node->next = _first_node;
-			_first_node->prev = temp_node;
-			_first_node = temp_node;
+			node->next = _first_node;
+			_first_node->prev = node;
+			_first_node = node;
 		}
 		_tie_end_node();
 		_size++;
@@ -277,24 +288,20 @@ namespace ft
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::pop_front() {
-		s_list	*temp_node;
+		s_list	*node;
 
-		temp_node = _first_node;
+		node = _first_node;
 		_first_node = _first_node->next;
-		_alloc.deallocate(temp_node->value, 1);
-		_alloc_rebind.deallocate(temp_node, 1);
-		_size--;
+		_destroy_node(node);
 	}
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::pop_back() {
-		s_list	*temp_node;
+		s_list	*node;
 
-		temp_node = _last_node;
+		node = _last_node;
 		_last_node = _last_node->prev;
-		_alloc.deallocate(temp_node->value, 1);
-		_alloc_rebind.deallocate(temp_node, 1);
-		_size--;
+		_destroy_node(node);
 	}
 
 	template<class T, class Alloc>
@@ -306,8 +313,7 @@ namespace ft
 
 		for (; first != last; ++first) {
 			if (i++ < _size) {
-				_alloc.destroy(temp_node->value);
-				_alloc.construct(temp_node->value, *first);
+				_assign_new_value_to_node(temp_node, *first);
 				temp_node = temp_node->next;
 			}
 			else
@@ -325,8 +331,7 @@ namespace ft
 
 		for (i = 0; i < n; ++i) {
 			if (i < _size) {
-				_alloc.destroy(temp_node->value);
-				_alloc.construct(temp_node->value, val);
+				_assign_new_value_to_node(temp_node, val);
 				temp_node = temp_node->next;
 			}
 			else
@@ -354,6 +359,7 @@ namespace ft
 			_first_node = temp_node;
 		else if (_end_node == node_position)
 			_last_node = temp_node;
+		_size++;
 		return (temp_node);
 	}
 
