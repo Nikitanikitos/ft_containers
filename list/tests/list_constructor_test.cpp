@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 11:54:40 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:55:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
 		REQUIRE(list.front() == ft_list.front());
-		REQUIRE(list.back() == list.back());
+		REQUIRE(list.back() == ft_list.back());
 	}
 
 	SECTION("WithSize_MatchWithOriginal") {
@@ -123,7 +123,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			std::list<T>	list = list_for_copy;
 
 			REQUIRE(list.size() == ft_list.size());
-			REQUIRE(list.back() == list.back());
+			REQUIRE(list.back() == ft_list.back());
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
@@ -141,7 +141,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			std::list<T>	list = list_for_copy;
 
 			REQUIRE(list.size() == ft_list.size());
-			REQUIRE(list.back() == list.back());
+			REQUIRE(list.back() == ft_list.back());
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
@@ -163,7 +163,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 
 			REQUIRE(list.size() == ft_list.size());
 			REQUIRE(list.front() == ft_list.front());
-			REQUIRE(list.back() == list.back());
+			REQUIRE(list.back() == ft_list.back());
 		}
 
 		SECTION("AssignationWithGreaterSize") {
@@ -175,7 +175,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 
 			REQUIRE(list.size() == ft_list.size());
 			REQUIRE(list.front() == ft_list.front());
-			REQUIRE(list.back() == list.back());
+			REQUIRE(list.back() == ft_list.back());
 		}
 	}
 }
