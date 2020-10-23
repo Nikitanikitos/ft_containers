@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 11:31:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 13:35:13 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
-											 ((typename T, int V), T, V), (int, 10), (char, 20)) {
+											 ((typename T, int V), T, V), (int, 10), (char, 10)) {
 
 	ft::list<T>										ft_list;
 	std::list<T>									list;
@@ -292,7 +292,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 			ft_it = ft_list.rend();
 			it = list.rend();
 
-			while (ft_it != ft_list.rbegin() && it != list.rbegin()) {
+			while (it != list.rbegin()) {
 				if (ft_it != ft_list.rbegin())
 					++ft_count_iterations;
 				if (it != list.rbegin())
@@ -301,7 +301,6 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 				--it;
 				REQUIRE(*ft_it == *it);
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}

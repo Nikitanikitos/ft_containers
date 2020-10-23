@@ -87,8 +87,8 @@ public:
 	const U		&operator*() const { return (*(this->_ptr->value)); }
 	const U		*operator->() const { return (this->_ptr->value); }
 
-	ConstRevIteratorList<T, U>		&operator++() { _ptr = _ptr->next; return (*this); }
-	ConstRevIteratorList<T, U>		&operator--() { _ptr = _ptr->prev; return (*this); }
+	ConstRevIteratorList<T, U>		&operator++() { _ptr = _ptr->prev; return (*this); }
+	ConstRevIteratorList<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
 
 	ConstRevIteratorList<T, U>		operator++(int) {
 		IteratorList<T, U>		temp(_ptr);
