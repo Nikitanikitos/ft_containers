@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 23:00:17 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 23:09:36 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,17 +470,99 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() != rhs.size())
+			return (false);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end()) {
+			if (*it_rhs != *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs == *it_lhs);
+	}
+
 	template <class T, class Alloc>
-	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() == rhs.size())
+			return (false);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
+			if (*it_rhs == *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs != *it_lhs);
+	}
+
 	template <class T, class Alloc>
-	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() < rhs.size())
+			return (true);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
+			if (*it_rhs != *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs < *it_lhs);
+	}
+
 	template <class T, class Alloc>
-	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() <= rhs.size())
+			return (true);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
+			if (*it_rhs != *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs <= *it_lhs);
+	}
+
 	template <class T, class Alloc>
-	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() > rhs.size())
+			return (true);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
+			if (*it_rhs != *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs > *it_lhs);
+	}
 	template <class T, class Alloc>
-	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+		if (lhs.size() >= rhs.size())
+			return (true);
+		typename list<T, Alloc>::const_iterator		it_lhs;
+		typename list<T, Alloc>::const_iterator		it_rhs;
+
+		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
+			if (*it_rhs != *it_lhs)
+				break;
+			++it_rhs;
+			++it_lhs;
+		}
+		return (*it_rhs >= *it_lhs);
+	}
 }
 
 #endif
