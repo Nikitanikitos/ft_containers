@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 13:20:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 15:39:02 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ namespace ft
 			if (_size >= list._size)
 				break ;
 			else if (i++ < _size) {
-				_alloc.destroy(temp_node->value);
+				_alloc.destroy(temp_node->value); // TODO заменить на метод (?)
 				_alloc.construct(temp_node->value, *begin);
 				temp_node = temp_node->next;
 			}
@@ -236,11 +236,11 @@ namespace ft
 		s_list		*temp_node = _alloc_rebind.allocate(1);
 
 		_alloc.construct(value_node, val);
-		temp_node->value = value_node;
+		temp_node->value = value_node; // TODO заменить на один метод
 		temp_node->next = _end_node;
 		temp_node->prev = _end_node;
 		if (!_last_node) {
-			_last_node = temp_node;
+			_last_node = temp_node; // TODO заменить на один метод
 			_first_node = _last_node;
 		}
 		else {
@@ -337,9 +337,28 @@ namespace ft
 		_tie_end_node();
 	}
 
+	template<class T, class Alloc>
+	typename list<T, Alloc>::iterator list<T,Alloc>::insert(iterator position,
+														 					const value_type &val) {
+		value_type	*value_node	= _alloc.allocate(1);
+		s_list		*temp_node	= _alloc_rebind.allocate(1);
+		s_list		*node_position = position._get_ptr();
+
+		_alloc.construct(value_node, val);
+		temp_node->value = value_node; // TODO заменить на метод (?)
+		temp_node->prev = node_position->prev;
+		temp_node->next = node_position;
+		node_position->prev->next = temp_node;
+		node_position->prev = temp_node;
+		if (_first_node == node_position)
+			_first_node = temp_node;
+		else if (_end_node == node_position)
+			_last_node = temp_node;
+		return (temp_node);
+	}
+
 	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
-
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
