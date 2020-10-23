@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 20:59:10 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 23:00:17 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ namespace ft
 
 		void	_check_first_or_end_node(s_list *node_position, s_list *node) {
 
-			if (_first_node == node_position) // TODO обернуть в метод
+			if (_first_node == node_position)
 				_first_node = node;
 			else if (_end_node == node_position)
 				_last_node = node;
@@ -424,6 +424,49 @@ namespace ft
 		_last_node = 0;
 		_size = 0;
 		_tie_end_node();
+	}
+
+	template<class T, class Alloc>
+	typename list<T, Alloc>::iterator list<T, Alloc>::erase(list::iterator position) {
+		s_list		*node_position = position._get_ptr();
+		iterator	it;
+
+		if (node_position == _first_node)
+			_first_node = _first_node->next;
+		else if (node_position == _last_node)
+			_last_node = _last_node->prev;
+		node_position->prev->next = node_position->next;
+		node_position->next->prev = node_position->prev;
+		it = node_position->next;
+		_alloc.deallocate(node_position->value, 1);
+		_alloc_rebind.deallocate(node_position, 1);
+		_size--;
+		return (it);
+	}
+
+	template<class T, class Alloc>
+	typename list<T, Alloc>::iterator list<T, Alloc>::erase(list::iterator first,
+																			list::iterator last) {
+		s_list		*first_node = first._get_ptr();
+		s_list		*last_node = last._get_ptr();
+		s_list		*temp_node;
+		iterator	it;
+
+		if (first == last)
+			return (first);
+		first_node->prev->next = last_node;
+		last_node->prev = first_node->prev;
+		it = last_node;
+		if (first_node == _first_node)
+			_first_node = _end_node->next;
+		else if (last_node == _last_node)
+			_last_node = last_node;
+		while (first_node != last_node) {
+			temp_node = first_node;
+			first_node = first_node->next;
+			_destroy_node(temp_node);
+		}
+		return (it);
 	}
 
 	template <class T, class Alloc>

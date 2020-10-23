@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:03:13 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 12:58:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 23:00:17 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 
 	SECTION("Empty list") {
 		ft::list<T>		ft_list;
-		std::list<T>	list;
+		std::list<T>	list(5);
 
+		list.erase(list.begin(), list.begin());
 		ft_list.assign(ft_list_for_assign.begin(), ft_list_for_assign.end());
 		list.assign(list_for_assign.begin(), list_for_assign.end());
 
@@ -144,7 +145,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
-							   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
