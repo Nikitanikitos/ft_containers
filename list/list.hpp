@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 17:31:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 18:11:19 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,7 +392,30 @@ namespace ft
 			_first_node = _last_node;
 	}
 
-		template <class T, class Alloc>
+	template<class T, class Alloc>
+	template<class InputIterator>
+	void list<T, Alloc>::insert(list::iterator position, InputIterator first, InputIterator last,
+					typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
+		value_type	*value_node;
+		s_list		*temp_node;
+		s_list		*node_position = position._get_ptr();
+
+		for (; first != last; ++first) {
+			value_node = _alloc.allocate(1);
+			temp_node = _alloc_rebind.allocate(1);
+			_alloc.construct(value_node, *first);
+			_insert_in_front_of_the_node(node_position, temp_node);
+			_size++;
+		}
+		if (_first_node == node_position)
+			_first_node = temp_node;
+		else if (_end_node == node_position)
+			_last_node = temp_node;
+		if (!_first_node)
+			_first_node = _last_node;
+	}
+
+	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
