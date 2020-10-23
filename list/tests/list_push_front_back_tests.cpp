@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:36:49 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 11:31:58 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:54:47 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,6 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 	typename ft::list<std::string>::iterator	ft_string_it;
 	typename std::list<std::string>::iterator	string_it;
 
-	std::list<std::string> tests_case = {	"one", "two", "three", "four", "five",
-											 "six", "seven", "eight", "nine", "ten"};
-	std::list<std::string>::iterator	tests_case_it;
-
 	SECTION("Push back number") {
 		for (int i = 0; i < V; ++i) {
 			ft_list_number.push_back(i + 100);
@@ -155,10 +151,9 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 	}
 
 	SECTION("Push back string") {
-		tests_case_it = tests_case.begin();
-		for (; tests_case_it != tests_case.end(); ++tests_case_it) {
-			ft_list_string.push_back(*tests_case_it);
-			list_string.push_back(*tests_case_it);
+		for (int i = 0; i < V; ++i) {
+			ft_list_string.push_back("Test string " + std::to_string(i));
+			list_string.push_back("Test string " + std::to_string(i));
 		}
 		ft_string_it = ft_list_string.begin();
 		string_it = list_string.begin();
@@ -174,10 +169,9 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 	}
 
 	SECTION("Push front string") {
-		tests_case_it = tests_case.begin();
-		for (; tests_case_it != tests_case.end(); ++tests_case_it) {
-			ft_list_string.push_front(*tests_case_it);
-			list_string.push_front(*tests_case_it);
+		for (int i = 0; i < V; ++i) {
+			ft_list_string.push_front("Test string " + std::to_string(i));
+			list_string.push_front("Test string " + std::to_string(i));
 		}
 		ft_string_it = ft_list_string.begin();
 		string_it = list_string.begin();
@@ -205,10 +199,6 @@ TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
 	typename ft::list<std::string>::iterator	ft_string_it;
 	typename std::list<std::string>::iterator	string_it;
 
-	std::list<std::string> tests_case = {	"one", "two", "three", "four", "five",
-											 "six", "seven", "eight", "nine", "ten"};
-	std::list<std::string>::iterator	tests_case_it;
-
 	SECTION("Alternation push number") {
 		for (int i = 0; i < V; ++i) {
 			if (i % 2) {
@@ -234,18 +224,15 @@ TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
 	}
 
 	SECTION("Alternation push string") {
-		tests_case_it = tests_case.begin();
-		int		i = 0;
-		for (; tests_case_it != tests_case.end(); ++tests_case_it) {
+		for (int i = 0; i < V; ++i) {
 			if (i % 2) {
-				ft_list_string.push_back(*tests_case_it);
-				list_string.push_back(*tests_case_it);
+				ft_list_string.push_back("Test string " + std::to_string(i));
+				list_string.push_back("Test string " + std::to_string(i));
 			}
 			else {
-				ft_list_string.push_front(*tests_case_it);
-				list_string.push_front(*tests_case_it);
+				ft_list_string.push_front("Test string " + std::to_string(i));
+				list_string.push_front("Test string " + std::to_string(i));
 			}
-			i++;
 		}
 		ft_string_it = ft_list_string.begin();
 		string_it = list_string.begin();
