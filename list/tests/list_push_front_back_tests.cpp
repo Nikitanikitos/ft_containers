@@ -58,7 +58,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 	}
 }
 
-TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", int, float) {
+TEMPLATE_TEST_CASE("Push Back/Front in list with size = 1", "[list] [push]", int, float) {
 
 	ft::list<TestType>		ft_list_number(1);
 	std::list<TestType>		list_number(1);

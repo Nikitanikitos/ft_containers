@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 16:00:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 16:02:29 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,6 +359,8 @@ namespace ft
 			_first_node = temp_node;
 		else if (_end_node == node_position)
 			_last_node = temp_node;
+		if (!_first_node)
+			_first_node = _last_node;
 		_size++;
 		return (temp_node);
 	}
