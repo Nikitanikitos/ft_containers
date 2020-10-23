@@ -6,12 +6,12 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 22:03:58 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 23:36:03 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "list.hpp"
 #include <list>
+#include "list.hpp"
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",

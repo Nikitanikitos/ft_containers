@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 21:37:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 21:37:34 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/22 23:12:24 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include <iostream>
 # include <iterator>
+# include <string>
 
 template<class T, class U>
 class	RevIteratorList : public std::iterator<std::bidirectional_iterator_tag, T>
