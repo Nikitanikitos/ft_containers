@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 19:23:31 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 20:59:10 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <string>
 # include "Iterator_list.hpp"
 # include "Reverse_iterator_list.hpp"
+
+
 
 namespace ft
 {
@@ -31,12 +33,14 @@ namespace ft
 	template<class T, class Alloc = std::allocator<T> >
 	class	list
 	{
+
 	private:
 		struct				s_list {
 			T				*value;
 			struct s_list	*next;
 			struct s_list	*prev;
 		};
+	public:
 
 	public:
 		typedef				T									value_type;
@@ -53,6 +57,7 @@ namespace ft
 		typedef				std::size_t							size_type;
 
 		typedef typename allocator_type::template rebind<s_list>::other		alloc_rebind;
+
 
 	private:
 		s_list			*_first_node;
@@ -115,6 +120,16 @@ namespace ft
 			node->next = node_position;
 			node_position->prev->next = node;
 			node_position->prev = node;
+		}
+
+		void	_check_first_or_end_node(s_list *node_position, s_list *node) {
+
+			if (_first_node == node_position) // TODO обернуть в метод
+				_first_node = node;
+			else if (_end_node == node_position)
+				_last_node = node;
+			if (!_first_node)
+				_first_node = _last_node;
 		}
 
 	public:
@@ -353,71 +368,62 @@ namespace ft
 	template<class T, class Alloc>
 	typename list<T, Alloc>::iterator list<T,Alloc>::insert(iterator position,
 														 					const value_type &val) {
-		value_type	*value_node	= _alloc.allocate(1);
-		s_list		*temp_node	= _alloc_rebind.allocate(1);
+		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
-		_alloc.construct(value_node, val);
-		temp_node->value = value_node;
+		temp_node = _new_node_init(val);
 		_insert_in_front_of_the_node(node_position, temp_node);
-		if (_first_node == node_position)
-			_first_node = temp_node;
-		else if (_end_node == node_position)
-			_last_node = temp_node;
-		if (!_first_node)
-			_first_node = _last_node;
+		_check_first_or_end_node(node_position, temp_node);
 		_size++;
 		return (temp_node);
 	}
 
 	template<class T, class Alloc>
 		void	list<T,Alloc>::insert(iterator position, size_type n, const value_type& val) {
-		value_type	*value_node;
 		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
 		if (!n)
 			return ;
 		for (size_type i = 0; i < n; ++i) {
-			value_node = _alloc.allocate(1);
-			temp_node = _alloc_rebind.allocate(1);
-			_alloc.construct(value_node, val);
-			temp_node->value = value_node;
+			temp_node = _new_node_init(val);
 			_insert_in_front_of_the_node(node_position, temp_node);
 			_size++;
 		}
-		if (_first_node == node_position)
-			_first_node = temp_node;
-		else if (_end_node == node_position)
-			_last_node = temp_node;
-		if (!_first_node)
-			_first_node = _last_node;
+		_check_first_or_end_node(node_position, temp_node);
 	}
 
 	template<class T, class Alloc>
 	template<class InputIterator>
 	void list<T, Alloc>::insert(list::iterator position, InputIterator first, InputIterator last,
 					typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
-		value_type	*value_node;
-		s_list		*temp_node = 0;
+		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
 		if (first == last)
 			return ;
 		for (; first != last; ++first) {
-			value_node = _alloc.allocate(1); //TODO вынести в метод
-			temp_node = _alloc_rebind.allocate(1);
-			_alloc.construct(value_node, *first);
-			temp_node->value = value_node;
+			temp_node = _new_node_init(*first);
 			_insert_in_front_of_the_node(node_position, temp_node);
 			_size++;
 		}
-		if (_first_node == node_position)
-			_first_node = temp_node;
-		else if (_end_node == node_position)
-			_last_node = temp_node;
-		if (!_first_node)
-			_first_node = _last_node;
+		_check_first_or_end_node(node_position, temp_node);
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::clear() {
+		s_list		*temp_node;
+
+		for (size_type i = 0; i < _size; ++i) {
+			temp_node = _first_node;
+			_first_node = _first_node->next;
+			_alloc.deallocate(temp_node->value, 1);
+			_alloc_rebind.deallocate(temp_node, 1);
+		}
+		_first_node = 0;
+		_last_node = 0;
+		_size = 0;
+		_tie_end_node();
 	}
 
 	template <class T, class Alloc>

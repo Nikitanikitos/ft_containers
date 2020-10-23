@@ -34,7 +34,7 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 			REQUIRE(list.size() == ft_list.size());
 
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 
@@ -47,7 +47,7 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 			REQUIRE(list.size() == ft_list.size());
 
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 }
@@ -78,7 +78,7 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 
@@ -97,7 +97,7 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 			ft_list_for_copy.push_back('a' + i);
 			list_for_copy.push_back('a' + i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 }
@@ -128,7 +128,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 
@@ -146,7 +146,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 
@@ -206,7 +206,7 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 
@@ -225,7 +225,7 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
 			list.clear();
-			// TODO added ft_list.clear()
+			ft_list.clear();
 		}
 	}
 }

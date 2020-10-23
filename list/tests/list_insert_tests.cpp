@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 16:08:08 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 19:36:49 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 20:50:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,7 +422,6 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through two iterator", "[li
 			++ft_it;
 		}
 	}
-
 
 	SECTION("Every two times with size list = 1") {
 		ft::list<T>							ft_list_for_insert(3, 33);
