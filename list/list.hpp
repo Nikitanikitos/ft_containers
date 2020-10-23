@@ -113,10 +113,14 @@ namespace ft
 		size_type				size() const {return (_size); };
 		size_type				max_size() const;
 
-		reference		front() { return (*_first_node->value); }
-		const_reference	front() const { return (*_first_node->value); }
-		reference		back() { return (*_last_node->value); }
-		const_reference	back() const { return (*_last_node->value); }
+		reference		front()
+							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
+		const_reference	front() const
+							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
+		reference		back()
+							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
+		const_reference	back() const
+							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
 
 		template <class InputIterator>
 		void			assign(InputIterator first, InputIterator last);

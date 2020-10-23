@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 23:01:19 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:54:40 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
+		REQUIRE(list.front() == ft_list.front());
+		REQUIRE(list.back() == list.back());
 	}
 
 	SECTION("WithSize_MatchWithOriginal") {
@@ -70,8 +72,8 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 			ft::list<T>		ft_list(ft_list_for_copy);
 			std::list<T>	list(list_for_copy);
 
-			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.back() == list.back());
 
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
@@ -89,8 +91,8 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 			ft::list<T>		ft_list(ft_list_for_copy);
 			std::list<T>		list(list_for_copy);
 
-			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.back() == list.back());
 
 			ft_list_for_copy.push_back('a' + i);
 			list_for_copy.push_back('a' + i);
@@ -111,6 +113,8 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.size() == ft_list.size());
+		REQUIRE(list.front() == ft_list.front());
+		REQUIRE(list.back() == list.back());
 	}
 
 	SECTION("WithSize_MatchWithOriginal") {
@@ -118,8 +122,8 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			ft::list<T>		ft_list = ft_list_for_copy;
 			std::list<T>	list = list_for_copy;
 
-			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.back() == list.back());
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
@@ -136,13 +140,42 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 			ft::list<T>		ft_list = ft_list_for_copy;
 			std::list<T>	list = list_for_copy;
 
-			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.back() == list.back());
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
 			list.clear();
 			// TODO added ft_list.clear()
+		}
+	}
+
+	SECTION("AssignationWithDifferentSize") {
+		ft::list<T>		ft_list_for_copy(12);
+		std::list<T>	list_for_copy(12);
+
+		SECTION("AssignationWithLowerSize") {
+			ft::list<T>		ft_list(6);
+			std::list<T>	list(6);
+
+			ft_list = ft_list_for_copy;
+			list = list_for_copy;
+
+			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.front() == ft_list.front());
+			REQUIRE(list.back() == list.back());
+		}
+
+		SECTION("AssignationWithGreaterSize") {
+			ft::list<T>		ft_list(24);
+			std::list<T>	list(24);
+
+			ft_list = ft_list_for_copy;
+			list = list_for_copy;
+
+			REQUIRE(list.size() == ft_list.size());
+			REQUIRE(list.front() == ft_list.front());
+			REQUIRE(list.back() == list.back());
 		}
 	}
 }
