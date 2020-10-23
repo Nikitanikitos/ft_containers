@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 18:15:39 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 19:23:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,6 +376,8 @@ namespace ft
 		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
+		if (!n)
+			return ;
 		for (size_type i = 0; i < n; ++i) {
 			value_node = _alloc.allocate(1);
 			temp_node = _alloc_rebind.allocate(1);
@@ -397,13 +399,16 @@ namespace ft
 	void list<T, Alloc>::insert(list::iterator position, InputIterator first, InputIterator last,
 					typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
 		value_type	*value_node;
-		s_list		*temp_node;
+		s_list		*temp_node = 0;
 		s_list		*node_position = position._get_ptr();
 
+		if (first == last)
+			return ;
 		for (; first != last; ++first) {
-			value_node = _alloc.allocate(1);
+			value_node = _alloc.allocate(1); //TODO вынести в метод
 			temp_node = _alloc_rebind.allocate(1);
 			_alloc.construct(value_node, *first);
+			temp_node->value = value_node;
 			_insert_in_front_of_the_node(node_position, temp_node);
 			_size++;
 		}
