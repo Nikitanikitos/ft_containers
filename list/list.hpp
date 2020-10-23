@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 11:09:23 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 13:20:53 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ namespace ft
 							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
 
 		template <class InputIterator>
-		void			assign(InputIterator first, InputIterator last);
+		void			assign(InputIterator first, InputIterator last,
+				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 		void			assign(size_type n, const value_type& val);
 		void			push_front(const value_type& val);
 		void			pop_front();
@@ -164,7 +165,7 @@ namespace ft
 
 		if (n == 0) return ;
 		for (size_type i = 0; i < n; ++i)
-			push_front(val);
+			push_back(val);
 		_tie_end_node();
 	}
 
@@ -175,7 +176,7 @@ namespace ft
 										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
 		_create_end_node();
 		for(; first != last; ++first)
-			push_front(*first);
+			push_back(*first);
 		_tie_end_node();
 	}
 
@@ -186,7 +187,7 @@ namespace ft
 
 		_create_end_node();
 		for(; it != list.end(); ++it)
-			push_front(*it);
+			push_back(*it);
 		_tie_end_node();
 	}
 
@@ -298,11 +299,12 @@ namespace ft
 
 	template<class T, class Alloc>
 	template<class InputIterator>
-	void list<T, Alloc>::assign(InputIterator first, InputIterator last) {
+	void list<T, Alloc>::assign(InputIterator first, InputIterator last,
+					typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*) {
 		size_type		i = 0;
 		s_list			*temp_node = _first_node;
 
-		for (; first != last; first++) {
+		for (; first != last; ++first) {
 			if (i++ < _size) {
 				_alloc.destroy(temp_node->value);
 				_alloc.construct(temp_node->value, *first);
