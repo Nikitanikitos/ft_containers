@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 18:11:19 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 18:15:39 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,7 +371,7 @@ namespace ft
 	}
 
 	template<class T, class Alloc>
-	void	list<T,Alloc>::insert(iterator position, size_type n, const value_type& val) {
+		void	list<T,Alloc>::insert(iterator position, size_type n, const value_type& val) {
 		value_type	*value_node;
 		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
