@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_front_back_tests.cpp                          :+:      :+:    :+:   */
+/*   list_push_front_back_tests.cpp                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:36:49 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 12:59:40 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:31:58 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 	ft::list<std::string>	ft_list_string;
 	std::list<std::string>	list_string;
 
-	SECTION("PushBackNumber") {
+	SECTION("Push back number") {
 		ft_list_number.push_back(42);
 		list_number.push_back(42);
 
@@ -30,7 +30,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
-	SECTION("PushBackString") {
+	SECTION("Push back string") {
 		ft_list_string.push_back("Push Back String");
 		list_string.push_back("Push Back String");
 
@@ -39,7 +39,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 
-	SECTION("PushFrontNumber") {
+	SECTION("Push front number") {
 		ft_list_number.push_front(42);
 		list_number.push_front(42);
 
@@ -48,7 +48,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
-	SECTION("PushFrontString") {
+	SECTION("Push front string") {
 		ft_list_string.push_front("Push Front String");
 		list_string.push_front("Push Front String");
 
@@ -65,7 +65,7 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 	ft::list<std::string>	ft_list_string(1);
 	std::list<std::string>	list_string(1);
 
-	SECTION("PushBackNumber") {
+	SECTION("Push back number") {
 		ft_list_number.push_back(42);
 		list_number.push_back(42);
 
@@ -74,7 +74,7 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
-	SECTION("PushBackString") {
+	SECTION("Push back string") {
 		ft_list_string.push_back("Push Back String");
 		list_string.push_back("Push Back String");
 
@@ -83,7 +83,7 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		REQUIRE(list_string.back() == ft_list_string.back());
 	}
 
-	SECTION("PushFrontNumber") {
+	SECTION("Push front number") {
 		ft_list_number.push_front(42);
 		list_number.push_front(42);
 
@@ -92,7 +92,7 @@ TEMPLATE_TEST_CASE("Push Back/Front with size list equal 1", "[list] [push]", in
 		REQUIRE(list_number.back() == ft_list_number.back());
 	}
 
-	SECTION("PushFrontString") {
+	SECTION("Push front string") {
 		ft_list_string.push_front("Push Front String");
 		list_string.push_front("Push Front String");
 
@@ -118,7 +118,7 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 											 "six", "seven", "eight", "nine", "ten"};
 	std::list<std::string>::iterator	tests_case_it;
 
-	SECTION("PushBackNumber") {
+	SECTION("Push back number") {
 		for (int i = 0; i < V; ++i) {
 			ft_list_number.push_back(i + 100);
 			list_number.push_back(i + 100);
@@ -136,7 +136,7 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 		}
 	}
 
-	SECTION("PushFrontNumber") {
+	SECTION("Push front number") {
 		for (int i = 0; i < V; ++i) {
 			ft_list_number.push_front(i + 100);
 			list_number.push_front(i + 100);
@@ -154,7 +154,7 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 		}
 	}
 
-	SECTION("PushBackString") {
+	SECTION("Push back string") {
 		tests_case_it = tests_case.begin();
 		for (; tests_case_it != tests_case.end(); ++tests_case_it) {
 			ft_list_string.push_back(*tests_case_it);
@@ -173,7 +173,7 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 		}
 	}
 
-	SECTION("PushFrontString") {
+	SECTION("Push front string") {
 		tests_case_it = tests_case.begin();
 		for (; tests_case_it != tests_case.end(); ++tests_case_it) {
 			ft_list_string.push_front(*tests_case_it);
@@ -209,7 +209,7 @@ TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
 											 "six", "seven", "eight", "nine", "ten"};
 	std::list<std::string>::iterator	tests_case_it;
 
-	SECTION("AlternationPushNumber") {
+	SECTION("Alternation push number") {
 		for (int i = 0; i < V; ++i) {
 			if (i % 2) {
 				ft_list_number.push_back(i + 100);
@@ -233,7 +233,7 @@ TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
 		}
 	}
 
-	SECTION("PushBackString") {
+	SECTION("Alternation push string") {
 		tests_case_it = tests_case.begin();
 		int		i = 0;
 		for (; tests_case_it != tests_case.end(); ++tests_case_it) {

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 23:36:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:31:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
-	SECTION("InEmptyList") {
+	SECTION("Empty list") {
 		ft_it = ft_list.begin();
 
 		REQUIRE(ft_it == ft_list.end());
 	}
 
-	SECTION("WithOneNode") {
+	SECTION("With one node") {
 		ft_list.push_back(1);
 		list.push_back(1);
 		ft_it = ft_list.begin();
@@ -37,7 +37,7 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
 		REQUIRE(*ft_it == *list.begin());
 	}
 
-	SECTION("WithManyNode") {
+	SECTION("With many node") {
 		int			ft_count_iterations = 0;
 		int			count_iterations = 0;
 
@@ -63,7 +63,7 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]",
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 
-		SECTION("Decrement test") {
+		SECTION("Decrement iterator") {
 			ft_it = ft_list.end();
 			it = list.end();
 
@@ -97,13 +97,13 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
 	typename ft::list<T>::const_iterator	ft_it;
 	typename std::list<T>::const_iterator	it;
 
-	SECTION("InEmptyList") {
+	SECTION("Empty list") {
 		ft_it = ft_list.begin();
 
 		REQUIRE(ft_it == ft_list.end());
 	}
 
-	SECTION("WithOneNode") {
+	SECTION("With one node") {
 		ft_list.push_back(1);
 		list.push_back(1);
 		ft_it = ft_list.begin();
@@ -112,7 +112,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
 		REQUIRE(*ft_it == *list.begin());
 	}
 
-	SECTION("WithManyNode") {
+	SECTION("With many node") {
 		int			ft_count_iterations = 0;
 		int			count_iterations = 0;
 
@@ -138,7 +138,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 
-		SECTION("Decrement test") {
+		SECTION("Decrement iterator") {
 			ft_it = ft_list.end();
 			it = list.end();
 
@@ -172,13 +172,13 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
 	typename ft::list<T>::reverse_iterator		ft_it;
 	typename std::list<T>::reverse_iterator		it;
 
-	SECTION("InEmptyList") {
+	SECTION("Empty list") {
 		ft_it = ft_list.rbegin();
 
 		REQUIRE(ft_it == ft_list.rend());
 	}
 
-	SECTION("WithOneNode") {
+	SECTION("With one node") {
 		ft_list.push_back(1);
 		list.push_back(1);
 		ft_it = ft_list.rbegin();
@@ -187,7 +187,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]",
 		REQUIRE(*ft_it == *list.rbegin());
 	}
 
-	SECTION("WithManyNode") {
+	SECTION("With many node") {
 		int			ft_count_iterations = 0;
 		int			count_iterations = 0;
 
@@ -247,13 +247,13 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 	typename ft::list<T>::const_reverse_iterator	ft_it;
 	typename std::list<T>::const_reverse_iterator	it;
 
-	SECTION("InEmptyList") {
+	SECTION("Empty list") {
 		ft_it = ft_list.rbegin();
 
 		REQUIRE(ft_it == ft_list.rend());
 	}
 
-	SECTION("WithOneNode") {
+	SECTION("With one node") {
 		ft_list.push_back(1);
 		list.push_back(1);
 		ft_it = ft_list.rbegin();
@@ -262,7 +262,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
 		REQUIRE(*ft_it == *list.rbegin());
 	}
 
-	SECTION("WithManyNode") {
+	SECTION("With many node") {
 		int			ft_count_iterations = 0;
 		int			count_iterations = 0;
 

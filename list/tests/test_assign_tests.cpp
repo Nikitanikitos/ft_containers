@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:03:13 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 12:37:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:39:59 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
-	SECTION("EmptyList") {
+	SECTION("Empty list") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
 
@@ -40,7 +40,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		REQUIRE(list.back() == ft_list.back());
 	}
 
-	SECTION("WithOneElement") {
+	SECTION("One node") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
 		ft_list_for_assign.push_back(T());
@@ -60,7 +60,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		REQUIRE(list.back() == ft_list.back());
 	}
 
-	SECTION("WithManyEqualElement") {
+	SECTION("Many with equal size") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
 		for (int i = 0; i < V; ++i) {
@@ -86,7 +86,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		REQUIRE(list.size() == ft_list.size());
 	}
 
-	SECTION("WithManyGreaterElement") {
+	SECTION("Many with greater size") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
 		for (int i = 0; i < V; ++i) {
@@ -114,7 +114,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		REQUIRE(list.size() == ft_list.size());
 	}
 
-	SECTION("WithManyLowerElement") {
+	SECTION("Many with lower size") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
 		for (int i = 0; i < V; ++i) {
