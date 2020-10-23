@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/22 23:13:45 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:09:23 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,7 @@ namespace ft
 		_first_node = _first_node->next;
 		_alloc.deallocate(temp_node->value, 1);
 		_alloc_rebind.deallocate(temp_node, 1);
+		_size--;
 	}
 
 	template<class T, class Alloc>
@@ -288,6 +289,46 @@ namespace ft
 		_last_node = _last_node->prev;
 		_alloc.deallocate(temp_node->value, 1);
 		_alloc_rebind.deallocate(temp_node, 1);
+		_size--;
+	}
+
+	template<class T, class Alloc>
+	template<class InputIterator>
+	void list<T, Alloc>::assign(InputIterator first, InputIterator last) {
+		size_type		i = 0;
+		s_list			*temp_node = _first_node;
+
+		for (; first != last; first++) {
+			if (i++ < _size) {
+				_alloc.destroy(temp_node->value);
+				_alloc.construct(temp_node->value, *first);
+				temp_node = temp_node->next;
+			}
+			else
+				push_back(*first);
+		}
+		while (i < _size)
+			pop_back();
+		_tie_end_node();
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::assign(list::size_type n, const value_type &val) {
+		s_list			*temp_node = _first_node;
+		size_type		i;
+
+		for (i = 0; i < n; ++i) {
+			if (i < _size) {
+				_alloc.destroy(temp_node->value);
+				_alloc.construct(temp_node->value, val);
+				temp_node = temp_node->next;
+			}
+			else
+				push_back(val);
+		}
+		while (i < _size)
+			pop_back();
+		_tie_end_node();
 	}
 
 	template <class T, class Alloc>
