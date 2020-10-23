@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 16:02:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/23 17:31:03 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,13 @@ namespace ft
 			_first_node = _last_node;
 		}
 
+		void	_insert_in_front_of_the_node(s_list *node_position, s_list *node) {
+			node->prev = node_position->prev;
+			node->next = node_position;
+			node_position->prev->next = node;
+			node_position->prev = node;
+		}
+
 	public:
 		explicit list(const allocator_type& alloc = allocator_type())
 									: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
@@ -160,7 +167,8 @@ namespace ft
 		iterator		insert(iterator position, const value_type& val);
 		void			insert(iterator position, size_type n, const value_type& val);
 		template <class InputIterator>
-		void			insert(iterator position, InputIterator first, InputIterator last);
+		void			insert(iterator position, InputIterator first, InputIterator last,
+				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 		iterator		erase(iterator position);
 		iterator		erase(iterator first, iterator last);
 		void			swap (list& x);
@@ -350,11 +358,8 @@ namespace ft
 		s_list		*node_position = position._get_ptr();
 
 		_alloc.construct(value_node, val);
-		temp_node->value = value_node; // TODO заменить на метод (?)
-		temp_node->prev = node_position->prev;
-		temp_node->next = node_position;
-		node_position->prev->next = temp_node;
-		node_position->prev = temp_node;
+		temp_node->value = value_node;
+		_insert_in_front_of_the_node(node_position, temp_node);
 		if (_first_node == node_position)
 			_first_node = temp_node;
 		else if (_end_node == node_position)
@@ -365,7 +370,29 @@ namespace ft
 		return (temp_node);
 	}
 
-	template <class T, class Alloc>
+	template<class T, class Alloc>
+	void	list<T,Alloc>::insert(iterator position, size_type n, const value_type& val) {
+		value_type	*value_node;
+		s_list		*temp_node;
+		s_list		*node_position = position._get_ptr();
+
+		for (size_type i = 0; i < n; ++i) {
+			value_node = _alloc.allocate(1);
+			temp_node = _alloc_rebind.allocate(1);
+			_alloc.construct(value_node, val);
+			temp_node->value = value_node;
+			_insert_in_front_of_the_node(node_position, temp_node);
+			_size++;
+		}
+		if (_first_node == node_position)
+			_first_node = temp_node;
+		else if (_end_node == node_position)
+			_last_node = temp_node;
+		if (!_first_node)
+			_first_node = _last_node;
+	}
+
+		template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
