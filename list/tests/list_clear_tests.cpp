@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 13:05:46 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 13:12:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 13:12:45 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,3 @@ TEMPLATE_TEST_CASE("Clear list",  "[list] [clear]", int) {
 		REQUIRE(list.size() == ft_list.size());
 	}
 }
-
-
-
-
-
-
-
-//((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)

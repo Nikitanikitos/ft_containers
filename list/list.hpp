@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 11:56:59 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 13:42:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -473,8 +473,8 @@ namespace ft
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() != rhs.size())
 			return (false);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end()) {
 			if (*it_rhs != *it_lhs)
@@ -482,15 +482,15 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs == *it_lhs);
+		return (*it_lhs == *it_rhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() == rhs.size())
 			return (false);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
 			if (*it_rhs == *it_lhs)
@@ -498,15 +498,15 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs != *it_lhs);
+		return (*it_lhs != *it_rhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() < rhs.size())
 			return (true);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
 			if (*it_rhs != *it_lhs)
@@ -514,15 +514,15 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs < *it_lhs);
+		return (*it_lhs < *it_rhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-		if (lhs.size() <= rhs.size())
+		if (lhs.size() < rhs.size())
 			return (true);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
 			if (*it_rhs != *it_lhs)
@@ -530,15 +530,15 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs <= *it_lhs);
+		return (*it_lhs <= *it_rhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() > rhs.size())
 			return (true);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
 			if (*it_rhs != *it_lhs)
@@ -546,14 +546,14 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs > *it_lhs);
+		return (*it_lhs > *it_rhs);
 	}
 	template <class T, class Alloc>
 	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-		if (lhs.size() >= rhs.size())
+		if (lhs.size() > rhs.size())
 			return (true);
-		typename list<T, Alloc>::const_iterator		it_lhs;
-		typename list<T, Alloc>::const_iterator		it_rhs;
+		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
+		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
 			if (*it_rhs != *it_lhs)
@@ -561,7 +561,7 @@ namespace ft
 			++it_rhs;
 			++it_lhs;
 		}
-		return (*it_rhs >= *it_lhs);
+		return (*it_lhs >= *it_rhs);
 	}
 }
 
