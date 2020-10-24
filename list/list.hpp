@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 14:44:05 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 15:20:53 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,32 +162,32 @@ namespace ft
 		size_type				size() const {return (_size); };
 		size_type				max_size() const;
 
-		reference		front()
+		reference				front()
 							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
-		const_reference	front() const
+		const_reference			front() const
 							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
-		reference		back()
+		reference				back()
 							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
-		const_reference	back() const
+		const_reference			back() const
 							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
 
 		template <class InputIterator>
-		void			assign(InputIterator first, InputIterator last,
+		void			assign(InputIterator, InputIterator,
 				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
-		void			assign(size_type n, const value_type& val);
-		void			push_front(const value_type& val);
+		void			assign(size_type, const value_type&);
+		void			push_front(const value_type&);
 		void			pop_front();
-		void			push_back(const value_type& val);
+		void			push_back(const value_type&);
 		void			pop_back();
-		iterator		insert(iterator position, const value_type& val);
-		void			insert(iterator position, size_type n, const value_type& val);
+		iterator		insert(iterator, const value_type&);
+		void			insert(iterator, size_type, const value_type&);
 		template <class InputIterator>
-		void			insert(iterator position, InputIterator first, InputIterator last,
+		void			insert(iterator, InputIterator, InputIterator,
 				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
-		iterator		erase(iterator position);
-		iterator		erase(iterator first, iterator last);
-		void			swap (list& x);
-		void			resize(size_type n, value_type val = value_type());
+		iterator		erase(iterator);
+		iterator		erase(iterator, iterator);
+		void			swap (list&);
+		void			resize(size_type, value_type val = value_type());
 		void			clear();
 
 		void			splice(iterator position, list& x);
@@ -467,6 +467,40 @@ namespace ft
 			_destroy_node(temp_node);
 		}
 		return (it);
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::resize(list::size_type n, value_type val) {
+		while (_size != n) {
+			if (_size < n)
+				push_back(val);
+			else
+				pop_back();
+		}
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::swap(list &list) {
+		size_type	prev_this_size = _size;
+		size_type	prev_list_size = list._size;
+		iterator	this_it = begin();
+		iterator	list_it = list.begin();
+		value_type	val;
+
+		if (_size > list._size)
+			list.resize(_size);
+		else if (list._size > _size)
+			this->resize(list._size);
+
+		for (size_type i = 0; i < _size; ++i) {
+			val = *this_it;
+			*this_it = *list_it;
+			*list_it = val;
+			++this_it;
+			++list_it;
+		}
+		list.resize(prev_list_size);
+		this->resize(prev_this_size);
 	}
 
 	template <class T, class Alloc>
