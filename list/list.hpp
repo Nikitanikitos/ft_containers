@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 13:42:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 14:44:05 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,13 +487,11 @@ namespace ft
 
 	template <class T, class Alloc>
 	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-		if (lhs.size() == rhs.size())
-			return (false);
 		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
 		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
 		while (it_lhs != lhs.end() && it_rhs != rhs.end()) {
-			if (*it_rhs == *it_lhs)
+			if (*it_rhs != *it_lhs)
 				break;
 			++it_rhs;
 			++it_lhs;
