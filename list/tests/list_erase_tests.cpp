@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 11:57:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 12:56:26 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 14:48:21 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
 		it = list.begin();
 		SECTION("every two time") {
 			for (int i = 0; ft_it != ft_list.end(); ++ft_it) {
-				if (!(i++ % 2)) {
+				if (i++ % 2) {
 					ft_it = ft_list.erase(ft_it);
 					it = list.erase(it);
 					REQUIRE(*ft_it == *it);
