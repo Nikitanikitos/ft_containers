@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 15:20:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/24 15:26:28 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -501,6 +501,21 @@ namespace ft
 		}
 		list.resize(prev_list_size);
 		this->resize(prev_this_size);
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::remove(const value_type &val) {
+		for (iterator it = begin(); it != end(); ++it)
+			if (val == *it)
+				it = erase(it);
+	}
+
+	template<class T, class Alloc>
+	template<class Predicate>
+	void list<T, Alloc>::remove_if(Predicate pred) {
+		for (iterator it = begin(); it != end(); ++it)
+			if (pred(*it))
+				it = erase(it);
 	}
 
 	template <class T, class Alloc>
