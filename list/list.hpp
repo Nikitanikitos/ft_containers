@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 17:51:44 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 18:23:50 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,10 +587,11 @@ namespace ft
 	template<class T, class Alloc>
 	void list<T, Alloc>::sort() {
 		value_type	temp_value;
-		s_list		*list = _first_node;
 		s_list		*temp_node;
+		s_list		*list;
 		bool		flag;
 
+		*list = _first_node;
 		while (list != _last_node) {
 			flag = false;
 			temp_node = list->next;
@@ -613,10 +614,11 @@ namespace ft
 	template<class Compare>
 	void list<T, Alloc>::sort(Compare comp) {
 		value_type	temp_value;
-		s_list		*list = _first_node;
 		s_list		*temp_node;
+		s_list		*list;
 		bool		flag;
 
+		*list = _first_node;
 		while (list != _last_node) {
 			flag = false;
 			temp_node = list->next;
@@ -634,6 +636,66 @@ namespace ft
 			list = list->next;
 		}
 
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::splice(list::iterator position, list &x) {
+		s_list	*node = position._get_ptr();
+
+		node->prev->next = x._first_node;
+		x._first_node->prev = node->prev;
+		node->prev = x._last_node;
+		x._last_node->next = node;
+
+		_first_node = _end_node->next;
+		_last_node = _last_node->prev;
+
+		x._end_node->next = x._end_node;
+		x._end_node->prev = x._end_node;
+		x._last_node = 0;
+		x._first_node = 0;
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator i) {
+		s_list	*list = position._get_ptr();
+		s_list	*node = i._get_ptr();
+
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+
+		x._first_node = x._end_node->next;
+		x._last_node = x._last_node->prev;
+
+		list->prev->next = node;
+		node->prev = list->prev;
+		node->next = list;
+		list->prev = node;
+
+		_first_node = _end_node->next;
+		_last_node = _last_node->prev;
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator first,
+								list::iterator last) {
+		s_list	*list = position._get_ptr();
+		s_list	*first_node = first._get_ptr();
+		s_list	*last_node = last._get_ptr();
+
+		first_node->prev->next = last_node->next;
+		last_node->next->prev = first_node->prev;
+
+		x._first_node = x._end_node->next;
+		x._last_node = x._last_node->prev;
+
+		list->prev->next = first_node;
+		first_node->prev = list->prev;
+		last_node->prev = list;
+		list->prev = last_node;
+
+		_first_node = _end_node->next;
+		_last_node = _last_node->prev;
 	}
 
 	template <class T, class Alloc>
