@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 13:08:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 14:18:15 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -519,8 +519,10 @@ namespace ft
 			++this_it;
 			++list_it;
 		}
-		list.resize(prev_list_size);
-		this->resize(prev_this_size);
+//		if (prev_list_size != list._size)
+			list.resize(prev_this_size);
+//		if (prev_this_size != _size)
+			this->resize(prev_list_size);
 	}
 
 	template<class T, class Alloc>
