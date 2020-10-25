@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 12:04:25 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 13:08:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 13:09:06 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ TEMPLATE_TEST_CASE_SIG("Resize list with empty list", "[list] [resize]",
 		REQUIRE(list.empty() == ft_list.empty());
 		REQUIRE(list.front() == ft_list.front());
 	}
-
 
 	SECTION("resize = V") {
 		ft_list.resize(V, 13);

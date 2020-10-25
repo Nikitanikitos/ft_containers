@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 14:18:15 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 14:37:23 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,7 +451,11 @@ namespace ft
 		s_list		*node_position = position._get_ptr();
 		iterator	it;
 
-		if (node_position == _first_node)
+		if (_size == 1) {
+			_first_node = 0;
+			_last_node = 0;
+		}
+		else if (node_position == _first_node)
 			_first_node = _first_node->next;
 		else if (node_position == _last_node)
 			_last_node = _last_node->prev;
@@ -535,9 +539,11 @@ namespace ft
 	template<class T, class Alloc>
 	template<class Predicate>
 	void list<T, Alloc>::remove_if(Predicate pred) {
-		for (iterator it = begin(); it != end(); ++it)
+		for (iterator it = begin(); it != end();)
 			if (pred(*it))
 				it = erase(it);
+			else
+				++it;
 	}
 
 	template <class T, class Alloc>
