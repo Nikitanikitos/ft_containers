@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 18:23:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 18:58:40 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -591,20 +591,20 @@ namespace ft
 		s_list		*list;
 		bool		flag;
 
-		*list = _first_node;
+		list = _first_node;
 		while (list != _last_node) {
 			flag = false;
 			temp_node = list->next;
 			while (temp_node != _last_node) {
-				if (list->value > temp_node->value) {
-					temp_value = list->value;
-					list->value = temp_node->value;
-					temp_node->value = temp_value;
+				if (*list->value > *temp_node->value) {
+					temp_value = *list->value;
+					*list->value = *temp_node->value;
+					*temp_node->value = temp_value;
 					flag = true;
 				}
-				list = list->next;
+				temp_node = temp_node->next;
 			}
-			if (flag)
+			if (!flag)
 				return ;
 			list = list->next;
 		}
@@ -618,20 +618,20 @@ namespace ft
 		s_list		*list;
 		bool		flag;
 
-		*list = _first_node;
+		list = _first_node;
 		while (list != _last_node) {
 			flag = false;
 			temp_node = list->next;
-			while (temp_node != _last_node) {
-				if (comp(list->value, temp_node->value)) {
-					temp_value = list->value;
-					list->value = temp_node->value;
-					temp_node->value = temp_value;
+			while (temp_node != _end_node) {
+				if (!comp(*list->value, *temp_node->value)) {
+					temp_value = *list->value;
+					*list->value = *temp_node->value;
+					*temp_node->value = temp_value;
 					flag = true;
 				}
-				list = list->next;
+				temp_node = temp_node->next;
 			}
-			if (flag)
+			if (!flag)
 				return ;
 			list = list->next;
 		}
