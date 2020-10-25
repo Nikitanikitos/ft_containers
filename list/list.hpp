@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 18:58:40 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 19:08:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,15 @@ namespace ft
 				_last_node = node;
 			if (!_first_node)
 				_first_node = _last_node;
+		}
+
+		size_type	_get_segment_size(iterator begin, iterator end) {
+			size_type	result = 0;
+			while (begin != end) {
+				++begin;
+				result++;
+			}
+			return (result);
 		}
 
 	public:
@@ -654,12 +663,16 @@ namespace ft
 		x._end_node->prev = x._end_node;
 		x._last_node = 0;
 		x._first_node = 0;
+
+		_size += x._size;
+		x._size = 0;
 	}
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator i) {
-		s_list	*list = position._get_ptr();
-		s_list	*node = i._get_ptr();
+		s_list		*list = position._get_ptr();
+		s_list		*node = i._get_ptr();
+		value_type	segment_size;
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
@@ -674,14 +687,19 @@ namespace ft
 
 		_first_node = _end_node->next;
 		_last_node = _last_node->prev;
+
+		segment_size = _get_segment_size(i, x.end());
+		_size += segment_size;
+		x._size -= segment_size;
 	}
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator first,
-								list::iterator last) {
-		s_list	*list = position._get_ptr();
-		s_list	*first_node = first._get_ptr();
-		s_list	*last_node = last._get_ptr();
+																			list::iterator last) {
+		s_list		*list = position._get_ptr();
+		s_list		*first_node = first._get_ptr();
+		s_list		*last_node = last._get_ptr();
+		value_type	segment_size;
 
 		first_node->prev->next = last_node->next;
 		last_node->next->prev = first_node->prev;
@@ -696,6 +714,10 @@ namespace ft
 
 		_first_node = _end_node->next;
 		_last_node = _last_node->prev;
+
+		segment_size = _get_segment_size(first, last);
+		_size += segment_size;
+		x._size -= segment_size;
 	}
 
 	template <class T, class Alloc>
