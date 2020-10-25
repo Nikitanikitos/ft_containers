@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 16:10:54 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 17:51:44 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,6 +582,58 @@ namespace ft
 				list = erase(list)._get_ptr();
 			else
 				list = list->next;
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::sort() {
+		value_type	temp_value;
+		s_list		*list = _first_node;
+		s_list		*temp_node;
+		bool		flag;
+
+		while (list != _last_node) {
+			flag = false;
+			temp_node = list->next;
+			while (temp_node != _last_node) {
+				if (list->value > temp_node->value) {
+					temp_value = list->value;
+					list->value = temp_node->value;
+					temp_node->value = temp_value;
+					flag = true;
+				}
+				list = list->next;
+			}
+			if (flag)
+				return ;
+			list = list->next;
+		}
+	}
+
+	template<class T, class Alloc>
+	template<class Compare>
+	void list<T, Alloc>::sort(Compare comp) {
+		value_type	temp_value;
+		s_list		*list = _first_node;
+		s_list		*temp_node;
+		bool		flag;
+
+		while (list != _last_node) {
+			flag = false;
+			temp_node = list->next;
+			while (temp_node != _last_node) {
+				if (comp(list->value, temp_node->value)) {
+					temp_value = list->value;
+					list->value = temp_node->value;
+					temp_node->value = temp_value;
+					flag = true;
+				}
+				list = list->next;
+			}
+			if (flag)
+				return ;
+			list = list->next;
+		}
+
 	}
 
 	template <class T, class Alloc>
