@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 19:26:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 19:41:04 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -452,7 +452,9 @@ namespace ft
 		_first_node = 0;
 		_last_node = 0;
 		_size = 0;
-		_tie_end_node();
+		_end_node->prev = _end_node; // TODO вынести в отдельный метод
+		_end_node->next = _end_node;
+//		_tie_end_node(); // TODO ?
 	}
 
 	template<class T, class Alloc>

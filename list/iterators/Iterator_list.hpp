@@ -42,7 +42,7 @@ public:
 	IteratorList<T, U>		&operator++() { _ptr = _ptr->next; return (*this); }
 	IteratorList<T, U>		&operator--() { _ptr = _ptr->prev; return (*this); }
 
-	IteratorList<T, U>		&operator++(int) {
+	IteratorList<T, U>		operator++(int) {
 		IteratorList<T, U>		temp(_ptr);
 
 		_ptr = _ptr->next;

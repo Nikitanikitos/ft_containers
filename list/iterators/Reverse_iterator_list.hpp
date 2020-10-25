@@ -91,7 +91,7 @@ public:
 	ConstRevIteratorList<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
 
 	ConstRevIteratorList<T, U>		operator++(int) {
-		IteratorList<T, U>		temp(_ptr);
+		ConstRevIteratorList<T, U>		temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
