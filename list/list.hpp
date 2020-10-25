@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 14:37:23 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 16:10:54 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -544,6 +544,44 @@ namespace ft
 				it = erase(it);
 			else
 				++it;
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::reverse() {
+		value_type	temp_value;
+		s_list		*start_list = _first_node;
+		s_list		*end_list = _last_node;
+
+		for (int i = 0; i < _size / 2; ++i) {
+			temp_value = start_list->value;
+			start_list->value = end_list->value;
+			end_list->value = temp_value;
+			start_list = start_list->next;
+			end_list = end_list->prev;
+		}
+	}
+
+	template<class T, class Alloc>
+	void list<T, Alloc>::unique() {
+		s_list		*list = _first_node;
+
+		while (list != _end_node)
+			if (*list->value == *list->next->value)
+				list = erase(list)._get_ptr();
+			else
+				list = list->next;
+	}
+
+	template<class T, class Alloc>
+	template<class BinaryPredicate>
+	void list<T, Alloc>::unique(BinaryPredicate binary_pred) {
+		s_list	*list = _first_node;
+
+		while (list != _end_node)
+			if (binary_pred(*list->value, *list->next->value))
+				list = erase(list)._get_ptr();
+			else
+				list = list->next;
 	}
 
 	template <class T, class Alloc>
