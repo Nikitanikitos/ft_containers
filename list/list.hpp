@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 19:08:35 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 19:26:29 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ namespace ft
 
 		bool    				empty() const { return (!_size); }
 		size_type				size() const {return (_size); };
-		size_type				max_size() const;
+		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
 		reference				front()
 							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
@@ -720,6 +720,35 @@ namespace ft
 		x._size -= segment_size;
 	}
 
+	template<class T, class Alloc>
+	void list<T, Alloc>::merge(list &x) {
+		iterator	it = begin();
+		iterator	x_it = begin();
+
+		while (it != end()) {
+			while (*it < *x_it) {
+				insert(it, *x_it);
+				x_it = x.erase(x_it);
+			}
+			++it;
+		}
+	}
+
+	template<class T, class Alloc>
+	template<class Compare>
+	void list<T, Alloc>::merge(list &x, Compare comp) {
+		iterator	it = begin();
+		iterator	x_it = begin();
+
+		while (it != end()) {
+			while (comp(*it < *x_it)) {
+				insert(it, *x_it);
+				x_it = x.erase(x_it);
+			}
+			++it;
+		}
+	}
+
 	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() != rhs.size())
@@ -797,6 +826,7 @@ namespace ft
 		}
 		return (*it_lhs > *it_rhs);
 	}
+
 	template <class T, class Alloc>
 	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() > rhs.size())
