@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 15:26:28 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/25 13:08:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,17 @@ namespace ft
 		s_list	*node;
 
 		node = _first_node;
-		_first_node = _first_node->next;
+		if (_first_node->prev == _end_node) {
+			_last_node = 0;
+			_first_node = 0;
+			_end_node->next = _end_node;
+			_end_node->prev = _end_node;
+		}
+		else {
+			_first_node = _first_node->next;
+			_last_node->next->next = _first_node;
+			_last_node->next = _end_node;
+		}
 		_destroy_node(node);
 	}
 
@@ -323,7 +333,17 @@ namespace ft
 		s_list	*node;
 
 		node = _last_node;
-		_last_node = _last_node->prev;
+		if (_last_node->prev == _end_node) {
+			_last_node = 0;
+			_first_node = 0;
+			_end_node->next = _end_node;
+			_end_node->prev = _end_node;
+		}
+		else {
+			_last_node = _last_node->prev;
+			_first_node->prev->prev = _last_node;
+			_last_node->next = _end_node;
+		}
 		_destroy_node(node);
 	}
 
