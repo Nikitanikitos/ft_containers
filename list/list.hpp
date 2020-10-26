@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 11:07:14 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 12:05:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -559,7 +559,7 @@ namespace ft
 		while (list != _last_node) {
 			flag = false;
 			temp_node = list->next;
-			while (temp_node != _last_node) {
+			while (temp_node != _end_node) {
 				if (*list->value > *temp_node->value) {
 					temp_value = *list->value;
 					*list->value = *temp_node->value;
@@ -631,9 +631,9 @@ namespace ft
 		x._first_last_node_init();
 
 		position_node->prev->next = node;
-		node->next = position_node->prev;
-		position_node->next->prev = node;
-		node->next = position_node->next;
+		node->prev = position_node->prev;
+		position_node->prev = node;
+		node->next = position_node;
 		_first_last_node_init();
 
 		_size++;
@@ -671,7 +671,7 @@ namespace ft
 		iterator	it = begin();
 		iterator	x_it = x.begin();
 
-		while (it != end()) {
+		while (x_it != x.end()) {
 			while (*x_it <= *it) {
 				insert(it, *x_it);
 				x_it = x.erase(x_it);
@@ -791,18 +791,18 @@ namespace ft
 
 	template <class T, class Alloc>
 	void swap (list<T,Alloc>& x, list<T,Alloc>& y) {
-		typename list<T,Alloc>::size_type	prev_this_size = x._size;
-		typename list<T,Alloc>::size_type	prev_list_size = y._size;
+		typename list<T,Alloc>::size_type	prev_this_size = x.size();
+		typename list<T,Alloc>::size_type	prev_list_size = y.size();
 		typename list<T,Alloc>::iterator	this_it = x.begin();
 		typename list<T,Alloc>::iterator	list_it = y.begin();
 		typename list<T,Alloc>::value_type	val;
 
-		if (x._size > y._size)
-			y.resize(x._size);
-		else if (y._size > x._size)
-			x.resize(y._size);
+		if (x.size() > y.size())
+			y.resize(x.size());
+		else if (y.size() > x.size())
+			x.resize(y.size());
 
-		for (typename list<T,Alloc>::size_type i = 0; i < x._size; ++i) {
+		for (typename list<T,Alloc>::size_type i = 0; i < x.size(); ++i) {
 			val = *this_it;
 			*this_it = *list_it;
 			*list_it = val;
