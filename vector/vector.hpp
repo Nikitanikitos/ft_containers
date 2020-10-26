@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 19:48:11 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 20:08:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,16 @@ namespace ft
 
 	public:
 		explicit	vector(const allocator_type& alloc = allocator_type())
-										: _ptr(0), _size(0), _capacity(0), _alloc(alloc) { }
+										: _ptr(0), _capacity(0), _size(0), _alloc(alloc) { }
 
 		explicit	vector(size_type n, const value_type& val = value_type(),
 				  									const allocator_type& alloc = allocator_type());
 
 		template <class InputIterator>
 					vector(InputIterator first, InputIterator last,
-													const allocator_type& alloc = allocator_type());
+													const allocator_type& alloc = allocator_type(),
+				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
+
 					vector(const vector& x);
 					~vector() { _alloc.deallocate(_ptr, _capacity); }
 
@@ -118,24 +120,25 @@ namespace ft
 	template<class T, class Alloc>
 	vector<T, Alloc>::vector(vector::size_type n, const value_type &val,
 							 const allocator_type &alloc) : _alloc(alloc) {
-		_ptr = _alloc.allocate(n + 20);
+		_ptr = _alloc.allocate(n + 5);
 		for (size_type i = 0; i < n; ++i)
 			_alloc.construct(_ptr + i, val);
 		_size = n;
-		_capacity = n + 20;
+		_capacity = n + 5;
 	}
 
 	template<class T, class Alloc>
 	template<class InputIterator>
-	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc) {
+	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc,
+					 typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*)
+																				: _alloc(alloc) {
 		size_type	i = 0;
 
-		_ptr = _alloc.allocate(20);
-		_capacity = 20;
-
+		_ptr = _alloc.allocate(5);
+		_capacity = 5;
 		for (; first != last; ++first) {
 			if (i == _capacity - 1)
-				_realloc(20);
+				_realloc(10);
 			_alloc.construct(_ptr + i, *first);
 			i++;
 		}
@@ -144,7 +147,6 @@ namespace ft
 	template<class T, class Alloc>
 	vector<T, Alloc>::vector(const vector &x)
 										: _capacity(x._capacity), _size(x._size), _alloc(x._alloc) {
-		~vector();
 		_ptr = _alloc.allocate(_capacity);
 		for (size_type i = 0; i < _size; ++i) {
 			_alloc.construct(_ptr + i, x[i]);
@@ -169,13 +171,19 @@ namespace ft
 	void vector<T, Alloc>::push_back(const value_type &val) {
 		if (_capacity < _size + 5)
 			_realloc(10);
-		_alloc.allocate(_ptr + _size, val);
+		_alloc.construct(_ptr + _size, val);
 		_size++;
 	}
 
 	template<class T, class Alloc>
 	void vector<T, Alloc>::pop_back() {
-		_alloc.destroy(_ptr, + _size - 1);
+		_alloc.destroy(_ptr + _size - 1);
+		_size--;
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::clear() {
+		while (_size) pop_back();
 	}
 
 	template <class T, class Alloc>
