@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 19:18:24 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 19:48:11 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ namespace ft
 					vector(InputIterator first, InputIterator last,
 													const allocator_type& alloc = allocator_type());
 					vector(const vector& x);
-
 					~vector() { _alloc.deallocate(_ptr, _capacity); }
 
 		iterator				begin()			{ return (_ptr); }
@@ -150,6 +149,33 @@ namespace ft
 		for (size_type i = 0; i < _size; ++i) {
 			_alloc.construct(_ptr + i, x[i]);
 		}
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::resize(vector::size_type n, value_type val) {
+		if (n > _capacity)
+			_realloc(n - _capacity);
+		while (n != _size)
+			(_size < n) ? push_back(val) : pop_back();
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::reserve(vector::size_type n) {
+		if (_capacity < n)
+			_realloc(_capacity - n);
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::push_back(const value_type &val) {
+		if (_capacity < _size + 5)
+			_realloc(10);
+		_alloc.allocate(_ptr + _size, val);
+		_size++;
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::pop_back() {
+		_alloc.destroy(_ptr, + _size - 1);
 	}
 
 	template <class T, class Alloc>
