@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 10:11:54 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 10:17:12 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,26 +110,24 @@ namespace ft
 			_size--;
 		}
 
-		void	_first_node_init(s_list *node) {
-			_last_node = node;
-			_first_node = _last_node;
+		void	_first_last_node_init() {
+			_first_node = _end_node->next;
+			_last_node = _end_node->prev;
 		}
 
-		void	_insert_in_front_of_the_node(s_list *node_position, s_list *node) {
+		void	_insert_in_front_node(s_list *node_position, s_list *node) {
+			node_position->prev->next = node;
 			node->prev = node_position->prev;
 			node->next = node_position;
-			node_position->prev->next = node;
 			node_position->prev = node;
 		}
 
-		void	_check_first_or_end_node(s_list *node_position, s_list *node) {
-
-			if (_first_node == node_position)
-				_first_node = node;
-			else if (_end_node == node_position)
-				_last_node = node;
-			if (!_first_node)
-				_first_node = _last_node;
+		void	_check_for_insert() { // TODO think about better name
+			_first_node = _end_node->next;
+			if (_size == 0)
+				_last_node = _first_node;
+			else
+				_last_node = _end_node->prev;
 		}
 
 		size_type	_get_segment_size(iterator begin, iterator end) {
@@ -160,27 +158,23 @@ namespace ft
 		list& operator=(const list&);
 		~list();
 
-		iterator				begin()  { return (_end_node->next); }
-		const_iterator			begin() const { return (_end_node->next); }
-		iterator				end() { return (_end_node); }
-		const_iterator			end() const { return (_end_node); }
-		reverse_iterator		rbegin() { return (_end_node->prev); }
-		const_reverse_iterator	rbegin() const { return (_end_node->prev); }
-		reverse_iterator		rend() { return (_end_node); }
-		const_reverse_iterator	rend() const { return (_end_node); }
+		iterator				begin()			{ return (_end_node->next); }
+		const_iterator			begin() const	{ return (_end_node->next); }
+		iterator				end()			{ return (_end_node); }
+		const_iterator			end() const		{ return (_end_node); }
+		reverse_iterator		rbegin()		{ return (_end_node->prev); }
+		const_reverse_iterator	rbegin() const	{ return (_end_node->prev); }
+		reverse_iterator		rend()			{ return (_end_node); }
+		const_reverse_iterator	rend() const	{ return (_end_node); }
 
-		bool    				empty() const { return (!_size); }
-		size_type				size() const {return (_size); };
+		bool    				empty() const	{ return (!_size); }
+		size_type				size() const	{return (_size); };
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
-		reference				front()
-							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
-		const_reference			front() const
-							{ return (_first_node) ? (*_first_node->value) : (*_end_node->value); }
-		reference				back()
-							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
-		const_reference			back() const
-							{ return (_last_node) ? (*_last_node->value) : (*_end_node->value); }
+		reference				front()			{ return (*_first_node->value); }
+		const_reference			front() const	{ return (*_first_node->value); }
+		reference				back()			{ return (*_last_node->value); }
+		const_reference			back() const	{ return (*_last_node->value); }
 
 		template <class InputIterator>
 		void			assign(InputIterator, InputIterator,
@@ -223,15 +217,10 @@ namespace ft
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
 										: _size(0), _alloc(alloc) {
 		_create_end_node();
-		_first_node = _end_node;
-		_last_node = _end_node;
+		_first_last_node_init();
 
-//		if (n == 0) return ;
 		for (size_type i = 0; i < n; ++i)
 			push_back(val);
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -240,14 +229,10 @@ namespace ft
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *)
 										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
 		_create_end_node();
-		_first_node = _end_node;
-		_last_node = _end_node;
+		_first_last_node_init();
 
 		for(; first != last; ++first)
 			push_back(*first);
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -256,15 +241,10 @@ namespace ft
 		const_iterator	it = list.begin();
 
 		_create_end_node();
-		_first_node = _end_node;
-		_last_node = _end_node;
+		_first_last_node_init();
 
 		for(; it != list.end(); ++it)
 			push_back(*it);
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-
-//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -289,9 +269,7 @@ namespace ft
 		}
 		while (_size > list._size)
 			pop_back();
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-//		_tie_end_node();
+		_first_last_node_init();
 		return (*this);
 	}
 
@@ -376,9 +354,6 @@ namespace ft
 		}
 		while (i < _size)
 			pop_back();
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -396,9 +371,6 @@ namespace ft
 		}
 		while (i < _size)
 			pop_back();
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -407,15 +379,8 @@ namespace ft
 		s_list		*temp_node = _new_node_init(val);
 		s_list		*node_position = position._get_ptr();
 
-		node_position->prev->next = temp_node;
-		temp_node->prev = node_position->prev;
-		temp_node->next = node_position;
-		node_position->prev = temp_node;
-		_first_node = _end_node->next;
-		if (_size == 0)
-			_last_node = _first_node;
-		else
-			_last_node = _end_node->prev;
+		_insert_in_front_node(node_position, temp_node);
+		_check_for_insert();
 		_size++;
 		return (temp_node);
 	}
@@ -427,17 +392,10 @@ namespace ft
 
 		for (size_type i = 0; i < n; ++i) {
 			temp_node = _new_node_init(val);
-			node_position->prev->next = temp_node;
-			temp_node->prev = node_position->prev;
-			temp_node->next = node_position;
-			node_position->prev = temp_node;
+			_insert_in_front_node(node_position, temp_node);
 			_size++;
 		}
-		_first_node = _end_node->next;
-		if (_size == 0)
-			_last_node = _first_node;
-		else
-			_last_node = _end_node->prev;
+		_check_for_insert();
 	}
 
 	template<class T, class Alloc>
@@ -449,17 +407,10 @@ namespace ft
 
 		for (; first != last; ++first) {
 			temp_node = _new_node_init(*first);
-			node_position->prev->next = temp_node;
-			temp_node->prev = node_position->prev;
-			temp_node->next = node_position;
-			node_position->prev = temp_node;
+			_insert_in_front_node(node_position, temp_node);
 			_size++;
 		}
-		_first_node = _end_node->next;
-		if (_size == 0)
-			_last_node = _first_node;
-		else
-			_last_node = _end_node->prev;
+		_check_for_insert();
 	}
 
 	template<class T, class Alloc>
@@ -472,8 +423,8 @@ namespace ft
 			_alloc.deallocate(temp_node->value, 1);
 			_alloc_rebind.deallocate(temp_node, 1);
 		}
-		_first_node = 0;
-		_last_node = 0;
+		_first_node = _end_node;
+		_last_node = _end_node;
 		_size = 0;
 		_end_node->prev = _end_node; // TODO вынести в отдельный метод
 		_end_node->next = _end_node;
@@ -488,15 +439,7 @@ namespace ft
 		node_position->next->prev = node_position->prev;
 
 		_destroy_node(node_position);
-
-		if (_size == 0) {
-			_first_node = 0;
-			_last_node = 0;
-		}
-		else {
-			_last_node = _end_node->prev;
-			_first_node = _end_node->next;
-		}
+		_first_last_node_init();
 		return (it);
 	}
 
