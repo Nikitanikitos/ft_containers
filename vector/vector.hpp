@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 20:08:31 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 22:33:33 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 
 # include <iostream>
 # include <string>
-
+# include "random_access_iterator.hpp"
+# include "reverse_random_access_iterator.hpp"
 
 namespace ft
 {
@@ -32,18 +33,18 @@ namespace ft
 	class	vector
 	{
 	public:
-		typedef				T									value_type;
-		typedef				Alloc								allocator_type;
-		typedef typename	allocator_type::reference			reference;
-		typedef typename	allocator_type::const_reference		const_reference;
-		typedef typename	allocator_type::pointer				pointer;
-		typedef typename	allocator_type::const_pointer		const_pointer;
-		typedef 			std::reverse_iterator<T>			iterator;
-		typedef				std::reverse_iterator<T>			const_iterator;
-		typedef				std::reverse_iterator<T>			reverse_iterator;
-		typedef				std::reverse_iterator<T>			const_reverse_iterator;
-		typedef				std::ptrdiff_t						difference_type;
-		typedef				std::size_t							size_type;
+		typedef				T											value_type;
+		typedef				Alloc										allocator_type;
+		typedef typename	allocator_type::reference					reference;
+		typedef typename	allocator_type::const_reference				const_reference;
+		typedef typename	allocator_type::pointer						pointer;
+		typedef typename	allocator_type::const_pointer				const_pointer;
+		typedef 			ft::random_access_iterator<T>				iterator;
+		typedef				ft::const_random_access_iterator<T>			const_iterator;
+		typedef				ft::rev_random_access_iterator<T>			reverse_iterator;
+		typedef				ft::const_rev_random_access_iterator<T>		const_reverse_iterator;
+		typedef				std::ptrdiff_t								difference_type;
+		typedef				std::size_t									size_type;
 
 	private:
 		T*				_ptr;
@@ -74,7 +75,7 @@ namespace ft
 				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 
 					vector(const vector& x);
-					~vector() { _alloc.deallocate(_ptr, _capacity); }
+//					~vector() { _alloc.deallocate(_ptr, _capacity - 1); }
 
 		iterator				begin()			{ return (_ptr); }
 		const_iterator			begin() const	{ return (_ptr); }
@@ -131,17 +132,9 @@ namespace ft
 	template<class InputIterator>
 	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc,
 					 typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*)
-																				: _alloc(alloc) {
-		size_type	i = 0;
-
-		_ptr = _alloc.allocate(5);
-		_capacity = 5;
-		for (; first != last; ++first) {
-			if (i == _capacity - 1)
-				_realloc(10);
-			_alloc.construct(_ptr + i, *first);
-			i++;
-		}
+												: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
+		for (; first != last; ++first)
+			push_back(*first);
 	}
 
 	template<class T, class Alloc>

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 19:06:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 22:32:14 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,18 @@ namespace ft
 			return (*this);
 		}
 
-		bool	operator==(const random_access_iterator<T> &x) { return (*_ptr == *x._ptr); }
-		bool	operator!=(const random_access_iterator<T> &x) { return (*_ptr != *x._ptr); }
-		bool	operator<(const random_access_iterator<T> &x) { return (*_ptr < *x._ptr); }
-		bool	operator<=(const random_access_iterator<T> &x) { return (*_ptr <= *x._ptr); }
-		bool	operator>(const random_access_iterator<T> &x) { return (*_ptr > *x._ptr); }
-		bool	operator>=(const random_access_iterator<T> &x) { return (*_ptr >= *x._ptr); }
+		bool	operator==(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr == *x._ptr) : (_ptr == x._ptr); }
+		bool	operator!=(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr != *x._ptr) : (_ptr != x._ptr); }
+		bool	operator<(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr < *x._ptr) : (_ptr < x._ptr); }
+		bool	operator<=(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr <= *x._ptr) : (_ptr <= x._ptr); }
+		bool	operator>(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr > *x._ptr) : (_ptr > x._ptr); }
+		bool	operator>=(const random_access_iterator<T> &x)
+				{ return (_ptr != NULL && x._ptr != NULL) ? (*_ptr >= *x._ptr) : (_ptr >= x._ptr); }
 
 		random_access_iterator<T>	&operator++() { _ptr++; return (*this); }
 		random_access_iterator<T>	&operator--() { _ptr--; return (*this); }
