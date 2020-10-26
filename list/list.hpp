@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/25 19:41:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 09:44:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,17 +323,9 @@ namespace ft
 		s_list	*node;
 
 		node = _first_node;
-		if (_first_node->prev == _end_node) {
-			_last_node = 0;
-			_first_node = 0;
-			_end_node->next = _end_node;
-			_end_node->prev = _end_node;
-		}
-		else {
-			_first_node = _first_node->next;
-			_last_node->next->next = _first_node;
-			_last_node->next = _end_node;
-		}
+		_first_node->prev->next = _first_node->next;
+		_first_node->next->prev = _first_node->prev;
+		_first_node = _end_node->next;
 		_destroy_node(node);
 	}
 
@@ -342,17 +334,9 @@ namespace ft
 		s_list	*node;
 
 		node = _last_node;
-		if (_last_node->prev == _end_node) {
-			_last_node = 0;
-			_first_node = 0;
-			_end_node->next = _end_node;
-			_end_node->prev = _end_node;
-		}
-		else {
-			_last_node = _last_node->prev;
-			_first_node->prev->prev = _last_node;
-			_last_node->next = _end_node;
-		}
+		_last_node->prev->next = _last_node->next;
+		_last_node->next->prev = _last_node->prev;
+		_last_node = _end_node->prev;
 		_destroy_node(node);
 	}
 
@@ -454,28 +438,26 @@ namespace ft
 		_size = 0;
 		_end_node->prev = _end_node; // TODO вынести в отдельный метод
 		_end_node->next = _end_node;
-//		_tie_end_node(); // TODO ?
 	}
 
 	template<class T, class Alloc>
 	typename list<T, Alloc>::iterator list<T, Alloc>::erase(list::iterator position) {
 		s_list		*node_position = position._get_ptr();
-		iterator	it;
+		iterator	it = node_position->next;
 
-		if (_size == 1) {
+		node_position->prev->next = node_position->next;
+		node_position->next->prev = node_position->prev;
+
+		_destroy_node(node_position);
+
+		if (_size == 0) {
 			_first_node = 0;
 			_last_node = 0;
 		}
-		else if (node_position == _first_node)
-			_first_node = _first_node->next;
-		else if (node_position == _last_node)
-			_last_node = _last_node->prev;
-		node_position->prev->next = node_position->next;
-		node_position->next->prev = node_position->prev;
-		it = node_position->next;
-		_alloc.deallocate(node_position->value, 1);
-		_alloc_rebind.deallocate(node_position, 1);
-		_size--;
+		else {
+			_last_node = _end_node->prev;
+			_first_node = _end_node->next;
+		}
 		return (it);
 	}
 
@@ -534,9 +516,7 @@ namespace ft
 			++this_it;
 			++list_it;
 		}
-//		if (prev_list_size != list._size)
 			list.resize(prev_this_size);
-//		if (prev_this_size != _size)
 			this->resize(prev_list_size);
 	}
 
@@ -674,7 +654,10 @@ namespace ft
 	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator i) {
 		s_list		*list = position._get_ptr();
 		s_list		*node = i._get_ptr();
-		value_type	segment_size;
+		value_type	segment_size = _get_segment_size(i, x.end());
+
+		_size += segment_size;
+		x._size -= segment_size;
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
@@ -690,9 +673,6 @@ namespace ft
 		_first_node = _end_node->next;
 		_last_node = _last_node->prev;
 
-		segment_size = _get_segment_size(i, x.end());
-		_size += segment_size;
-		x._size -= segment_size;
 	}
 
 	template<class T, class Alloc>
@@ -701,7 +681,10 @@ namespace ft
 		s_list		*list = position._get_ptr();
 		s_list		*first_node = first._get_ptr();
 		s_list		*last_node = last._get_ptr();
-		value_type	segment_size;
+		value_type	segment_size = _get_segment_size(first, last);
+
+		_size += segment_size;
+		x._size -= segment_size;
 
 		first_node->prev->next = last_node->next;
 		last_node->next->prev = first_node->prev;
@@ -716,19 +699,15 @@ namespace ft
 
 		_first_node = _end_node->next;
 		_last_node = _last_node->prev;
-
-		segment_size = _get_segment_size(first, last);
-		_size += segment_size;
-		x._size -= segment_size;
 	}
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::merge(list &x) {
 		iterator	it = begin();
-		iterator	x_it = begin();
+		iterator	x_it = x.begin();
 
 		while (it != end()) {
-			while (*it < *x_it) {
+			while (*x_it <= *it) {
 				insert(it, *x_it);
 				x_it = x.erase(x_it);
 			}
@@ -740,10 +719,10 @@ namespace ft
 	template<class Compare>
 	void list<T, Alloc>::merge(list &x, Compare comp) {
 		iterator	it = begin();
-		iterator	x_it = begin();
+		iterator	x_it = x.begin();
 
 		while (it != end()) {
-			while (comp(*it < *x_it)) {
+			while (comp(*x_it, *it)) {
 				insert(it, *x_it);
 				x_it = x.erase(x_it);
 			}

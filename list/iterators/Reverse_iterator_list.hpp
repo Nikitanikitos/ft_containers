@@ -93,14 +93,14 @@ public:
 	ConstRevIteratorList<T, U>		operator++(int) {
 		ConstRevIteratorList<T, U>		temp(_ptr);
 
-		_ptr = _ptr->next;
+		_ptr = _ptr->prev;
 		return (temp);
 	}
 
 	ConstRevIteratorList<T, U>		operator--(int) {
 		IteratorList<T, U>		temp(_ptr);
 
-		_ptr = _ptr->prev;
+		_ptr = _ptr->next;
 		return (temp);
 	}
 };
