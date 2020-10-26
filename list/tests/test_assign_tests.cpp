@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
-											((typename T, int V), T, V), (int, 10), (char, 20)) {
+										((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	ft::list<T>							ft_list_for_assign;
 	std::list<T>						list_for_assign;
@@ -145,7 +145,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
-											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+										   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 15:01:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 15:23:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,8 @@ namespace ft
 			_alloc.deallocate(temp_node->value, 1);
 			_alloc_rebind.deallocate(temp_node, 1);
 		}
+		_alloc.deallocate(_end_node->value, 1);
+		_alloc_rebind.deallocate(_end_node, 1);
 	}
 
 	template<class T, class Alloc>
