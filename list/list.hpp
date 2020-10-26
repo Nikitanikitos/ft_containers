@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 12:05:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 12:17:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -672,11 +672,12 @@ namespace ft
 		iterator	x_it = x.begin();
 
 		while (x_it != x.end()) {
-			while (*x_it <= *it) {
+			while ((*x_it <= *it || it == end()) && x_it != x.end()) {
 				insert(it, *x_it);
 				x_it = x.erase(x_it);
 			}
-			++it;
+			if (it != end())
+				++it;
 		}
 	}
 
@@ -686,12 +687,13 @@ namespace ft
 		iterator	it = begin();
 		iterator	x_it = x.begin();
 
-		while (it != end()) {
-			while (comp(*x_it, *it)) {
+		while (x_it != x.end()) {
+			while ((comp(*x_it, *it) || it == end()) && x_it != x.end()) {
 				insert(it, *x_it);
 				x_it = x.erase(x_it);
 			}
-			++it;
+			if (it != end())
+				++it;
 		}
 	}
 
