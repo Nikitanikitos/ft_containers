@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 14:33:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 15:01:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -553,23 +553,18 @@ namespace ft
 		value_type	temp_value;
 		s_list		*temp_node;
 		s_list		*list;
-		bool		flag;
 
 		list = _first_node;
-		while (list != _last_node) {
-			flag = false;
+		while (list != _end_node) {
 			temp_node = list->next;
 			while (temp_node != _end_node) {
 				if (*list->value > *temp_node->value) {
 					temp_value = *list->value;
 					*list->value = *temp_node->value;
 					*temp_node->value = temp_value;
-					flag = true;
 				}
 				temp_node = temp_node->next;
 			}
-			if (!flag)
-				return ;
 			list = list->next;
 		}
 	}
@@ -580,23 +575,18 @@ namespace ft
 		value_type	temp_value;
 		s_list		*temp_node;
 		s_list		*list;
-		bool		flag;
 
 		list = _first_node;
 		while (list != _last_node) {
-			flag = false;
 			temp_node = list->next;
 			while (temp_node != _end_node) {
 				if (!comp(*list->value, *temp_node->value)) {
 					temp_value = *list->value;
 					*list->value = *temp_node->value;
 					*temp_node->value = temp_value;
-					flag = true;
 				}
 				temp_node = temp_node->next;
 			}
-			if (!flag)
-				return ;
 			list = list->next;
 		}
 
@@ -647,7 +637,6 @@ namespace ft
 		s_list		*first_node = first._get_ptr();
 		s_list		*last_node = last._get_ptr();
 		s_list		*new_last_node = last_node->prev;
-
 		value_type	segment_size = _get_segment_size(first, last);
 
 		_size += segment_size;
@@ -656,13 +645,9 @@ namespace ft
 		first_node->prev->next = last_node;
 		last_node->prev = first_node->prev;
 		x._first_last_node_init();
-
 		first_node->prev = position_node->prev;
 		position_node->prev->next = first_node;
-
-
 		new_last_node->next = position_node;
-
 		position_node->prev = new_last_node;
 		_first_last_node_init();
 	}
