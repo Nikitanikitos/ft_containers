@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 17:44:00 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 19:06:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ namespace ft
 																	{ return (*_ptr + *x._ptr); }
 
 		random_access_iterator<T>	operator+=(random_access_iterator<T> &x) {
-			_ptr += x;
+			_ptr += x._ptr;
 			return (*this);
 		}
 		random_access_iterator<T>	operator-=(random_access_iterator<T> &x) {
-			_ptr -= x;
+			_ptr -= x._ptr;
 			return (*this);
 		}
 		random_access_iterator<T>	operator[](size_t n) { return (_ptr[n]); }
@@ -149,7 +149,6 @@ namespace ft
 
 		T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 	};
-
 }
 
 #endif //FT_CONTAINERS_RANDOM_ACCESS_ITERATOR_HPP

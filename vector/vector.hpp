@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 17:30:41 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 19:18:24 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,22 @@ namespace ft
 		T*				_ptr;
 		size_type		_capacity;
 		size_type		_size;
+		allocator_type	_alloc;
+
+		void		_realloc(const size_type n) {
+			T*			temp_ptr = _alloc.allocate(_capacity + n);
+
+			for (int i = 0; i < _size; ++i)
+				_alloc.construct(temp_ptr + i, _ptr[i]);
+			_alloc.deallocate(_ptr, _capacity);
+			_capacity += n;
+			_ptr = temp_ptr;
+		}
 
 	public:
-		explicit	vector(const allocator_type& alloc = allocator_type());
+		explicit	vector(const allocator_type& alloc = allocator_type())
+										: _ptr(0), _size(0), _capacity(0), _alloc(alloc) { }
+
 		explicit	vector(size_type n, const value_type& val = value_type(),
 				  									const allocator_type& alloc = allocator_type());
 
@@ -59,6 +72,8 @@ namespace ft
 					vector(InputIterator first, InputIterator last,
 													const allocator_type& alloc = allocator_type());
 					vector(const vector& x);
+
+					~vector() { _alloc.deallocate(_ptr, _capacity); }
 
 		iterator				begin()			{ return (_ptr); }
 		const_iterator			begin() const	{ return (_ptr); }
@@ -100,6 +115,42 @@ namespace ft
 		void					swap (vector& x);
 		void					clear();
 	};
+
+	template<class T, class Alloc>
+	vector<T, Alloc>::vector(vector::size_type n, const value_type &val,
+							 const allocator_type &alloc) : _alloc(alloc) {
+		_ptr = _alloc.allocate(n + 20);
+		for (size_type i = 0; i < n; ++i)
+			_alloc.construct(_ptr + i, val);
+		_size = n;
+		_capacity = n + 20;
+	}
+
+	template<class T, class Alloc>
+	template<class InputIterator>
+	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc) {
+		size_type	i = 0;
+
+		_ptr = _alloc.allocate(20);
+		_capacity = 20;
+
+		for (; first != last; ++first) {
+			if (i == _capacity - 1)
+				_realloc(20);
+			_alloc.construct(_ptr + i, *first);
+			i++;
+		}
+	}
+
+	template<class T, class Alloc>
+	vector<T, Alloc>::vector(const vector &x)
+										: _capacity(x._capacity), _size(x._size), _alloc(x._alloc) {
+		~vector();
+		_ptr = _alloc.allocate(_capacity);
+		for (size_type i = 0; i < _size; ++i) {
+			_alloc.construct(_ptr + i, x[i]);
+		}
+	}
 
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
