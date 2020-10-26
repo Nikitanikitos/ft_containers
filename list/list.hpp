@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 15:23:35 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 16:59:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 # include <iostream>
 # include <string>
-# include "Iterator_list.hpp"
-# include "Reverse_iterator_list.hpp"
-
-
+# include "bidirectional_iterator.hpp"
+# include "reverse_bidirectional_iterator.hpp"
 
 namespace ft
 {
@@ -49,15 +47,14 @@ namespace ft
 		typedef typename	allocator_type::const_reference		const_reference;
 		typedef typename	allocator_type::pointer				pointer;
 		typedef typename	allocator_type::const_pointer		const_pointer;
-		typedef 			IteratorList<s_list, T>				iterator;
-		typedef				ConstIteratorList<s_list, T>		const_iterator;
-		typedef				RevIteratorList<s_list, T>			reverse_iterator;
-		typedef				ConstRevIteratorList<s_list, T>		const_reverse_iterator;
+		typedef 			bidirectional_iterator<s_list, T>				iterator;
+		typedef				const_bidirectional_iterator<s_list, T>		const_iterator;
+		typedef				rev_bidirectional_iterator<s_list, T>			reverse_iterator;
+		typedef				const_rev_bidirectional_iterator<s_list, T>		const_reverse_iterator;
 		typedef				std::ptrdiff_t						difference_type;
 		typedef				std::size_t							size_type;
 
 		typedef typename allocator_type::template rebind<s_list>::other		alloc_rebind;
-
 
 	private:
 		s_list			*_first_node;

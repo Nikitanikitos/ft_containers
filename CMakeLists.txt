@@ -23,7 +23,7 @@ add_executable(ft_containers
         list/tests/list_unique_tests.cpp
         list/tests/list_sort_tests.cpp
         list/tests/list_splice_list.cpp
-        list/tests/list_merge_lists.cpp)
+        list/tests/list_merge_lists.cpp vector/vector.hpp vector/iterators/const_random_access_iterator.hpp)
 
 include_directories(
         list
