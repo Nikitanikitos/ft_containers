@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   const_random_access_iterator.hpp                   :+:      :+:    :+:   */
+/*   random_access_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 17:19:34 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:24:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CONTAINERS_CONST_RANDOM_ACCESS_ITERATOR_HPP
-# define FT_CONTAINERS_CONST_RANDOM_ACCESS_ITERATOR_HPP
+#ifndef FT_CONTAINERS_RANDOM_ACCESS_ITERATOR_HPP
+# define FT_CONTAINERS_RANDOM_ACCESS_ITERATOR_HPP
 
 # include <iostream>
 # include <iterator>
@@ -44,6 +44,13 @@ namespace ft
 
 		random_access_iterator<T>	operator++(int);
 		random_access_iterator<T>	operator--(int);
+
+		random_access_iterator<T>	operator+(random_access_iterator<T> &);
+		random_access_iterator<T>	operator-(random_access_iterator<T> &);
+
+		random_access_iterator<T>	operator+=(random_access_iterator<T> &);
+		random_access_iterator<T>	operator-=(random_access_iterator<T> &);
+		random_access_iterator<T>	operator[](size_t);
 
 		T		&operator*();
 		T		*operator->();
@@ -80,6 +87,14 @@ namespace ft
 		const_random_access_iterator<T>	operator++(int);
 		const_random_access_iterator<T>	operator--(int);
 
+		const_random_access_iterator<T>	operator+(const_random_access_iterator<T> &);
+		const_random_access_iterator<T>	operator-(const_random_access_iterator<T> &);
+
+		const_random_access_iterator<T>	operator+=(const_random_access_iterator<T> &);
+		const_random_access_iterator<T>	operator-=(const_random_access_iterator<T> &);
+		const T							operator[](size_t);
+
+
 		T		&operator*();
 		T		*operator->();
 
@@ -89,4 +104,4 @@ namespace ft
 
 }
 
-#endif //FT_CONTAINERS_CONST_RANDOM_ACCESS_ITERATOR_HPP
+#endif //FT_CONTAINERS_RANDOM_ACCESS_ITERATOR_HPP
