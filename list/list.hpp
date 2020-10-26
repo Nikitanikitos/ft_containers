@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 10:17:12 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:07:14 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,31 +451,22 @@ namespace ft
 		s_list		*temp_node;
 		iterator	it;
 
-		if (first == last)
-			return (first);
 		first_node->prev->next = last_node;
 		last_node->prev = first_node->prev;
 		it = last_node;
-		if (first_node == _first_node)
-			_first_node = _end_node->next;
-		else if (last_node == _last_node)
-			_last_node = last_node;
 		while (first_node != last_node) {
 			temp_node = first_node;
 			first_node = first_node->next;
 			_destroy_node(temp_node);
 		}
+		_first_last_node_init();
 		return (it);
 	}
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::resize(list::size_type n, value_type val) {
-		while (_size != n) {
-			if (_size < n)
-				push_back(val);
-			else
-				pop_back();
-		}
+		while (_size != n)
+			(_size < n) ? push_back(val) : pop_back();
 	}
 
 	template<class T, class Alloc>
@@ -620,13 +611,11 @@ namespace ft
 		node->prev = x._last_node;
 		x._last_node->next = node;
 
-		_first_node = _end_node->next;
-		_last_node = _last_node->prev;
+		_first_last_node_init();
 
 		x._end_node->next = x._end_node;
 		x._end_node->prev = x._end_node;
-		x._last_node = 0;
-		x._first_node = 0;
+		x._first_last_node_init();
 
 		_size += x._size;
 		x._size = 0;
@@ -634,27 +623,21 @@ namespace ft
 
 	template<class T, class Alloc>
 	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator i) {
-		s_list		*list = position._get_ptr();
+		s_list		*position_node = position._get_ptr();
 		s_list		*node = i._get_ptr();
-		value_type	segment_size = _get_segment_size(i, x.end());
-
-		_size += segment_size;
-		x._size -= segment_size;
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
+		x._first_last_node_init();
 
-		x._first_node = x._end_node->next;
-		x._last_node = x._last_node->prev;
+		position_node->prev->next = node;
+		node->next = position_node->prev;
+		position_node->next->prev = node;
+		node->next = position_node->next;
+		_first_last_node_init();
 
-		list->prev->next = node;
-		node->prev = list->prev;
-		node->next = list;
-		list->prev = node;
-
-		_first_node = _end_node->next;
-		_last_node = _last_node->prev;
-
+		_size++;
+		x._size--;
 	}
 
 	template<class T, class Alloc>
@@ -663,24 +646,24 @@ namespace ft
 		s_list		*list = position._get_ptr();
 		s_list		*first_node = first._get_ptr();
 		s_list		*last_node = last._get_ptr();
+
 		value_type	segment_size = _get_segment_size(first, last);
 
 		_size += segment_size;
 		x._size -= segment_size;
 
-		first_node->prev->next = last_node->next;
-		last_node->next->prev = first_node->prev;
+		first_node->prev->next = last_node;
+		last_node->prev = first_node->prev;
 
-		x._first_node = x._end_node->next;
-		x._last_node = x._last_node->prev;
+		x._first_last_node_init();
 
+		last_node = last_node->prev;
 		list->prev->next = first_node;
 		first_node->prev = list->prev;
 		last_node->prev = list;
 		list->prev = last_node;
 
-		_first_node = _end_node->next;
-		_last_node = _last_node->prev;
+		_first_last_node_init();
 	}
 
 	template<class T, class Alloc>
@@ -804,6 +787,31 @@ namespace ft
 			++it_lhs;
 		}
 		return (*it_lhs >= *it_rhs);
+	}
+
+	template <class T, class Alloc>
+	void swap (list<T,Alloc>& x, list<T,Alloc>& y) {
+		typename list<T,Alloc>::size_type	prev_this_size = x._size;
+		typename list<T,Alloc>::size_type	prev_list_size = y._size;
+		typename list<T,Alloc>::iterator	this_it = x.begin();
+		typename list<T,Alloc>::iterator	list_it = y.begin();
+		typename list<T,Alloc>::value_type	val;
+
+		if (x._size > y._size)
+			y.resize(x._size);
+		else if (y._size > x._size)
+			x.resize(y._size);
+
+		for (typename list<T,Alloc>::size_type i = 0; i < x._size; ++i) {
+			val = *this_it;
+			*this_it = *list_it;
+			*list_it = val;
+			++this_it;
+			++list_it;
+		}
+		y.resize(prev_this_size);
+		x.resize(prev_list_size);
+
 	}
 }
 
