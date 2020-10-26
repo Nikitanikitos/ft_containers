@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 09:44:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 10:11:54 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,10 @@ namespace ft
 
 	public:
 		explicit list(const allocator_type& alloc = allocator_type())
-									: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+									: _size(0), _alloc(alloc) {
 			_create_end_node();
+			_first_node = _end_node;
+			_last_node = _end_node;
 		};
 
 		explicit list(size_type, const value_type& val = value_type(),
@@ -219,13 +221,17 @@ namespace ft
 
 	template<class T, class Alloc>
 	list<T, Alloc>::list(list::size_type n, const value_type &val, const allocator_type &alloc)
-										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+										: _size(0), _alloc(alloc) {
 		_create_end_node();
+		_first_node = _end_node;
+		_last_node = _end_node;
 
-		if (n == 0) return ;
+//		if (n == 0) return ;
 		for (size_type i = 0; i < n; ++i)
 			push_back(val);
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -234,9 +240,14 @@ namespace ft
 					 typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *)
 										: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
 		_create_end_node();
+		_first_node = _end_node;
+		_last_node = _end_node;
+
 		for(; first != last; ++first)
 			push_back(*first);
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -245,9 +256,15 @@ namespace ft
 		const_iterator	it = list.begin();
 
 		_create_end_node();
+		_first_node = _end_node;
+		_last_node = _end_node;
+
 		for(; it != list.end(); ++it)
 			push_back(*it);
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+
+//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -272,7 +289,9 @@ namespace ft
 		}
 		while (_size > list._size)
 			pop_back();
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+//		_tie_end_node();
 		return (*this);
 	}
 
@@ -292,14 +311,14 @@ namespace ft
 	void list<T, Alloc>::push_back(const value_type &val) {
 		s_list		*node = _new_node_init(val);
 
-		if (!_last_node)
-			_first_node_init(node);
-		else {
-			node->prev = _last_node;
-			_last_node->next = node;
-			_last_node = node;
-		}
-		_tie_end_node();
+		_end_node->prev = node;
+		node->next = _end_node;
+		node->prev = _last_node;
+		_last_node->next = node;
+		_last_node = _end_node->prev;
+
+		if (_first_node == _end_node)
+			_first_node = _last_node;
 		_size++;
 	}
 
@@ -307,14 +326,14 @@ namespace ft
 	void list<T, Alloc>::push_front(const value_type &val) {
 		s_list		*node = _new_node_init(val);
 
-		if (!_first_node)
-			_first_node_init(node);
-		else {
-			node->next = _first_node;
-			_first_node->prev = node;
-			_first_node = node;
-		}
-		_tie_end_node();
+		_end_node->next = node;
+		node->prev = _end_node;
+		node->next = _first_node;
+		_first_node->prev = node;
+		_first_node = _end_node->next;
+
+		if (_last_node == _end_node)
+			_last_node = _first_node;
 		_size++;
 	}
 
@@ -357,7 +376,9 @@ namespace ft
 		}
 		while (i < _size)
 			pop_back();
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
@@ -375,18 +396,26 @@ namespace ft
 		}
 		while (i < _size)
 			pop_back();
-		_tie_end_node();
+		_first_node = _end_node->next;
+		_last_node = _end_node->prev;
+//		_tie_end_node();
 	}
 
 	template<class T, class Alloc>
 	typename list<T, Alloc>::iterator list<T,Alloc>::insert(iterator position,
 														 					const value_type &val) {
-		s_list		*temp_node;
+		s_list		*temp_node = _new_node_init(val);
 		s_list		*node_position = position._get_ptr();
 
-		temp_node = _new_node_init(val);
-		_insert_in_front_of_the_node(node_position, temp_node);
-		_check_first_or_end_node(node_position, temp_node);
+		node_position->prev->next = temp_node;
+		temp_node->prev = node_position->prev;
+		temp_node->next = node_position;
+		node_position->prev = temp_node;
+		_first_node = _end_node->next;
+		if (_size == 0)
+			_last_node = _first_node;
+		else
+			_last_node = _end_node->prev;
 		_size++;
 		return (temp_node);
 	}
@@ -396,14 +425,19 @@ namespace ft
 		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
-		if (!n)
-			return ;
 		for (size_type i = 0; i < n; ++i) {
 			temp_node = _new_node_init(val);
-			_insert_in_front_of_the_node(node_position, temp_node);
+			node_position->prev->next = temp_node;
+			temp_node->prev = node_position->prev;
+			temp_node->next = node_position;
+			node_position->prev = temp_node;
 			_size++;
 		}
-		_check_first_or_end_node(node_position, temp_node);
+		_first_node = _end_node->next;
+		if (_size == 0)
+			_last_node = _first_node;
+		else
+			_last_node = _end_node->prev;
 	}
 
 	template<class T, class Alloc>
@@ -413,14 +447,19 @@ namespace ft
 		s_list		*temp_node;
 		s_list		*node_position = position._get_ptr();
 
-		if (first == last)
-			return ;
 		for (; first != last; ++first) {
 			temp_node = _new_node_init(*first);
-			_insert_in_front_of_the_node(node_position, temp_node);
+			node_position->prev->next = temp_node;
+			temp_node->prev = node_position->prev;
+			temp_node->next = node_position;
+			node_position->prev = temp_node;
 			_size++;
 		}
-		_check_first_or_end_node(node_position, temp_node);
+		_first_node = _end_node->next;
+		if (_size == 0)
+			_last_node = _first_node;
+		else
+			_last_node = _end_node->prev;
 	}
 
 	template<class T, class Alloc>
