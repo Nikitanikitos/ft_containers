@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 12:17:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 14:33:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -643,9 +643,10 @@ namespace ft
 	template<class T, class Alloc>
 	void list<T, Alloc>::splice(list::iterator position, list &x, list::iterator first,
 																			list::iterator last) {
-		s_list		*list = position._get_ptr();
+		s_list		*position_node = position._get_ptr();
 		s_list		*first_node = first._get_ptr();
 		s_list		*last_node = last._get_ptr();
+		s_list		*new_last_node = last_node->prev;
 
 		value_type	segment_size = _get_segment_size(first, last);
 
@@ -654,15 +655,15 @@ namespace ft
 
 		first_node->prev->next = last_node;
 		last_node->prev = first_node->prev;
-
 		x._first_last_node_init();
 
-		last_node = last_node->prev;
-		list->prev->next = first_node;
-		first_node->prev = list->prev;
-		last_node->prev = list;
-		list->prev = last_node;
+		first_node->prev = position_node->prev;
+		position_node->prev->next = first_node;
 
+
+		new_last_node->next = position_node;
+
+		position_node->prev = new_last_node;
 		_first_last_node_init();
 	}
 
