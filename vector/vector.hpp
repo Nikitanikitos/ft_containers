@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 17:08:23 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/26 17:30:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ namespace ft
 		typedef				std::size_t							size_type;
 
 	private:
-		T*			_ptr;
-		size_type	_capacity;
-		size_type	_size;
+		T*				_ptr;
+		size_type		_capacity;
+		size_type		_size;
 
 	public:
 		explicit	vector(const allocator_type& alloc = allocator_type());
@@ -59,6 +59,15 @@ namespace ft
 					vector(InputIterator first, InputIterator last,
 													const allocator_type& alloc = allocator_type());
 					vector(const vector& x);
+
+		iterator				begin()			{ return (_ptr); }
+		const_iterator			begin() const	{ return (_ptr); }
+		iterator				end()			{ return (_ptr); }
+		const_iterator			end() const		{ return (_ptr); }
+		reverse_iterator		rbegin()		{ return (_ptr); }
+		const_reverse_iterator	rbegin() const	{ return (_ptr); }
+		reverse_iterator		rend()			{ return (_ptr); }
+		const_reverse_iterator	rend() const	{ return (_ptr); }
 
 		size_type				size() const {return (_size); };
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
@@ -71,10 +80,10 @@ namespace ft
 		const_reference			operator[] (size_type n) const { return (_ptr[n]); }
 		reference				at(size_type n);
 		const_reference			at(size_type n) const;
-		reference				front();
-		const_reference			front() const;
-		reference				back();
-		const_reference			back() const;
+		reference				front()			{ return (_ptr[0]); }
+		const_reference			front() const	{ return (_ptr[0]); }
+		reference				back()			{ return (_ptr[_size - 1]); }
+		const_reference			back() const	{ return (_ptr[_size - 1]); }
 
 		template <class InputIterator>
 		void					assign(InputIterator first, InputIterator last);
