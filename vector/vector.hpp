@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:50:54 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 15:15:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ namespace ft
 		void		_realloc(const size_type n) {
 			T*			temp_ptr = _alloc.allocate(_capacity + n);
 
-			for (int i = 0; i < _size; ++i)
+			for (size_type  i = 0; i < _size; ++i)
 				_alloc.construct(temp_ptr + i, _ptr[i]);
 			_alloc.deallocate(_ptr, _capacity);
 			_capacity += n;
@@ -198,6 +198,38 @@ namespace ft
 			throw std::out_of_range("Out of range");
 		else
 			return (_ptr[n]);
+	}
+
+	template<class T, class Alloc>
+	template<class InputIterator>
+	void vector<T, Alloc>::assign(InputIterator first, InputIterator last) {
+		_alloc.deallocate(_ptr, _capacity);
+		for (; first != last; ++first)
+			push_back(*first);
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::assign(vector::size_type n, const value_type &val) {
+		_alloc.deallocate(_ptr, _capacity);
+		_ptr = _alloc.allocate(n);
+		for (size_type i = 0; i < n; i++)
+			_alloc.construct(_ptr + i, val);
+	}
+
+	template<class T, class Alloc>
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(vector::iterator position, const value_type &val) {
+		T*	temp_ptr = _alloc.allocate(_capacity + 1);
+		size_type	offset = 0;
+
+		_size++;
+		for (size_type i = 0; i < _size; ++i) {
+			if (_ptr + i == position._get_ptr()) {
+				offset = 1;
+				_alloc.construct(temp_ptr + i, val);
+			}
+			else
+				_alloc.construct(temp_ptr + i, _ptr + i + offset);
+		}
 	}
 
 	template <class T, class Alloc>
