@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 22:42:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 22:50:15 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:46:51 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,12 @@ TEMPLATE_TEST_CASE("Push Back in vector with size = 1", "[vector] [push]", int, 
 	}
 }
 
-
 TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[vector] [push]",
 					   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
-	ft::vector<T>							ft_vector_number;
+	ft::vector<T>						ft_vector_number;
 	std::vector<T>						vector_number;
 	ft::vector<std::string>				ft_vector_string;
-	std::vector<std::string>				vector_string;
+	std::vector<std::string>			vector_string;
 
 
 	SECTION("Push back number") {

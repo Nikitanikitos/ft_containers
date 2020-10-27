@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 13:11:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 14:12:59 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ namespace ft
 			return (*this);
 		}
 
-		bool	operator==(const random_access_iterator<T> &x)	{ return (_ptr == x._ptr); }
-		bool	operator!=(const random_access_iterator<T> &x)	{ return (_ptr != x._ptr); }
-		bool	operator<(const random_access_iterator<T> &x)	{ return (_ptr < x._ptr); }
-		bool	operator<=(const random_access_iterator<T> &x)	{ return (_ptr <= x._ptr); }
-		bool	operator>(const random_access_iterator<T> &x)	{ return (_ptr > x._ptr); }
-		bool	operator>=(const random_access_iterator<T> &x)	{ return (_ptr >= x._ptr); }
+		bool	operator==(const random_access_iterator<T> &x) const { return (_ptr == x._ptr); }
+		bool	operator!=(const random_access_iterator<T> &x) const { return (_ptr != x._ptr); }
+		bool	operator<(const random_access_iterator<T> &x) const { return (_ptr < x._ptr); }
+		bool	operator<=(const random_access_iterator<T> &x) const { return (_ptr <= x._ptr); }
+		bool	operator>(const random_access_iterator<T> &x) const { return (_ptr > x._ptr); }
+		bool	operator>=(const random_access_iterator<T> &x) const { return (_ptr >= x._ptr); }
 
 		random_access_iterator<T>	&operator++() { _ptr++; return (*this); }
 		random_access_iterator<T>	&operator--() { _ptr--; return (*this); }
@@ -99,17 +99,16 @@ namespace ft
 		}
 
 		const_random_access_iterator<T>	&operator=(const random_access_iterator<T> &x) {
-			if (this != &x)
-				_ptr = x._get_ptr();
+			_ptr = x._get_ptr();
 			return (*this);
 		}
 
-		bool	operator==(const const_random_access_iterator<T> &x) { return (_ptr == x._ptr); }
-		bool	operator!=(const const_random_access_iterator<T> &x) { return (_ptr != x._ptr); }
-		bool	operator<(const const_random_access_iterator<T> &x) { return (_ptr < x._ptr); }
-		bool	operator<=(const const_random_access_iterator<T> &x) { return (_ptr <= x._ptr); }
-		bool	operator>(const const_random_access_iterator<T> &x) { return (_ptr > x._ptr); }
-		bool	operator>=(const const_random_access_iterator<T> &x) { return (_ptr >= x._ptr); }
+		bool	operator==(const const_random_access_iterator<T> &x) const { return (_ptr == x._ptr); }
+		bool	operator!=(const const_random_access_iterator<T> &x) const { return (_ptr != x._ptr); }
+		bool	operator<(const const_random_access_iterator<T> &x) const { return (_ptr < x._ptr); }
+		bool	operator<=(const const_random_access_iterator<T> &x) const { return (_ptr <= x._ptr); }
+		bool	operator>(const const_random_access_iterator<T> &x) const { return (_ptr > x._ptr); }
+		bool	operator>=(const const_random_access_iterator<T> &x) const { return (_ptr >= x._ptr); }
 
 		const_random_access_iterator<T>	&operator++() { _ptr++; return (*this); }
 		const_random_access_iterator<T>	&operator--() { _ptr--; return (*this); }
