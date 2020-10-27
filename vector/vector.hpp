@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:32:28 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 14:39:07 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 		T*				_ptr;
 		size_type		_capacity;
 		size_type		_size;
-		alloc_type	_alloc;
+		alloc_type		_alloc;
 
 		void		_realloc(const size_type n) {
 			T*			temp_ptr = _alloc.allocate(_capacity + n);
@@ -63,11 +63,8 @@ namespace ft
 		}
 
 	public:
-		explicit	vector(const alloc_type& alloc = alloc_type())
-										: _ptr(0), _capacity(0), _size(0), _alloc(alloc) { }
-
-		explicit	vector(size_type n, const value_type& val = value_type(),
-				  									const alloc_type& alloc = alloc_type());
+		explicit	vector(const alloc_type& alloc = alloc_type()) : _ptr(0), _capacity(0), _size(0), _alloc(alloc) { }
+		explicit	vector(size_type n, const value_type& val = value_type(), const alloc_type& alloc = alloc_type());
 
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const alloc_type& alloc = alloc_type(),
@@ -89,22 +86,14 @@ namespace ft
 			return (*this);
 		}
 
-		iterator				begin()
-												{ return (random_access_iterator<T>(&_ptr[0])); }
-		const_iterator			begin() const
-											{ return (const_random_access_iterator<T>(&_ptr[0])); }
-		iterator				end()
-											{ return (random_access_iterator<T>(&_ptr[_size])); }
-		const_iterator			end() const
-										{ return (const_random_access_iterator<T>(&_ptr[_size])); }
-		reverse_iterator		rbegin()
-									{ return (rev_random_access_iterator<T>(&_ptr[_size - 1])); }
-		const_reverse_iterator	rbegin() const
-								{ return (const_rev_random_access_iterator<T>(&_ptr[_size - 1])); }
-		reverse_iterator		rend()
-											{ return (rev_random_access_iterator<T>(&_ptr[-1])); }
-		const_reverse_iterator	rend() const
-										{ return (const_rev_random_access_iterator<T>(&_ptr[-1])); }
+		iterator				begin() { return (random_access_iterator<T>(&_ptr[0])); }
+		const_iterator			begin() const { return (const_random_access_iterator<T>(&_ptr[0])); }
+		iterator				end() { return (random_access_iterator<T>(&_ptr[_size])); }
+		const_iterator			end() const { return (const_random_access_iterator<T>(&_ptr[_size])); }
+		reverse_iterator		rbegin() { return (rev_random_access_iterator<T>(&_ptr[_size - 1])); }
+		const_reverse_iterator	rbegin() const { return (const_rev_random_access_iterator<T>(&_ptr[_size - 1])); }
+		reverse_iterator		rend() { return (rev_random_access_iterator<T>(&_ptr[-1])); }
+		const_reverse_iterator	rend() const { return (const_rev_random_access_iterator<T>(&_ptr[-1])); }
 
 		size_type				size() const {return (_size); };
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
@@ -139,8 +128,7 @@ namespace ft
 	};
 
 	template<class T, class Alloc>
-	vector<T, Alloc>::vector(vector::size_type n, const value_type &val,
-							 const alloc_type &alloc) : _alloc(alloc) {
+	vector<T, Alloc>::vector(vector::size_type n, const value_type &val, const alloc_type &alloc) : _alloc(alloc) {
 		_ptr = _alloc.allocate(n + 5);
 		for (size_type i = 0; i < n; ++i)
 			_alloc.construct(_ptr + i, val);
@@ -151,15 +139,14 @@ namespace ft
 	template<class T, class Alloc>
 	template<class InputIterator>
 	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const alloc_type &alloc,
-					 typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*)
-												: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
+										 typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*)
+																	: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
 		for (; first != last; ++first)
 			push_back(*first);
 	}
 
 	template<class T, class Alloc>
-	vector<T, Alloc>::vector(const vector &x)
-										: _capacity(x._capacity), _size(x._size), _alloc(x._alloc) {
+	vector<T, Alloc>::vector(const vector &x) : _capacity(x._capacity), _size(x._size), _alloc(x._alloc) {
 		_ptr = _alloc.allocate(_capacity);
 		for (size_type i = 0; i < _size; ++i) {
 			_alloc.construct(_ptr + i, x[i]);
