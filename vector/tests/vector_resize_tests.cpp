@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 22:56:05 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 22:57:52 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 15:04:30 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,29 @@ TEMPLATE_TEST_CASE_SIG("Resize vector with size = V", "[vector] [resize]",
 		REQUIRE(vector.size() == ft_vector.size());
 		for (int i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
+	}
+}
+
+TEMPLATE_TEST_CASE_SIG("Reserve vector with empty vector", "[vector] [resize]",
+																		   ((typename T,  int V), T, V), (int, 6)) {
+	ft::vector<T>		ft_vector;
+	std::vector<T>		vector;
+
+	SECTION("reserve = 1") {
+		ft_vector.reserve(1);
+		vector.reserve(1);
+
+		REQUIRE(vector.size() == ft_vector.size());
+		REQUIRE(vector.empty() == ft_vector.empty());
+		REQUIRE(vector.capacity() == ft_vector.capacity());
+	}
+
+	SECTION("resize = V") {
+		ft_vector.reserve(V);
+		vector.reserve(V);
+
+		REQUIRE(vector.size() == ft_vector.size());
+		REQUIRE(vector.empty() == ft_vector.empty());
+		REQUIRE(vector.capacity() == ft_vector.capacity());
 	}
 }

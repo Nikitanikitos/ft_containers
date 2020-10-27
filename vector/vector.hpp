@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:39:07 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 14:50:54 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ namespace ft
 	template<class T, class Alloc>
 	void vector<T, Alloc>::reserve(vector::size_type n) {
 		if (_capacity < n)
-			_realloc(_capacity - n);
+			_realloc(n - _capacity);
 	}
 
 	template<class T, class Alloc>
