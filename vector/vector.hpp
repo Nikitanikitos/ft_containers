@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 22:33:33 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:13:46 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ namespace ft
 					vector(const vector& x);
 //					~vector() { _alloc.deallocate(_ptr, _capacity - 1); }
 
-		iterator				begin()			{ return (_ptr); }
+		iterator				begin()			{ return (random_access_iterator<T>(&_ptr[0])); }
 		const_iterator			begin() const	{ return (_ptr); }
-		iterator				end()			{ return (_ptr); }
+		iterator				end()			{ return (random_access_iterator<T>(&_ptr[_size])); }
 		const_iterator			end() const		{ return (_ptr); }
 		reverse_iterator		rbegin()		{ return (_ptr); }
 		const_reverse_iterator	rbegin() const	{ return (_ptr); }
