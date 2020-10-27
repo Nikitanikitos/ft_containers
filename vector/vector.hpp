@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 19:00:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 22:23:33 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ namespace ft
 			_alloc.deallocate(_ptr, _capacity);
 			_capacity += n;
 			_ptr = temp_ptr;
+		}
+
+		size_type	_index_element(iterator &position) {
+			size_type	i = 0;
+
+			while (_ptr + i != position._get_ptr())
+				i++;
+			return(i);
 		}
 
 	public:
@@ -219,12 +227,10 @@ namespace ft
 
 	template<class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(vector::iterator position, const value_type &val) {
-		size_type i = 0;
-		size_type q = 0;
-		reserve(_size + 1);
+		size_type i = _index_element(position);
 
-		while (_ptr + i != position._get_ptr()) i++;
-		while (_ptr + i != _ptr + _size - q) {
+		reserve(_size + 1);
+		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
 			_alloc.construct(_ptr + _size - q, _ptr[_size - q - 1]);
 			_alloc.destroy(_ptr + _size - q - 1);
 			q++;
@@ -236,19 +242,16 @@ namespace ft
 
 	template<class T, class Alloc>
 	void vector<T, Alloc>::insert(vector::iterator position, vector::size_type n, const value_type &val) {
-		size_type i = 0;
+		size_type i = _index_element(position);
 
 		reserve(_size + n);
-		while (_ptr + i != position._get_ptr()) i++;
 		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
 			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
 			_alloc.destroy(_ptr + _size - q - 1);
 		}
-		while (n--) {
-			_alloc.construct(_ptr + i, val);
-			_size++;
-			i++;
-		}
+		_size += n;
+		while (n--)
+			_alloc.construct(_ptr + i++, val);
 	}
 
 	template<class T, class Alloc>
@@ -256,13 +259,11 @@ namespace ft
 	void vector<T, Alloc>::insert(vector::iterator position, InputIterator first, InputIterator last,
 										  typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
 		size_type n = 0;
-		size_type i = 0;
+		size_type i = _index_element(position);
 
 		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
 			n++;
 		reserve(_size + n);
-		while (_ptr + i != position._get_ptr())
-			i++;
 		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
 			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
 			_alloc.destroy(_ptr + _size - q - 1);
@@ -274,17 +275,79 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		if (lhs.size() != rhs.size())
+			return (false);
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] == rhs[i]);
+	}
+
 	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] != rhs[i]);
+	}
 	template <class T, class Alloc>
-	bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		if (lhs.size() < rhs.size())
+			return (true);
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] < rhs[i]);
+	}
+
 	template <class T, class Alloc>
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		if (lhs.size() < rhs.size())
+			return (true);
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] <= rhs[i]);
+	}
+
 	template <class T, class Alloc>
-	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		if (lhs.size()> rhs.size())
+			return (true);
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] > rhs[i]);
+	}
+
 	template <class T, class Alloc>
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::size_type i = 0;
+
+		if (lhs.size() > rhs.size())
+			return (true);
+		for (; i < lhs.size(); ++i) {
+			if (lhs[i] != rhs[i])
+				break ;
+		}
+		return (lhs[i] >= rhs[i]);
+	}
 }
 
 #endif
