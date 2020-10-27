@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 15:15:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 19:00:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ namespace ft
 		void					insert (iterator position, size_type n, const value_type& val);
 
 		template <class InputIterator>
-		void					insert (iterator position, InputIterator first, InputIterator last);
+		void					insert (iterator position, InputIterator first, InputIterator last,
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 		iterator				erase (iterator position);
 		iterator				erase (iterator first, iterator last);
 		void					swap (vector& x);
@@ -218,17 +219,57 @@ namespace ft
 
 	template<class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(vector::iterator position, const value_type &val) {
-		T*	temp_ptr = _alloc.allocate(_capacity + 1);
-		size_type	offset = 0;
+		size_type i = 0;
+		size_type q = 0;
+		reserve(_size + 1);
 
+		while (_ptr + i != position._get_ptr()) i++;
+		while (_ptr + i != _ptr + _size - q) {
+			_alloc.construct(_ptr + _size - q, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _size - q - 1);
+			q++;
+		}
+		_alloc.construct(_ptr + i, val);
 		_size++;
-		for (size_type i = 0; i < _size; ++i) {
-			if (_ptr + i == position._get_ptr()) {
-				offset = 1;
-				_alloc.construct(temp_ptr + i, val);
-			}
-			else
-				_alloc.construct(temp_ptr + i, _ptr + i + offset);
+		return (position);
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::insert(vector::iterator position, vector::size_type n, const value_type &val) {
+		size_type i = 0;
+
+		reserve(_size + n);
+		while (_ptr + i != position._get_ptr()) i++;
+		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
+			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _size - q - 1);
+		}
+		while (n--) {
+			_alloc.construct(_ptr + i, val);
+			_size++;
+			i++;
+		}
+	}
+
+	template<class T, class Alloc>
+	template<class InputIterator>
+	void vector<T, Alloc>::insert(vector::iterator position, InputIterator first, InputIterator last,
+										  typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
+		size_type n = 0;
+		size_type i = 0;
+
+		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
+			n++;
+		reserve(_size + n);
+		while (_ptr + i != position._get_ptr())
+			i++;
+		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
+			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _size - q - 1);
+		}
+		for (; first != last; ++first) {
+			_alloc.construct(_ptr + i, *first);
+			_size++;
 		}
 	}
 

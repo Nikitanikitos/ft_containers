@@ -28,7 +28,11 @@ add_executable(ft_containers
         vector/tests/vector_constructor_tests.cpp
 #        vector/tests/vector_comparision_operators_tests.cpp
         vector/tests/vector_push_pop_back_tests.cpp
-        vector/tests/vector_resize_tests.cpp vector/tests/vector_access_operator_tests.cpp vector/tests/vector_iterator_tests.cpp)
+        vector/tests/vector_resize_tests.cpp
+        vector/tests/vector_access_operator_tests.cpp
+        vector/tests/vector_iterator_tests.cpp
+        vector/tests/vector_insert_tests.cpp
+        )
 
 include_directories(
         includes

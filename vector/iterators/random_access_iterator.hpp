@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:20:49 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 17:56:40 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ namespace ft
 	public:
 		random_access_iterator() : _ptr(0) { }
 		explicit random_access_iterator(T *ptr) : _ptr(ptr) { }
-		random_access_iterator(const random_access_iterator<T> &x) : _ptr(x._ptr) { }
+		random_access_iterator(const random_access_iterator<T> &x) {
+			_ptr = x._ptr;
+		}
 		~random_access_iterator() { }
 
 		random_access_iterator<T>	&operator=(const random_access_iterator<T> &x) {
-			if (this != &x)
-				_ptr = x._ptr;
+			_ptr = x._ptr;
 			return (*this);
 		}
 
@@ -55,16 +56,28 @@ namespace ft
 		}
 
 		random_access_iterator<T>	operator--(int) {
-			random_access_iterator<T>		temp(_ptr);
+			random_access_iterator<T>	temp(_ptr);
 
 			--_ptr;
 			return (temp);
 		}
 
-		random_access_iterator<T>	operator+(random_access_iterator<T> &x) { return (_ptr + x._ptr); }
-		random_access_iterator<T>	operator-(random_access_iterator<T> &x) { return (_ptr + x._ptr); }
-		random_access_iterator<T>	operator+=(random_access_iterator<T> &x) { _ptr += x._ptr; return (*this); }
-		random_access_iterator<T>	operator-=(random_access_iterator<T> &x) { _ptr -= x._ptr; return (*this); }
+		random_access_iterator<T>	operator+(std::ptrdiff_t x) {
+			random_access_iterator<T>	temp(_ptr);
+
+			temp += x;
+			return (temp);
+		}
+
+		random_access_iterator<T>	operator-(std::ptrdiff_t x) {
+			random_access_iterator<T>	temp(_ptr);
+
+			temp -= x;
+			return (temp);
+		}
+
+		random_access_iterator<T>	operator+=(std::ptrdiff_t x) { _ptr += x; return (*this); }
+		random_access_iterator<T>	operator-=(std::ptrdiff_t x) { _ptr -= x; return (*this); }
 
 		random_access_iterator<T>	operator[](size_t n) { return (_ptr[n]); }
 		T							&operator*() { return (*_ptr); }
@@ -120,10 +133,22 @@ namespace ft
 			return (temp);
 		}
 
-		const_random_access_iterator<T>	operator+(const_random_access_iterator<T> &x) { return (_ptr + x._ptr); }
-		const_random_access_iterator<T>	operator-(const_random_access_iterator<T> &x) { return (_ptr - x._ptr); }
-		const_random_access_iterator<T>	operator+=(const_random_access_iterator<T> &x) { _ptr += x; return (*this); }
-		const_random_access_iterator<T>	operator-=(const_random_access_iterator<T> &x) { _ptr -= x; return (*this); }
+		const_random_access_iterator<T>	operator+(std::ptrdiff_t x) {
+			const_random_access_iterator<T>		temp(_ptr);
+
+			temp += x;
+			return (temp);
+		}
+
+		const_random_access_iterator<T>	operator-(int x) {
+			const_random_access_iterator<T>		temp(_ptr);
+
+			temp -= x;
+			return (temp);
+		}
+
+		const_random_access_iterator<T>	operator+=(std::ptrdiff_t x) { _ptr += x; return (*this); }
+		const_random_access_iterator<T>	operator-=(std::ptrdiff_t x) { _ptr -= x; return (*this); }
 
 		T								operator[](size_t n) { return (_ptr[n]); }
 		T								&operator*() { return (*_ptr); }
