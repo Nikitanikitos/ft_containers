@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:12:59 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 14:20:49 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,16 @@ namespace ft
 			return (temp);
 		}
 
-		random_access_iterator<T>	operator+(random_access_iterator<T> &x)
-		        														{ return (_ptr + x._ptr); }
+		random_access_iterator<T>	operator+(random_access_iterator<T> &x) { return (_ptr + x._ptr); }
+		random_access_iterator<T>	operator-(random_access_iterator<T> &x) { return (_ptr + x._ptr); }
+		random_access_iterator<T>	operator+=(random_access_iterator<T> &x) { _ptr += x._ptr; return (*this); }
+		random_access_iterator<T>	operator-=(random_access_iterator<T> &x) { _ptr -= x._ptr; return (*this); }
 
-		random_access_iterator<T>	operator-(random_access_iterator<T> &x)
-		        														{ return (_ptr + x._ptr); }
-
-		random_access_iterator<T>	operator+=(random_access_iterator<T> &x)
-		        												{ _ptr += x._ptr; return (*this); }
-		random_access_iterator<T>	operator-=(random_access_iterator<T> &x)
-		        												{ _ptr -= x._ptr; return (*this); }
 		random_access_iterator<T>	operator[](size_t n) { return (_ptr[n]); }
+		T							&operator*() { return (*_ptr); }
+		T							*operator->() { return (_ptr); }
 
-		T		&operator*() { return (*_ptr); }
-		T		*operator->() { return (_ptr); }
-
-		T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
+		T*							_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 	};
 
 	template<class T>
@@ -126,26 +120,16 @@ namespace ft
 			return (temp);
 		}
 
-		const_random_access_iterator<T>	operator+(const_random_access_iterator<T> &x)
-																	{ return (_ptr + x._ptr); }
-		const_random_access_iterator<T>	operator-(const_random_access_iterator<T> &x)
-																	{ return (_ptr - x._ptr); }
-
-		const_random_access_iterator<T>	operator+=(const_random_access_iterator<T> &x) {
-			_ptr += x;
-			return (*this);
-		}
-		const_random_access_iterator<T>	operator-=(const_random_access_iterator<T> &x) {
-			_ptr -= x;
-			return (*this);
-		}
+		const_random_access_iterator<T>	operator+(const_random_access_iterator<T> &x) { return (_ptr + x._ptr); }
+		const_random_access_iterator<T>	operator-(const_random_access_iterator<T> &x) { return (_ptr - x._ptr); }
+		const_random_access_iterator<T>	operator+=(const_random_access_iterator<T> &x) { _ptr += x; return (*this); }
+		const_random_access_iterator<T>	operator-=(const_random_access_iterator<T> &x) { _ptr -= x; return (*this); }
 
 		T								operator[](size_t n) { return (_ptr[n]); }
+		T								&operator*() { return (*_ptr); }
+		T								*operator->() { return (_ptr); }
 
-		T		&operator*() { return (*_ptr); }
-		T		*operator->() { return (_ptr); }
-
-		T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
+		T*								_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 	};
 }
 

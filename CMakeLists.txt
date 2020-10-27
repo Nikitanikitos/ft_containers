@@ -25,7 +25,10 @@ add_executable(ft_containers
 #        list/tests/list_splice_list.cpp
 #        list/tests/list_merge_lists.cpp
 
-        vector/tests/vector_constructor_tests.cpp)
+        vector/tests/vector_constructor_tests.cpp
+#        vector/tests/vector_comparision_operators_tests.cpp
+        vector/tests/vector_push_front_back_tests.cpp
+        vector/tests/vector_resize_tests.cpp vector/tests/vector_access_operator_tests.cpp vector/tests/vector_iterator_tests.cpp)
 
 include_directories(
         includes
