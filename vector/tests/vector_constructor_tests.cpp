@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 19:51:19 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 13:01:06 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:37:13 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in vector container", "[vector] [constr
 	}
 }
 
-
 TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [constructor]",
 					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>		ft_vector_for_copy;
@@ -113,6 +112,22 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [co
 
 		REQUIRE(vector.empty() == ft_vector.empty());
 		REQUIRE(vector.size() == ft_vector.size());
+	}
+
+	SECTION("With size") {
+		for (int i = 1; i < V; i++) {
+			vector_for_copy.push_back(i);
+			ft_vector_for_copy.push_back(i);
+
+			ft::vector<T>		ft_vector = ft_vector_for_copy;
+			std::vector<T>		vector = vector_for_copy;
+
+			REQUIRE(vector.size() == ft_vector.size());
+			REQUIRE(vector.back() == ft_vector.back());
+
+			vector.clear();
+			ft_vector.clear();
+		}
 	}
 
 	SECTION("With size") {

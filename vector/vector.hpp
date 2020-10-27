@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 13:13:46 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:36:59 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ namespace ft
 	{
 	public:
 		typedef				T											value_type;
-		typedef				Alloc										allocator_type;
-		typedef typename	allocator_type::reference					reference;
-		typedef typename	allocator_type::const_reference				const_reference;
-		typedef typename	allocator_type::pointer						pointer;
-		typedef typename	allocator_type::const_pointer				const_pointer;
+		typedef				Alloc										alloc_type;
+		typedef typename	alloc_type::reference					reference;
+		typedef typename	alloc_type::const_reference				const_reference;
+		typedef typename	alloc_type::pointer						pointer;
+		typedef typename	alloc_type::const_pointer				const_pointer;
 		typedef 			ft::random_access_iterator<T>				iterator;
 		typedef				ft::const_random_access_iterator<T>			const_iterator;
 		typedef				ft::rev_random_access_iterator<T>			reverse_iterator;
@@ -50,7 +50,7 @@ namespace ft
 		T*				_ptr;
 		size_type		_capacity;
 		size_type		_size;
-		allocator_type	_alloc;
+		alloc_type	_alloc;
 
 		void		_realloc(const size_type n) {
 			T*			temp_ptr = _alloc.allocate(_capacity + n);
@@ -63,24 +63,36 @@ namespace ft
 		}
 
 	public:
-		explicit	vector(const allocator_type& alloc = allocator_type())
+		explicit	vector(const alloc_type& alloc = alloc_type())
 										: _ptr(0), _capacity(0), _size(0), _alloc(alloc) { }
 
 		explicit	vector(size_type n, const value_type& val = value_type(),
-				  									const allocator_type& alloc = allocator_type());
+				  									const alloc_type& alloc = alloc_type());
 
 		template <class InputIterator>
-					vector(InputIterator first, InputIterator last,
-													const allocator_type& alloc = allocator_type(),
-				   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
+		vector(InputIterator first, InputIterator last, const alloc_type& alloc = alloc_type(),
+	   				typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 
-					vector(const vector& x);
-//					~vector() { _alloc.deallocate(_ptr, _capacity - 1); }
+		vector(const vector& x);
+
+		~vector() { _alloc.deallocate(_ptr, _capacity); }
+
+		vector& operator=(const vector& x) {
+			if (this != &x) {
+				_alloc.deallocate(_ptr, _capacity);
+				_ptr = _alloc.allocate(x._capacity);
+				for (size_type i = 0; i < x._size; ++i)
+					_alloc.construct(_ptr + i, x[i]);
+				_size = x._size;
+				_capacity = x._capacity;
+			}
+			return (*this);
+		}
 
 		iterator				begin()			{ return (random_access_iterator<T>(&_ptr[0])); }
-		const_iterator			begin() const	{ return (_ptr); }
+		const_iterator			begin() const	{ return (random_access_iterator<T>(&_ptr[0])); }
 		iterator				end()			{ return (random_access_iterator<T>(&_ptr[_size])); }
-		const_iterator			end() const		{ return (_ptr); }
+		const_iterator			end() const		{ return (random_access_iterator<T>(&_ptr[_size])); }
 		reverse_iterator		rbegin()		{ return (_ptr); }
 		const_reverse_iterator	rbegin() const	{ return (_ptr); }
 		reverse_iterator		rend()			{ return (_ptr); }
@@ -120,7 +132,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	vector<T, Alloc>::vector(vector::size_type n, const value_type &val,
-							 const allocator_type &alloc) : _alloc(alloc) {
+							 const alloc_type &alloc) : _alloc(alloc) {
 		_ptr = _alloc.allocate(n + 5);
 		for (size_type i = 0; i < n; ++i)
 			_alloc.construct(_ptr + i, val);
@@ -130,7 +142,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	template<class InputIterator>
-	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc,
+	vector<T, Alloc>::vector(InputIterator first, InputIterator last, const alloc_type &alloc,
 					 typename enable_if<std::__is_input_iterator <InputIterator>::value>::type*)
 												: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
 		for (; first != last; ++first)
