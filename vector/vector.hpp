@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 03:02:24 by nikita           ###   ########.fr       */
+/*   Updated: 2020/10/28 11:57:02 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,11 +241,10 @@ namespace ft
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(vector::iterator position, const value_type &val) {
 		size_type i = _index_element(position);
 
-		reserve(_size + 1);
+		reserve(_size + 2);
 		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
 			_alloc.construct(_ptr + _size - q, _ptr[_size - q - 1]);
 			_alloc.destroy(_ptr + _size - q - 1);
-			q++;
 		}
 		_alloc.construct(_ptr + i, val);
 		_size++;
@@ -281,7 +280,7 @@ namespace ft
 			_alloc.destroy(_ptr + _size - q - 1);
 		}
 		for (; first != last; ++first) {
-			_alloc.construct(_ptr + i, *first);
+			_alloc.construct(_ptr + i++, *first);
 			_size++;
 		}
 	}

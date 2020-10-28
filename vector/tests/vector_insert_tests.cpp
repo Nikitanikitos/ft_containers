@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 16:58:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 19:05:21 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 12:08:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]", int) {
 
-	ft::vector<TestType>		ft_vector(21);
-	std::vector<TestType>		vector(21);
+	ft::vector<TestType>		ft_vector(10);
+	std::vector<TestType>		vector(10);
 
 	SECTION("at the front") {
 		ft_vector.insert(ft_vector.begin(), 21);
@@ -38,8 +38,8 @@ TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]
 	}
 
 	SECTION("at the middle") {
-		ft_vector.insert(ft_vector.begin() + 11, 21);
-		vector.insert(vector.begin() + 11, 21);
+		ft_vector.insert(ft_vector.begin() + 5, 21);
+		vector.insert(vector.begin() + 5, 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
 		for (int i = 0; i < ft_vector.size(); ++i)
@@ -48,7 +48,7 @@ TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through iterator and size", "[vector] [insert]",
-																			   ((typename T, int V), T, V), (int, 7)) {
+																		   ((typename T, int V), T, V), (int, 7)) {
 
 	ft::vector<T>							ft_vector(V, 42);
 	std::vector<T>							vector(V, 42);
@@ -88,14 +88,14 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through iterator and size
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[vector] [insert]",
-					   ((typename T, int V), T, V), (int, 5)) {
+																		   ((typename T, int V), T, V), (int, 5)) {
 
 	ft::vector<T>							ft_vector;
 	std::vector<T>							vector;
 	ft::vector<T>							ft_vector_for_insert(V, -26);
 	std::vector<T>							vector_for_insert(V, -26);
 
-	SECTION("Every two times in empty vector") {
+	SECTION("in empty vector") {
 		ft_vector.insert(ft_vector.begin(), ft_vector_for_insert.begin(), ft_vector_for_insert.end());
 		vector.insert(vector.begin(), vector_for_insert.begin(), vector_for_insert.end());
 
@@ -104,43 +104,51 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
-//	SECTION("Every two times with size vector = 1") {
-//		ft::vector<T>							ft_list_for_insert(1);
-//		std::vector<T>						list_for_insert(1);
-//		for (int i = 0; i < V; ++i) {
-//			if (i % 2) {
-//				ft_vector.insert(ft_it, ft_list_for_insert.begin(), ft_list_for_insert.end());
-//				vector.insert(it, list_for_insert.begin(), list_for_insert.end());
-//			}
-//			++ft_it;
-//			++it;
-//		}
-//
-//		REQUIRE(vector.size() == ft_vector.size());
-//		ft_it = ft_vector.begin();
-//		for (it = vector.begin(); it != vector.end(); ++it) {
-//			REQUIRE(*it == *ft_it);
-//			++ft_it;
-//		}
-//	}
-//
-//	SECTION("Every two times with size vector = 1") {
-//		ft::vector<T>							ft_list_for_insert(3, 33);
-//		std::vector<T>						list_for_insert(3, 33);
-//		for (int i = 0; i < V; ++i) {
-//			if (i % 2) {
-//				ft_vector.insert(ft_it, ft_list_for_insert.begin(), ft_list_for_insert.end());
-//				vector.insert(it, list_for_insert.begin(), list_for_insert.end());
-//			}
-//			++ft_it;
-//			++it;
-//		}
-//
-//		REQUIRE(vector.size() == ft_vector.size());
-//		ft_it = ft_vector.begin();
-//		for (it = vector.begin(); it != vector.end(); ++it) {
-//			REQUIRE(*it == *ft_it);
-//			++ft_it;
-//		}
-//	}
+	SECTION("From beginning to middle at the front") {
+		ft_vector.insert(ft_vector.begin(), 3, 21);
+		vector.insert(vector.begin(), 3, 21);
+
+		ft_vector.insert(ft_vector.begin(), ft_vector_for_insert.begin(), ft_vector_for_insert.end() - V /2);
+		vector.insert(vector.begin(), vector_for_insert.begin(), vector_for_insert.end() - V / 2);
+
+		REQUIRE(vector.size() == ft_vector.size());
+		for (int i = 0; i < ft_vector.size(); ++i)
+			REQUIRE(ft_vector[i] == vector[i]);
+	}
+
+	SECTION("From beginning to middle at the end") {
+		ft_vector.insert(ft_vector.begin(), 3, 21);
+		vector.insert(vector.begin(), 3, 21);
+
+		ft_vector.insert(ft_vector.end(), ft_vector_for_insert.begin(), ft_vector_for_insert.end() - V /2);
+		vector.insert(vector.end(), vector_for_insert.begin(), vector_for_insert.end() - V / 2);
+
+		REQUIRE(vector.size() == ft_vector.size());
+		for (int i = 0; i < ft_vector.size(); ++i)
+			REQUIRE(ft_vector[i] == vector[i]);
+	}
+
+	SECTION("From the middle to the end at the front") {
+		ft_vector.insert(ft_vector.begin(), 3, 21);
+		vector.insert(vector.begin(), 3, 21);
+
+		ft_vector.insert(ft_vector.begin(), ft_vector_for_insert.begin() + V / 2, ft_vector_for_insert.end());
+		vector.insert(vector.begin(), vector_for_insert.begin() + V / 2, vector_for_insert.end());
+
+		REQUIRE(vector.size() == ft_vector.size());
+		for (int i = 0; i < ft_vector.size(); ++i)
+			REQUIRE(ft_vector[i] == vector[i]);
+	}
+
+	SECTION("From the middle to the end at the back") {
+		ft_vector.insert(ft_vector.begin(), 3, 21);
+		vector.insert(vector.begin(), 3, 21);
+
+		ft_vector.insert(ft_vector.end(), ft_vector_for_insert.begin() + V / 2, ft_vector_for_insert.end());
+		vector.insert(vector.end(), vector_for_insert.begin() + V / 2, vector_for_insert.end());
+
+		REQUIRE(vector.size() == ft_vector.size());
+		for (int i = 0; i < ft_vector.size(); ++i)
+			REQUIRE(ft_vector[i] == vector[i]);
+	}
 }
