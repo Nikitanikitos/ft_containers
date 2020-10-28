@@ -15,10 +15,9 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Resize vector with empty vector", "[vector] [resize]",
-					   ((typename T,  int V), T, V), (int, 14)) {
-
-	ft::vector<T>						ft_vector;
-	std::vector<T>						vector;
+																		   ((typename T,  int V), T, V), (int, 14)) {
+	ft::vector<T>			ft_vector;
+	std::vector<T>			vector;
 
 	SECTION("resize = 0") {
 		ft_vector.resize(0, 13);
@@ -48,7 +47,7 @@ TEMPLATE_TEST_CASE_SIG("Resize vector with empty vector", "[vector] [resize]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Resize vector with size = V", "[vector] [resize]",
-					   ((typename T,  int V), T, V), (int, 12)) {
+																		   ((typename T,  int V), T, V), (int, 12)) {
 
 	ft::vector<T>		ft_vector(V, 123);
 	std::vector<T>		vector(V, 123);

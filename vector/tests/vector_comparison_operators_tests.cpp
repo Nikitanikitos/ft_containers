@@ -15,11 +15,11 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" vector", "[vector] [operator more] [comparison operators]",
-					   ((typename T, int V), T, V), (int, 12)) {
+																			((typename T, int V), T, V), (int, 12)) {
 	ft::vector<T>		ft_lhs;
 	ft::vector<T>		ft_rhs;
-	std::vector<T>	lhs;
-	std::vector<T>	rhs;
+	std::vector<T>		lhs;
+	std::vector<T>		rhs;
 
 	SECTION("empty vector") {
 		REQUIRE((ft_lhs > ft_rhs) == (lhs > rhs));
@@ -68,7 +68,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" vector", "[vecto
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" vector", "[vector] [operator more] [comparison operators]",
-					   ((typename T, int V), T, V), (int, 12)) {
+																			   ((typename T, int V), T, V), (int, 12)) {
 	ft::vector<T>		ft_lhs;
 	ft::vector<T>		ft_rhs;
 	std::vector<T>		lhs;
@@ -121,7 +121,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" vector", "[vecto
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"equal\" and \"not equal\" vector", "[vector] [operator more] [comparison operators]",
-					   ((typename T, int V), T, V), (int, 12)) {
+																			 ((typename T, int V), T, V), (int, 12)) {
 	ft::vector<T>		ft_lhs;
 	ft::vector<T>		ft_rhs;
 	std::vector<T>		lhs;

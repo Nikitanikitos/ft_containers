@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests", "[vector] [access]",
-					 			  ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+					 							  ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 		ft::vector<T>		ft_vector;
 		std::vector<T>		vector;
 
@@ -44,19 +44,13 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests", "[vect
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vector] [access]",
-					  			 ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+									  			 ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 		ft::vector<T>		ft_vector;
 		std::vector<T>		vector;
 
 		for (int i = 0; i < V; ++i) {
-			if (i % 2) {
-				ft_vector.push_back(i);
-				vector.push_back(i);
-			}
-			else {
-				ft_vector.push_back(i);
-				vector.push_back(i);
-			}
+			ft_vector.push_back(i);
+			vector.push_back(i);
 		}
 
 		REQUIRE(ft_vector.size() == vector.size());

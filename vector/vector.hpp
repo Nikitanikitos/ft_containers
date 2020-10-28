@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 18:40:59 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 19:05:21 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft
 {
 	namespace {
 		template<bool B, class T = void>
-		struct enable_if {};
+		struct enable_if { };
 
 		template<class T>
 		struct enable_if<true, T> { typedef T type; };
@@ -130,19 +130,19 @@ namespace ft
 		const_reference			back() const	{ return (_ptr[_size - 1]); }
 
 		template <class InputIterator>
-		void					assign(InputIterator first, InputIterator last);
-		void					assign(size_type n, const value_type& val);
-		void					push_back(const value_type& val);
+		void					assign(InputIterator, InputIterator);
+		void					assign(size_type, const value_type&);
+		void					push_back(const value_type&);
 		void					pop_back();
-		iterator				insert (iterator position, const value_type& val);
-		void					insert (iterator position, size_type n, const value_type& val);
+		iterator				insert (iterator, const value_type&);
+		void					insert (iterator, size_type, const value_type&);
 
 		template <class InputIterator>
-		void					insert (iterator position, InputIterator first, InputIterator last,
+		void					insert (iterator, InputIterator, InputIterator,
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
-		iterator				erase (iterator position);
-		iterator				erase (iterator first, iterator last);
-		void					swap (vector& vector);
+		iterator				erase (iterator);
+		iterator				erase (iterator, iterator);
+		void					swap (vector&);
 		void					clear();
 	};
 
@@ -225,16 +225,21 @@ namespace ft
 	template<class InputIterator>
 	void vector<T, Alloc>::assign(InputIterator first, InputIterator last) {
 		_alloc.deallocate(_ptr, _capacity);
-		for (; first != last; ++first)
+		_ptr = _alloc.allocate(_capacity);
+		_size = 0;
+		for (; first != last; ++first) {
 			push_back(*first);
+		}
 	}
 
 	template<class T, class Alloc>
 	void vector<T, Alloc>::assign(vector::size_type n, const value_type &val) {
 		_alloc.deallocate(_ptr, _capacity);
 		_ptr = _alloc.allocate(n);
+		_capacity = n;
 		for (size_type i = 0; i < n; i++)
 			_alloc.construct(_ptr + i, val);
+		_size = n;
 	}
 
 	template<class T, class Alloc>

@@ -15,8 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Default iterator", "[vector] [iterator]",
-										   ((typename T, int V), T, V), (int, 10), (char, 20)) {
-
+																   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>							ft_vector;
 	std::vector<T>							vector;
 	typename ft::vector<T>::iterator		ft_it;
@@ -90,12 +89,11 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[vector] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[vector] [iterator]",
-						   					((typename T, int V), T, V), (int, 10), (char, 20)) {
-
+																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>								ft_vector;
-	std::vector<T>							vector;
-	typename ft::vector<T>::const_iterator	ft_it;
-	typename std::vector<T>::const_iterator	it;
+	std::vector<T>								vector;
+	typename ft::vector<T>::const_iterator		ft_it;
+	typename std::vector<T>::const_iterator		it;
 
 	SECTION("Empty vector") {
 		ft_it = ft_vector.begin();
@@ -165,8 +163,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[vector] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[vector] [iterator]",
-										   ((typename T, int V), T, V), (int, 10), (char, 20)) {
-
+																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>									ft_vector;
 	std::vector<T>									vector;
 	typename ft::vector<T>::reverse_iterator		ft_it;
@@ -188,8 +185,8 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[vector] [iterator]",
 	}
 
 	SECTION("With many node") {
-		int			ft_count_iterations = 0;
-		int			count_iterations = 0;
+		int		ft_count_iterations = 0;
+		int		count_iterations = 0;
 
 		for (int i = 0; i < V; ++i) {
 			ft_vector.push_back(i);
@@ -233,19 +230,18 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[vector] [iterator]",
 
 	SECTION("Copy constructor") {
 		ft_it = ft_vector.rbegin();
-		typename ft::vector<T>::reverse_iterator		ft_it_copy(ft_it);
+		typename ft::vector<T>::reverse_iterator	ft_it_copy(ft_it);
 
 		REQUIRE(ft_it_copy == ft_it);
 	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[vector] [iterator]",
-										   ((typename T, int V), T, V), (int, 10), (char, 10)) {
-
+																   ((typename T, int V), T, V), (int, 10), (char, 10)) {
 	ft::vector<T>										ft_vector;
-	std::vector<T>									vector;
-	typename ft::vector<T>::const_reverse_iterator	ft_it;
-	typename std::vector<T>::const_reverse_iterator	it;
+	std::vector<T>										vector;
+	typename ft::vector<T>::const_reverse_iterator		ft_it;
+	typename std::vector<T>::const_reverse_iterator		it;
 
 	SECTION("Empty vector") {
 		ft_it = ft_vector.rbegin();

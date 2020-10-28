@@ -15,7 +15,6 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE("Push Back in empty vector", "[vector] [push]", int, float) {
-
 	ft::vector<TestType>		ft_vector_number;
 	std::vector<TestType>		vector_number;
 	ft::vector<std::string>		ft_vector_string;
@@ -41,7 +40,6 @@ TEMPLATE_TEST_CASE("Push Back in empty vector", "[vector] [push]", int, float) {
 }
 
 TEMPLATE_TEST_CASE("Push Back in vector with size = 1", "[vector] [push]", int, float) {
-
 	ft::vector<TestType>		ft_vector_number(1);
 	std::vector<TestType>		vector_number(1);
 	ft::vector<std::string>		ft_vector_string(1);
@@ -67,12 +65,11 @@ TEMPLATE_TEST_CASE("Push Back in vector with size = 1", "[vector] [push]", int, 
 }
 
 TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+												   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::vector<T>						ft_vector_number;
 	std::vector<T>						vector_number;
 	ft::vector<std::string>				ft_vector_string;
 	std::vector<std::string>			vector_string;
-
 
 	SECTION("Push back number") {
 		for (int i = 0; i < V; ++i) {
@@ -104,7 +101,6 @@ TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
 }
 
 TEMPLATE_TEST_CASE("Pop Back in vector with size = 1", "[vector] [pop]", int, float) {
-
 	ft::vector<TestType>		ft_vector_number(1, 42);
 	std::vector<TestType>		vector_number(1, 42);
 	ft::vector<std::string>		ft_vector_string(1, "Push Back String");
@@ -128,7 +124,7 @@ TEMPLATE_TEST_CASE("Pop Back in vector with size = 1", "[vector] [pop]", int, fl
 }
 
 TEMPLATE_TEST_CASE_SIG("Pop back many times", "[vector] [pop]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+												   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::vector<T>						ft_vector_number;
 	std::vector<T>						vector_number;
 	ft::vector<std::string>				ft_vector_string;

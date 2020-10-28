@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG( "Default Constructors in vector container", "[vector] [constructor]",
-						((typename T, int V), T, V), (int, 10), (char, 20)) {
+															((typename T, int V), T, V), (int, 10), (char, 20)) {
 
 	SECTION("Create empty vector") {
 		ft::vector<T>		ft_vector;
@@ -53,9 +53,9 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in vector container", "[vector] [c
 }
 
 TEMPLATE_TEST_CASE_SIG("Copy constructor in vector container", "[vector] [constructor]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>		ft_vector_for_copy;
-	std::vector<T>	vector_for_copy;
+	std::vector<T>		vector_for_copy;
 
 	SECTION("Empty vector") {
 		ft::vector<T>		ft_vector(ft_vector_for_copy);
@@ -102,9 +102,9 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in vector container", "[vector] [constr
 }
 
 TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [constructor]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+																   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>		ft_vector_for_copy;
-	std::vector<T>	vector_for_copy;
+	std::vector<T>		vector_for_copy;
 
 	SECTION("Empty vector") {
 		ft::vector<T>		ft_vector = ft_vector_for_copy;
@@ -196,8 +196,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [co
 }
 
 TEMPLATE_TEST_CASE_SIG("Constructor via iterators in vector container", "[vector] [constructor]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
-
+																  ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>		ft_vector_for_copy;
 	std::vector<T>		vector_for_copy;
 
@@ -228,7 +227,7 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in vector container", "[vector
 
 	SECTION("With size and default value") {
 		ft::vector<T>		ft_vector_for_copy(0, 'a');
-		std::vector<T>	vector_for_copy(0, 'a');
+		std::vector<T>		vector_for_copy(0, 'a');
 
 		for (int i = 1; i < V; i++) {
 

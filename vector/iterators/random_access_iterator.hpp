@@ -28,9 +28,7 @@ namespace ft
 	public:
 		random_access_iterator() : _ptr(0) { }
 		explicit random_access_iterator(T *ptr) : _ptr(ptr) { }
-		random_access_iterator(const random_access_iterator<T> &x) {
-			_ptr = x._ptr;
-		}
+		random_access_iterator(const random_access_iterator<T> &x) : _ptr(x._ptr) { }
 		~random_access_iterator() { }
 
 		random_access_iterator<T>	&operator=(const random_access_iterator<T> &x) {
@@ -126,6 +124,7 @@ namespace ft
 			++_ptr;
 			return (temp);
 		}
+
 		const_random_access_iterator<T>	operator--(int) {
 			const_random_access_iterator<T>		temp(_ptr);
 
@@ -158,4 +157,4 @@ namespace ft
 	};
 }
 
-#endif //FT_CONTAINERS_RANDOM_ACCESS_ITERATOR_HPP
+#endif
