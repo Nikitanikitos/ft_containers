@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 13:06:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 13:23:36 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ namespace ft
 	template<class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(vector::iterator position, const value_type &val) {
 		size_type i = _index_element(position);
+		size_type index_for_iter = i;
 
 		reserve(_size + 2);
 		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
@@ -248,7 +249,7 @@ namespace ft
 		}
 		_alloc.construct(_ptr + i, val);
 		_size++;
-		return (position);
+		return (iterator(&_ptr[index_for_iter]));
 	}
 
 	template<class T, class Alloc>
@@ -303,6 +304,39 @@ namespace ft
 		}
 		vector.resize(prev_this_size);
 		this->resize(prev_list_size);
+	}
+
+	template<class T, class Alloc>
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(vector::iterator position) {
+		size_type i = _index_element(position);
+		size_type index_for_iter = i;
+
+		_alloc.destroy(_ptr + i);
+		for (; _ptr + i != _ptr + _size; i++) {
+			_alloc.construct(_ptr + i, _ptr + i + 1);
+			_alloc.destroy(_ptr + i + 1);
+		}
+		return (iterator(&_ptr[index_for_iter]));
+	}
+
+	template<class T, class Alloc>
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(vector::iterator first, vector::iterator last) {
+		size_type	n = 0;
+		size_type	i = _index_element(first);
+		size_type	index_for_iter = i;
+		iterator	temp_iter;
+
+		for (iterator temp_first = first; temp_first != last ; ++temp_first)
+			n++;
+		index_for_iter += n;
+		while (first != last) {
+			temp_iter = first;
+			++first;
+			_alloc.destroy(temp_iter);
+			_alloc.construct(_ptr + i++, _ptr + n);
+			_alloc.destroy(_ptr + n++);
+		}
+		return (iterator(&_ptr[index_for_iter]));
 	}
 
 	template <class T, class Alloc>
