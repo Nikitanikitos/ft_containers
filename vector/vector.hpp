@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 22:23:33 by nikita           ###   ########.fr       */
+/*   Updated: 2020/10/28 03:02:24 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ namespace ft
 				_alloc.construct(temp_ptr + i, _ptr[i]);
 			_alloc.deallocate(_ptr, _capacity);
 			_capacity += n;
+			_ptr = temp_ptr;
+		}
+
+		void		_reduce_capacity(const size_type n) {
+			T*			temp_ptr = _alloc.allocate(_capacity - n);
+
+			for (size_type  i = 0; i < _size; ++i)
+				_alloc.construct(temp_ptr + i, _ptr[i]);
+			_alloc.deallocate(_ptr, _capacity);
+			_capacity -= n;
 			_ptr = temp_ptr;
 		}
 
@@ -138,11 +148,11 @@ namespace ft
 
 	template<class T, class Alloc>
 	vector<T, Alloc>::vector(vector::size_type n, const value_type &val, const alloc_type &alloc) : _alloc(alloc) {
-		_ptr = _alloc.allocate(n + 5);
+		_ptr = _alloc.allocate(n + 1);
 		for (size_type i = 0; i < n; ++i)
 			_alloc.construct(_ptr + i, val);
 		_size = n;
-		_capacity = n + 5;
+		_capacity = n + 1;
 	}
 
 	template<class T, class Alloc>
@@ -179,13 +189,15 @@ namespace ft
 	template<class T, class Alloc>
 	void vector<T, Alloc>::push_back(const value_type &val) {
 		if (_capacity < _size + 15)
-			_realloc(10);
+			_realloc(15);
 		_alloc.construct(_ptr + _size, val);
 		_size++;
 	}
 
 	template<class T, class Alloc>
 	void vector<T, Alloc>::pop_back() {
+		if (_capacity > _size + 20)
+			_reduce_capacity(10);
 		_alloc.destroy(_ptr + _size - 1);
 		_size--;
 	}
@@ -241,7 +253,7 @@ namespace ft
 	}
 
 	template<class T, class Alloc>
-	void vector<T, Alloc>::insert(vector::iterator position, vector::size_type n, const value_type &val) {
+	void	vector<T, Alloc>::insert(vector::iterator position, vector::size_type n, const value_type &val) {
 		size_type i = _index_element(position);
 
 		reserve(_size + n);
@@ -256,7 +268,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	template<class InputIterator>
-	void vector<T, Alloc>::insert(vector::iterator position, InputIterator first, InputIterator last,
+	void	vector<T, Alloc>::insert(vector::iterator position, InputIterator first, InputIterator last,
 										  typename enable_if<std::__is_input_iterator<InputIterator>::value>::type *) {
 		size_type n = 0;
 		size_type i = _index_element(position);
