@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 11:57:02 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 13:06:03 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ namespace ft
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
 		iterator				erase (iterator position);
 		iterator				erase (iterator first, iterator last);
-		void					swap (vector& x);
+		void					swap (vector& vector);
 		void					clear();
 	};
 
@@ -285,12 +285,34 @@ namespace ft
 		}
 	}
 
+	template<class T, class Alloc>
+	void vector<T, Alloc>::swap(vector &vector) {
+		size_type	prev_this_size = _size;
+		size_type	prev_list_size = vector._size;
+		value_type	val;
+
+		if (_size > vector._size)
+			vector.resize(_size);
+		else if (vector._size > _size)
+			this->resize(vector._size);
+
+		for (size_type i = 0; i < _size; ++i) {
+			val = *_ptr[i];
+			*_ptr[i] = *vector[i];
+			*vector[i] = val;
+		}
+		vector.resize(prev_this_size);
+		this->resize(prev_list_size);
+	}
+
 	template <class T, class Alloc>
 	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		typename vector<T, Alloc>::size_type i = 0;
 
 		if (lhs.size() != rhs.size())
 			return (false);
+		else if (!lhs.size())
+			return (true);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
 				break ;
@@ -302,6 +324,8 @@ namespace ft
 	bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		typename vector<T, Alloc>::size_type i = 0;
 
+		if (!lhs.size() && !lhs.size())
+			return (false);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
 				break ;
@@ -314,6 +338,8 @@ namespace ft
 
 		if (lhs.size() < rhs.size())
 			return (true);
+		else if (!rhs.size())
+			return (false);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
 				break ;
@@ -326,6 +352,10 @@ namespace ft
 		typename vector<T, Alloc>::size_type i = 0;
 
 		if (lhs.size() < rhs.size())
+			return (true);
+		else if (!lhs.size() && !rhs.size())
+			return (true);
+		else if (!lhs.size())
 			return (true);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
@@ -340,6 +370,8 @@ namespace ft
 
 		if (lhs.size()> rhs.size())
 			return (true);
+		else if (!lhs.size())
+			return (false);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
 				break ;
@@ -353,6 +385,10 @@ namespace ft
 
 		if (lhs.size() > rhs.size())
 			return (true);
+		else if (!lhs.size() && !rhs.size())
+			return (true);
+		else if (!lhs.size())
+			return (false);
 		for (; i < lhs.size(); ++i) {
 			if (lhs[i] != rhs[i])
 				break ;
