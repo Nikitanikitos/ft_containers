@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 14:46:41 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:40:59 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,10 +313,11 @@ namespace ft
 
 		_alloc.destroy(_ptr + i);
 		for (; _ptr + i != _ptr + _size; i++) {
-			_alloc.construct(_ptr + i, _ptr + i + 1);
+			_alloc.construct(_ptr + i, _ptr[i + 1]);
 			_alloc.destroy(_ptr + i + 1);
 		}
-		return (iterator(&_ptr[index_for_iter]));
+		_size--;
+		return (iterator(&_ptr[index_for_iter - 1]));
 	}
 
 	template<class T, class Alloc>
@@ -329,11 +330,12 @@ namespace ft
 		for (iterator temp_first = first; temp_first != last ; ++temp_first)
 			n++;
 		index_for_iter += n;
+		_size -= n;
 		while (first != last) {
 			temp_iter = first;
 			++first;
-			_alloc.destroy(temp_iter);
-			_alloc.construct(_ptr + i++, _ptr + n);
+			_alloc.destroy(temp_iter._get_ptr());
+			_alloc.construct(_ptr + i++, _ptr[n]);
 			_alloc.destroy(_ptr + n++);
 		}
 		return (iterator(&_ptr[index_for_iter]));
