@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 13:23:36 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/28 14:46:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,9 +298,9 @@ namespace ft
 			this->resize(vector._size);
 
 		for (size_type i = 0; i < _size; ++i) {
-			val = *_ptr[i];
-			*_ptr[i] = *vector[i];
-			*vector[i] = val;
+			val = _ptr[i];
+			_ptr[i] = vector[i];
+			vector[i] = val;
 		}
 		vector.resize(prev_this_size);
 		this->resize(prev_list_size);
