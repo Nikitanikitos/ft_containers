@@ -24,8 +24,7 @@ bool	module_pred(const int &i, const int &q) {
 	return (i_temp == q_temp);
 }
 
-TEMPLATE_TEST_CASE_SIG("Unique list with size = 2", "[list] [unique]",
-													   ((typename T, int V), T, V), (int, 12)) {
+TEMPLATE_TEST_CASE_SIG("Unique list with size = 2", "[list] [unique]", ((typename T, int V), T, V), (int, 12)) {
 	ft::list<T>							ft_list(2, 21);
 	std::list<T>						list(2, 21);
 	typename ft::list<T>::iterator		ft_it;
@@ -58,8 +57,7 @@ TEMPLATE_TEST_CASE_SIG("Unique list with size = 2", "[list] [unique]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Unique list with size = V", "[list] [unique]",
-													   ((typename T, int V), T, V), (int, 12)) {
+TEMPLATE_TEST_CASE_SIG("Unique list with size = V", "[list] [unique]", ((typename T, int V), T, V), (int, 12)) {
 	ft::list<T>							ft_list(2, 21);
 	std::list<T>						list(2, 21);
 	typename ft::list<T>::iterator		ft_it;

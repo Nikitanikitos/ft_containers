@@ -18,7 +18,6 @@ template<typename T>
 bool	remove_if_greater_21 (const T &i) { return (i > 21); }
 
 TEMPLATE_TEST_CASE("remove in empty list", "[list] [remove]", int) {
-
 	ft::list<TestType>		ft_list;
 	std::list<TestType>		list;
 
@@ -30,7 +29,6 @@ TEMPLATE_TEST_CASE("remove in empty list", "[list] [remove]", int) {
 }
 
 TEMPLATE_TEST_CASE("remove in list with size = 1", "[list] [remove]", int) {
-
 	ft::list<TestType>		ft_list(1, 12);
 	std::list<TestType>		list(1, 12);
 
@@ -51,10 +49,9 @@ TEMPLATE_TEST_CASE("remove in list with size = 1", "[list] [remove]", int) {
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("remove in list with size = V", "[list] [remove]",
-													   ((typename T, int V), T, V), (int, 13)) {
-	ft::list<T>		ft_list;
-	std::list<T>	list;
+TEMPLATE_TEST_CASE_SIG("remove in list with size = V", "[list] [remove]", ((typename T, int V), T, V), (int, 13)) {
+	ft::list<T>							ft_list;
+	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
@@ -93,7 +90,6 @@ TEMPLATE_TEST_CASE_SIG("remove in list with size = V", "[list] [remove]",
 }
 
 TEMPLATE_TEST_CASE("remove_if in empty list", "[list] [remove_if]", int) {
-
 	ft::list<TestType>		ft_list;
 	std::list<TestType>		list;
 
@@ -105,8 +101,6 @@ TEMPLATE_TEST_CASE("remove_if in empty list", "[list] [remove_if]", int) {
 }
 
 TEMPLATE_TEST_CASE("remove_if in list with size = 1", "[list] [remove_if]", int) {
-
-
 	SECTION("existing value") {
 		ft::list<TestType>		ft_list(1, 23);
 		std::list<TestType>		list(1, 23);
@@ -130,8 +124,7 @@ TEMPLATE_TEST_CASE("remove_if in list with size = 1", "[list] [remove_if]", int)
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("remove_if in list with size = V", "[list] [remove]",
-													   ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("remove_if in list with size = V", "[list] [remove]", ((typename T, int V), T, V), (int, 13)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;

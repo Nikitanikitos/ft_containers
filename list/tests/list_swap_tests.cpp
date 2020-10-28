@@ -54,8 +54,7 @@ TEMPLATE_TEST_CASE("Swap lists with size = 1", "[list] [swap]", int) {
 	REQUIRE(list_2.empty() == ft_list_2.empty());
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with equal size", "[list] [swap]",
-														   ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap lists with equal size", "[list] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::list<T>		ft_list_1(V, 13);
 	ft::list<T>		ft_list_2(V, 31);
 	std::list<T>	list_1(V, 13);
@@ -87,8 +86,7 @@ TEMPLATE_TEST_CASE_SIG("Swap lists with equal size", "[list] [swap]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with lower size", "[list] [swap]",
-					 									  ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap lists with lower size", "[list] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::list<T>		ft_list_1(V / 2, 13);
 	ft::list<T>		ft_list_2(V, 31);
 	std::list<T>	list_1(V / 2, 13);
@@ -120,8 +118,7 @@ TEMPLATE_TEST_CASE_SIG("Swap lists with lower size", "[list] [swap]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with greater size", "[list] [swap]",
-														   ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap lists with greater size", "[list] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::list<T>		ft_list_1(V, 21);
 	ft::list<T>		ft_list_2(V / 2, 32);
 	std::list<T>	list_1(V, 21);

@@ -17,10 +17,9 @@
 template<typename T>
 bool	reverse_compare(const T &first, const T &second) { return (first > second); }
 
-TEMPLATE_TEST_CASE_SIG("Sort list", "[list] [sort]",
-							   ((typename T, int V), T, V), (int, 10)) {
-	ft::list<T>		ft_list;
-	std::list<T>	list;
+TEMPLATE_TEST_CASE_SIG("Sort list", "[list] [sort]", ((typename T, int V), T, V), (int, 10)) {
+	ft::list<T>							ft_list;
+	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 

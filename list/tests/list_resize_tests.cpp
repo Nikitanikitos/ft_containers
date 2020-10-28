@@ -14,9 +14,7 @@
 #include <list>
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Resize list with empty list", "[list] [resize]",
-					   ((typename T,  int V), T, V), (int, 14)) {
-
+TEMPLATE_TEST_CASE_SIG("Resize list with empty list", "[list] [resize]", ((typename T,  int V), T, V), (int, 14)) {
 	ft::list<T>		ft_list;
 	std::list<T>	list;
 	typename ft::list<T>::iterator		ft_it;
@@ -54,11 +52,9 @@ TEMPLATE_TEST_CASE_SIG("Resize list with empty list", "[list] [resize]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Resize list with size = V", "[list] [resize]",
-					   ((typename T,  int V), T, V), (int, 12)) {
-
-	ft::list<T>		ft_list(V, 123);
-	std::list<T>	list(V, 123);
+TEMPLATE_TEST_CASE_SIG("Resize list with size = V", "[list] [resize]", ((typename T,  int V), T, V), (int, 12)) {
+	ft::list<T>							ft_list(V, 123);
+	std::list<T>						list(V, 123);
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 

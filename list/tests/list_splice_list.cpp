@@ -14,12 +14,11 @@
 #include <list>
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]",
-													((typename T, int V), T, V), (int, 23)) {
-	ft::list<T>		ft_list_1;
-	ft::list<T>		ft_list_2;
-	std::list<T>	list_1;
-	std::list<T>	list_2;
+TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((typename T, int V), T, V), (int, 23)) {
+	ft::list<T>							ft_list_1;
+	ft::list<T>							ft_list_2;
+	std::list<T>						list_1;
+	std::list<T>						list_2;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
@@ -103,11 +102,11 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, and i", "[list] [splice]",
-													((typename T, int V), T, V), (int, 8)) {
-	ft::list<T>		ft_list_1;
-	ft::list<T>		ft_list_2;
-	std::list<T>	list_1;
-	std::list<T>	list_2;
+																				((typename T, int V), T, V), (int, 8)) {
+	ft::list<T>							ft_list_1;
+	ft::list<T>							ft_list_2;
+	std::list<T>						list_1;
+	std::list<T>						list_2;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
@@ -153,11 +152,11 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, and i", "[list] [splice]"
 }
 
 TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, first and last", "[list] [splice]",
-													((typename T, int V), T, V), (int, 5)) {
-	ft::list<T>		ft_list_1;
-	ft::list<T>		ft_list_2;
-	std::list<T>	list_1;
-	std::list<T>	list_2;
+																				((typename T, int V), T, V), (int, 5)) {
+	ft::list<T>							ft_list_1;
+	ft::list<T>							ft_list_2;
+	std::list<T>						list_1;
+	std::list<T>						list_2;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 

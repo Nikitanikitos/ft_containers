@@ -18,8 +18,7 @@
 template<typename T>
 bool	reverse_compare(const T &first, const T &second) { return (first > second); }
 
-TEMPLATE_TEST_CASE_SIG("Merge lists", "[list] [splice]",
-													   ((typename T, int V), T, V), (int, 23)) {
+TEMPLATE_TEST_CASE_SIG("Merge lists", "[list] [splice]", ((typename T, int V), T, V), (int, 23)) {
 	ft::list<T>		ft_list_1;
 	ft::list<T>		ft_list_2;
 	std::list<T>	list_1;

@@ -15,8 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [constructor]",
-		((typename T, int V), T, V), (int, 10), (char, 20)) {
-
+																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	SECTION("Create empty list") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
@@ -53,7 +52,7 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 }
 
 TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructor]",
-											((typename T, int V), T, V), (int, 10), (char, 20)) {
+																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 
@@ -103,7 +102,7 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 }
 
 TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constructor]",
-											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 
@@ -181,8 +180,8 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 }
 
 TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [constructor]",
-											   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 
+			   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 

@@ -15,7 +15,6 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float) {
-
 	ft::list<TestType>		ft_list_number;
 	std::list<TestType>		list_number;
 	ft::list<std::string>	ft_list_string;
@@ -59,7 +58,6 @@ TEMPLATE_TEST_CASE("Push Back/Front in empty list", "[list] [push]", int, float)
 }
 
 TEMPLATE_TEST_CASE("Push Back/Front in list with size = 1", "[list] [push]", int, float) {
-
 	ft::list<TestType>		ft_list_number(1);
 	std::list<TestType>		list_number(1);
 	ft::list<std::string>	ft_list_string(1);
@@ -103,7 +101,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in list with size = 1", "[list] [push]", int
 }
 
 TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
-								((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+													((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::list<T>							ft_list_number;
 	std::list<T>						list_number;
 	ft::list<std::string>				ft_list_string;
@@ -188,7 +186,7 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
-					   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+												  ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::list<T>							ft_list_number;
 	std::list<T>						list_number;
 	ft::list<std::string>				ft_list_string;

@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
-																		((typename T, int V), T, V), (int, 10)) {
+																			((typename T, int V), T, V), (int, 10)) {
 	ft::list<T>							ft_list(1, 23);
 	std::list<T>						list(1, 23);
 	typename ft::list<T>::iterator		ft_it;
@@ -59,8 +59,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Erase in list through with two iterator", "[list] [erase]",
-	((typename T, int V), T, V), (int, 10)) {
-
+																			((typename T, int V), T, V), (int, 10)) {
 	ft::list<T>							ft_list(1, 23);
 	std::list<T>						list(1, 23);
 	typename ft::list<T>::iterator		ft_it;

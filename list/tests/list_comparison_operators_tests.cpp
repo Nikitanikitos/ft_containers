@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" list", "[list] [operator more] [comparison operators]",
-														   ((typename T, int V), T, V), (int, 12)) {
+																		   ((typename T, int V), T, V), (int, 12)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;
@@ -68,7 +68,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" list", "[list] [
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" list", "[list] [operator more] [comparison operators]",
-														   ((typename T, int V), T, V), (int, 12)) {
+																		   ((typename T, int V), T, V), (int, 12)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;
@@ -121,7 +121,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" list", "[list] [
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"equal\" and \"not equal\" list", "[list] [operator more] [comparison operators]",
-														   ((typename T, int V), T, V), (int, 12)) {
+																		   ((typename T, int V), T, V), (int, 12)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;

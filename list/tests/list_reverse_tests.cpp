@@ -14,8 +14,7 @@
 #include <list>
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Reverse lists with size = V", "[list] [swap]",
-														((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Reverse lists with size = V", "[list] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
