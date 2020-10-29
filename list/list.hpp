@@ -321,8 +321,8 @@ namespace ft
 		node = _first_node;
 		_first_node->prev->next = _first_node->next;
 		_first_node->next->prev = _first_node->prev;
-		_first_node = _end_node->next;
 		_destroy_node(node);
+		_first_last_node_init();
 	}
 
 	template<class T, class Alloc>
@@ -332,8 +332,8 @@ namespace ft
 		node = _last_node;
 		_last_node->prev->next = _last_node->next;
 		_last_node->next->prev = _last_node->prev;
-		_last_node = _end_node->prev;
 		_destroy_node(node);
+		_first_last_node_init();
 	}
 
 	template<class T, class Alloc>
