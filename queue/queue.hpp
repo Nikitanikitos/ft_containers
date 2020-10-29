@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 23:17:26 by nikita            #+#    #+#             */
-/*   Updated: 2020/10/28 23:25:46 by nikita           ###   ########.fr       */
+/*   Updated: 2020/10/29 12:24:36 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ namespace ft {
 		typedef		std::size_t		size_type;
 
 	private:
-		container_type	&_queue;
+		container_type	_queue;
 
 	public:
 		explicit queue (const container_type& ctnr = container_type()) { _queue = ctnr; }
-		~queue() { ~_queue; }
+		~queue() { }
 
 		bool		empty() const { return (_queue.empty()); }
 		size_type	size() const { return (_queue.size()); }
@@ -38,8 +38,8 @@ namespace ft {
 		const value_type&	front() const { return (_queue.front()); }
 		value_type&			back() { return (_queue.back()); }
 		const value_type&	back() const { return (_queue.back()); }
-		void				push (const value_type& val) { _queue.push_back(); }
-		void				pop () { _queue.pop_back(); }
+		void				push (const value_type& val) { _queue.push_back(val); }
+		void				pop () { _queue.pop_front(); }
 	};
 
 	template <class T, class Container>
