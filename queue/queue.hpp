@@ -1,0 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   queue.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/28 23:17:26 by nikita            #+#    #+#             */
+/*   Updated: 2020/10/28 23:25:46 by nikita           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#ifndef FT_CONTAINERS_QUEUE_HPP
+# define FT_CONTAINERS_QUEUE_HPP
+
+# include "list.hpp"
+
+namespace ft {
+	template <class T, class Container = list<T> >
+	class queue {
+	public:
+		typedef		T				value_type;
+		typedef		Container		container_type;
+		typedef		std::size_t		size_type;
+
+	private:
+		container_type	&_queue;
+
+	public:
+		explicit queue (const container_type& ctnr = container_type()) { _queue = ctnr; }
+		~queue() { ~_queue; }
+
+		bool		empty() const { return (_queue.empty()); }
+		size_type	size() const { return (_queue.size()); }
+
+		value_type&			front() { return (_queue.front()); }
+		const value_type&	front() const { return (_queue.front()); }
+		value_type&			back() { return (_queue.back()); }
+		const value_type&	back() const { return (_queue.back()); }
+		void				push (const value_type& val) { _queue.push_back(); }
+		void				pop () { _queue.pop_back(); }
+	};
+
+	template <class T, class Container>
+	bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs == rhs); }
+
+	template <class T, class Container>
+	bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs != rhs); }
+
+	template <class T, class Container>
+	bool operator<(const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs < rhs); }
+
+	template <class T, class Container>
+	bool operator<=(const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs <= rhs); }
+
+	template <class T, class Container>
+	bool operator>(const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs > rhs); }
+
+	template <class T, class Container>
+	bool operator>=(const queue<T,Container>& lhs, const queue<T,Container>& rhs) { return (lhs >= rhs); }
+}
+
+#endif

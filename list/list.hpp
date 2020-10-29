@@ -683,7 +683,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	bool operator==(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() != rhs.size())
 			return (false);
 		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
@@ -699,7 +699,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
 		typename list<T, Alloc>::const_iterator		it_rhs = rhs.begin();
 
@@ -713,7 +713,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	bool operator<(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() < rhs.size())
 			return (true);
 		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
@@ -745,7 +745,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	bool operator>(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		if (lhs.size() > rhs.size())
 			return (true);
 		typename list<T, Alloc>::const_iterator		it_lhs = lhs.begin();
