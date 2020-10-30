@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 17:09:12 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 18:08:16 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,33 @@ namespace ft
 		s_node*		_create_new_node(const value_type& val, s_node *parent) {
 			s_node*		x = _alloc_rebind.allocate(1);
 
+			x->val = _alloc.allocate(1);
 			_alloc.construct(x->val, val);
 			x->left = _end_node;
 			x->right = _end_node;
 			x->parent = parent;
 			x->color = RED;
+			return (x);
 		}
 
 		s_node*		_put(s_node *node, const value_type& val) {
-			if (node == _end_node)
-				return (_create_new_node(val, _end_node->parent));
-			else if (node->val < val)
+			if (node == _end_node) {
+				s_node	*new_node = _create_new_node(val, _end_node->parent);
+				if (_compare(new_node->val->first, _end_node->parent->val->first))
+					_first_node = new_node;
+				else if (_compare(new_node->val->first, _end_node->parent->val->first))
+					_last_node = new_node;
+				return (new_node);
+			}
+			else if (_compare(val.first, node->val->first))
 				node->left = _put(node->left, val);
-			else if (node->val > val)
+			else if (_compare(node->val->first, val.first))
 				node->right = _put(node->right, val);
-			else
-				return ;
 
 			if (node->right->color == RED && node->left->color == BLACK)
-				_reverse_right(node);
-			if (node->left->color == RED && node->left->left->color == RED)
 				_reverse_left(node);
+			if (node->left->color == RED && node->left->left->color == RED)
+				_reverse_right(node);
 			if (node->right->color == RED && node->left->color == RED)
 				_flip_color(node);
 			return (node);
@@ -130,10 +136,21 @@ namespace ft
 			return (x);
 		}
 
-		void	_flip_color(s_node* node) {
+		void		_flip_color(s_node* node) {
 			node->color = RED;
-			node->right = BLACK;
-			node->left = BLACK;
+			node->right->color = BLACK;
+			node->left->color = BLACK;
+		}
+
+		s_node		*_search(const key_type &key, s_node *node) {
+			if (node == _end_node)
+				return (_end_node);
+			else if (_compare(key, node->val->first))
+				_search(key, node->left);
+			else if (_compare(node->val->first, key))
+				_search(key, node->right);
+			else
+				return (node);
 		}
 
 	public:
@@ -161,9 +178,12 @@ namespace ft
 
 		mapped_type&			operator[](const key_type& k);
 
-		std::pair<iterator,bool>	insert(const value_type& val) {
-			if (empty())
+		void	insert(const value_type& val) {
+			if (empty()) {
 				_root = _create_new_node(val, 0);
+				_first_node = _root;
+				_last_node = _root;
+			}
 			else
 				_root = _put(_root, val);
 			_size++;

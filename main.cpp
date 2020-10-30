@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 14:25:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 18:08:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include "map.hpp"
 
 int 	main() {
-	ft::map<int, int>	qwe;
+	ft::map<int, int>	map;
+
+	map.insert(std::make_pair(13, 42));
+	map.insert(std::make_pair(6, 42));
+	map.insert(std::make_pair(2, 42));
+	map.insert(std::make_pair(42, 42));
+	map.insert(std::make_pair(13, 42));
 	return (0);
 }
