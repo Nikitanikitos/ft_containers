@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 19:03:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 20:09:43 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 int 	main() {
 	ft::map<int, int>	map;
-	ft::map<int, int>::iterator 	it;
 
-	it.operator->();
 	map.insert(std::make_pair(13, 42));
 	map.insert(std::make_pair(6, 42));
 	map.insert(std::make_pair(2, 42));
+	map.insert(std::make_pair(42, 42));
+	map.insert(std::make_pair(21, 42));
 	map.insert(std::make_pair(42, 42));
 	map.insert(std::make_pair(21, 42));
 

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 19:45:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 20:13:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,27 @@ namespace ft
 			_end_node->color = BLACK;
 		}
 
-		s_node*		_put(s_node *node, const value_type& val) {
+		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
+			std::pair<s_node*, bool>	pair;
+
 			if (node == _end_node) {
 				s_node	*new_node = _create_new_node(val, _end_node->parent);
 				if (_compare(new_node->value->first, _first_node->value->first))
 					_first_node = new_node;
 				else if (_compare(_last_node->value->first, new_node->value->first))
 					_last_node = new_node;
-				return (new_node);
+				return (std::make_pair(new_node, true));
 			}
-			else if (_compare(val.first, node->value->first))
-				node->left = _put(node->left, val);
-			else if (_compare(node->value->first, val.first))
-				node->right = _put(node->right, val);
+			else if (_compare(val.first, node->value->first)) {
+				pair = _put(node->left, val);
+				node->left = pair.first;
+			}
+			else if (_compare(node->value->first, val.first)) {
+				pair = _put(node->right, val);
+				node->right = pair.first;
+			}
+			else
+				return (std::make_pair(node, false));
 
 			if (node->right->color == RED && node->left->color == BLACK)
 				node = _reverse_left(node);
@@ -112,7 +120,7 @@ namespace ft
 				node = _reverse_right(node);
 			if (node->right->color == RED && node->left->color == RED)
 				_flip_color(node);
-			return (node);
+			return (std::make_pair(node, pair.second));
 		}
 
 		s_node*		_reverse_left(s_node* node) {
@@ -158,6 +166,7 @@ namespace ft
 				_search(key, node->right);
 			else
 				return (node);
+			return (_end_node);
 		}
 
 		void		_delete_node(s_node *node) {
@@ -201,17 +210,29 @@ namespace ft
 		size_type				size() const { return (_size); }
 		size_type				max_size() const;
 
-		mapped_type&			operator[](const key_type& k);
+		mapped_type&			operator[](const key_type& k) {
+			s_node	*node;
 
-		void	insert(const value_type& val) {
+			if ((node = _search(k, _root) == _end_node))
+				node = *insert(std::make_pair(k, mapped_type()));
+			return (node->value.second);
+		}
+
+		std::pair<iterator,bool>	insert(const value_type& val) {
+			std::pair<s_node*, bool>	pair;
 			if (empty()) {
 				_root = _create_new_node(val, 0);
 				_first_node = _root;
 				_last_node = _root;
+				return (std::make_pair(_root, true));
 			}
-			else
-				_root = _put(_root, val);
+			else {
+				pair = _put(_root, val);
+				_root = pair.first;
+			}
 			_size++;
+			return (std::make_pair(find(val.first), pair.second));
+//			return (std::make_pair(_root, pair.second));
 		}
 
 		iterator					insert(iterator position, const value_type& val);
@@ -247,8 +268,17 @@ namespace ft
 		key_compare					key_comp() const { return (_compare); }
 		value_compare				value_comp() const;
 
-		iterator					find(const key_type& k);
-		const_iterator				find(const key_type& k) const;
+		iterator					find(const key_type& k) {
+			s_node*		node = _search(k, _root);
+
+			return (node);
+		}
+
+		const_iterator				find(const key_type& k) const {
+			s_node*		node = _search(k, _root);
+
+			return (node);
+		}
 
 		size_type					count(const key_type& k) const { return ((_search(k, _root) != _end_node) ? 1 : 0); }
 
