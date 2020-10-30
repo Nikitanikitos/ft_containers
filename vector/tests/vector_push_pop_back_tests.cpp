@@ -94,7 +94,7 @@ TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
 		REQUIRE(vector_string.size() == ft_vector_string.size());
 		REQUIRE(vector_string.front() == ft_vector_string.front());
 		REQUIRE(vector_string.back() == ft_vector_string.back());
-		for (int i = 0; i < vector_string.size(); ++i) {
+		for (size_t i = 0; i < vector_string.size(); ++i) {
 			REQUIRE(ft_vector_string[i] == vector_string[i]);
 		}
 	}

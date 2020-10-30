@@ -41,7 +41,6 @@ add_executable(ft_containers
 #        queue/tests/queue_constructor_tests.cpp
 #        queue/tests/queue_push_pop_tests.cpp
 
-        map/map.hpp
         )
 
 include_directories(
@@ -58,6 +57,7 @@ include_directories(
         queue
 
         map
+        map/iterators
         )
 
 find_package(Catch2 REQUIRED)

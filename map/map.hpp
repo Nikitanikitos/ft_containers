@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 19:16:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 19:45:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <iostream>
 # include <utility>
-# include "bidirectional_iterator.hpp"
-# include "reverse_bidirectional_iterator.hpp"
+# include "map_iterator.hpp"
+//# include "reverse_map_iterator.hpp"
 # include "queue.hpp"
 
 # define RED	true
@@ -24,20 +24,13 @@
 
 namespace ft
 {
-//	namespace {
-//		template<bool B, class T = void>
-//		struct enable_if {};
-//
-//		template<class T>
-//		struct enable_if<true, T> { typedef T type; };
-//	}
 
 	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class map
 	{
 	private:
 		struct		s_node {
-			std::pair<const Key, Value>	*val;
+			std::pair<const Key, Value>	*value;
 			struct s_node				*left;
 			struct s_node				*right;
 			struct s_node				*parent;
@@ -55,10 +48,10 @@ namespace ft
 		typedef typename	allocator_type::const_reference							const_reference;
 		typedef typename	allocator_type::pointer									pointer;
 		typedef typename	allocator_type::const_pointer							const_pointer;
-		typedef 			bidirectional_iterator<s_node, value_type>				iterator;
-		typedef				const_bidirectional_iterator<s_node, value_type>		const_iterator;
-		typedef				rev_bidirectional_iterator<s_node, value_type>			reverse_iterator;
-		typedef				const_rev_bidirectional_iterator<s_node, value_type>	const_reverse_iterator;
+		typedef 			list_iterator<s_node, value_type>						iterator;
+		typedef				const_list_iterator<s_node, value_type>					const_iterator;
+		typedef				reverse_list_iterator<s_node, value_type>				reverse_iterator;
+		typedef				const_reverse_list_iterator<s_node, value_type>			const_reverse_iterator;
 		typedef				std::ptrdiff_t											difference_type;
 		typedef				std::size_t												size_type;
 
@@ -77,8 +70,8 @@ namespace ft
 		s_node*		_create_new_node(const value_type& val, s_node *parent) {
 			s_node*		x = _alloc_rebind.allocate(1);
 
-			x->val = _alloc.allocate(1);
-			_alloc.construct(x->val, val);
+			x->value = _alloc.allocate(1);
+			_alloc.construct(x->value, val);
 			x->left = _end_node;
 			x->right = _end_node;
 			x->parent = parent;
@@ -92,7 +85,7 @@ namespace ft
 			_alloc.construct(value, value_type());
 			_end_node = _alloc_rebind.allocate(1);
 
-			_end_node->val = value;
+			_end_node->value = value;
 			_end_node->parent = _end_node;
 			_end_node->left = 0;
 			_end_node->right = 0;
@@ -102,15 +95,15 @@ namespace ft
 		s_node*		_put(s_node *node, const value_type& val) {
 			if (node == _end_node) {
 				s_node	*new_node = _create_new_node(val, _end_node->parent);
-				if (_compare(new_node->val->first, _end_node->parent->val->first))
+				if (_compare(new_node->value->first, _first_node->value->first))
 					_first_node = new_node;
-				else if (_compare(new_node->val->first, _end_node->parent->val->first))
+				else if (_compare(_last_node->value->first, new_node->value->first))
 					_last_node = new_node;
 				return (new_node);
 			}
-			else if (_compare(val.first, node->val->first))
+			else if (_compare(val.first, node->value->first))
 				node->left = _put(node->left, val);
-			else if (_compare(node->val->first, val.first))
+			else if (_compare(node->value->first, val.first))
 				node->right = _put(node->right, val);
 
 			if (node->right->color == RED && node->left->color == BLACK)
@@ -159,35 +152,18 @@ namespace ft
 		s_node		*_search(const key_type &key, s_node *node) {
 			if (node == _end_node)
 				return (_end_node);
-			else if (_compare(key, node->val->first))
+			else if (_compare(key, node->value->first))
 				_search(key, node->left);
-			else if (_compare(node->val->first, key))
+			else if (_compare(node->value->first, key))
 				_search(key, node->right);
 			else
 				return (node);
 		}
 
 		void		_delete_node(s_node *node) {
-			_alloc.deallocate(node->val, 1);
+			_alloc.deallocate(node->value, 1);
 			_alloc_rebind.deallocate(node, 1);
 			_size--;
-		}
-
-		void		_clear() {
-			queue<s_node *>	queue;
-			s_node			*node = _root;
-
-			queue.push(node);
-			while (!queue.empty()) {
-				if (node->right != _end_node)
-					queue.push(node->right);
-				if (node->left != _end_node)
-					queue.push(node->left);
-				node = queue.front();
-				_delete_node(node);
-				queue.pop();
-				node = queue.front();
-			}
 		}
 
 	public:
@@ -203,17 +179,23 @@ namespace ft
 		}
 
 		map(const map& x);
-		~map() { _clear(); }
-		map&	operator=(const map& x);
+		~map() { clear(); }
+		map&	operator=(const map& x) {
+			if (this == &x)
+				return (*this);
+			clear();
+			_size = 0;
+			// TODO Доделать!
+		}
 
-		iterator				begin();
-		const_iterator			begin() const;
-		iterator				end();
-		const_iterator			end() const;
-		reverse_iterator		rbegin();
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator		rend();
-		const_reverse_iterator	rend() const;
+		iterator				begin() { return (_first_node); }
+		const_iterator			begin() const { return (_first_node); }
+		iterator				end() { return (_last_node->right); }
+		const_iterator			end() const { return (_last_node->right); }
+		reverse_iterator		rbegin() { return (_last_node->right); }
+		const_reverse_iterator	rbegin() const { return (_last_node->right); }
+		reverse_iterator		rend() { return (_first_node); }
+		const_reverse_iterator	rend() const { return (_first_node); }
 
 		bool					empty() const { return (_size == 0); }
 		size_type				size() const { return (_size); }
@@ -233,21 +215,43 @@ namespace ft
 		}
 
 		iterator					insert(iterator position, const value_type& val);
+
 		template <class InputIterator>
-		void						insert(InputIterator first, InputIterator last);
+		void						insert(InputIterator first, InputIterator last) {
+			for (; first != last; ++first)
+				insert(*first);
+		}
+
 		void						erase(iterator position);
 		size_type					erase(const key_type& k);
 		void						erase(iterator first, iterator last);
 		void						swap(map& x);
-		void						clear();
 
-		key_compare					key_comp() const;
+		void						clear() {
+			queue<s_node *>	queue;
+			s_node			*node = _root;
+
+			queue.push(node);
+			while (!queue.empty()) {
+				if (node->right != _end_node)
+					queue.push(node->right);
+				if (node->left != _end_node)
+					queue.push(node->left);
+				node = queue.front();
+				_delete_node(node);
+				queue.pop();
+				node = queue.front();
+			}
+		}
+
+		key_compare					key_comp() const { return (_compare); }
 		value_compare				value_comp() const;
 
 		iterator					find(const key_type& k);
 		const_iterator				find(const key_type& k) const;
 
-		size_type					count(const key_type& k) const;
+		size_type					count(const key_type& k) const { return ((_search(k, _root) != _end_node) ? 1 : 0); }
+
 		iterator					lower_bound(const key_type& k);
 		const_iterator				lower_bound(const key_type& k) const;
 		iterator					upper_bound(const key_type& k);
