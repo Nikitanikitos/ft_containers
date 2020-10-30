@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(ft_containers)
 set(CMAKE_CXX_STANDARD 98)
 
-#SET(MYCOMPILE_FLAGS "-Wall -Wextra -Werror")
+SET(MYCOMPILE_FLAGS "-Wall -Wextra -Werror")
 add_definitions(${MYCOMPILE_FLAGS})
 
 add_executable(ft_containers
@@ -25,13 +25,23 @@ add_executable(ft_containers
 #        list/tests/list_splice_list.cpp
 #        list/tests/list_merge_lists.cpp
 
-        vector/tests/vector_constructor_tests.cpp
-#        vector/tests/vector_comparision_operators_tests.cpp
-        vector/tests/vector_push_pop_back_tests.cpp
-        vector/tests/vector_resize_tests.cpp
-        vector/tests/vector_access_operator_tests.cpp
-        vector/tests/vector_iterator_tests.cpp
-        vector/tests/vector_insert_tests.cpp
+#        vector/tests/vector_constructor_tests.cpp
+#        vector/tests/vector_comparison_operators_tests.cpp
+#        vector/tests/vector_push_pop_back_tests.cpp
+#        vector/tests/vector_resize_tests.cpp
+#        vector/tests/vector_access_operator_tests.cpp
+#        vector/tests/vector_iterator_tests.cpp
+#        vector/tests/vector_insert_tests.cpp
+#        vector/tests/vector_swap_tests.cpp
+#        vector/tests/vector_front_back_tests.cpp
+#        vector/tests/vector_erase_tests.cpp
+#
+#        stack/tests/stack_constructor_tests.cpp
+#        stack/tests/stack_push_pop_tests.cpp
+#        queue/tests/queue_constructor_tests.cpp
+#        queue/tests/queue_push_pop_tests.cpp
+
+        map/map.hpp
         )
 
 include_directories(
@@ -42,6 +52,12 @@ include_directories(
 
         vector
         vector/iterators
+
+        stack
+
+        queue
+
+        map
         )
 
 find_package(Catch2 REQUIRED)
