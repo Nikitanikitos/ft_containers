@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 19:05:21 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 19:31:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 # include <iostream>
 # include <string>
-# include "random_access_iterator.hpp"
-# include "reverse_random_access_iterator.hpp"
+# include "vector_iterator.hpp"
+# include "reverse_vector_iterator.hpp"
 
 namespace ft
 {
@@ -39,10 +39,10 @@ namespace ft
 		typedef typename	alloc_type::const_reference					const_reference;
 		typedef typename	alloc_type::pointer							pointer;
 		typedef typename	alloc_type::const_pointer					const_pointer;
-		typedef 			ft::random_access_iterator<T>				iterator;
-		typedef				ft::const_random_access_iterator<T>			const_iterator;
-		typedef				ft::rev_random_access_iterator<T>			reverse_iterator;
-		typedef				ft::const_rev_random_access_iterator<T>		const_reverse_iterator;
+		typedef 			ft::vector_iterator<T>				iterator;
+		typedef				ft::const_vector_iterator<T>			const_iterator;
+		typedef				ft::reverse_vector_iterator<T>			reverse_iterator;
+		typedef				ft::const_reverse_vector_iterator<T>		const_reverse_iterator;
 		typedef				std::ptrdiff_t								difference_type;
 		typedef				std::size_t									size_type;
 
@@ -104,14 +104,14 @@ namespace ft
 			return (*this);
 		}
 
-		iterator				begin() { return (random_access_iterator<T>(&_ptr[0])); }
-		const_iterator			begin() const { return (const_random_access_iterator<T>(&_ptr[0])); }
-		iterator				end() { return (random_access_iterator<T>(&_ptr[_size])); }
-		const_iterator			end() const { return (const_random_access_iterator<T>(&_ptr[_size])); }
-		reverse_iterator		rbegin() { return (rev_random_access_iterator<T>(&_ptr[_size - 1])); }
-		const_reverse_iterator	rbegin() const { return (const_rev_random_access_iterator<T>(&_ptr[_size - 1])); }
-		reverse_iterator		rend() { return (rev_random_access_iterator<T>(&_ptr[-1])); }
-		const_reverse_iterator	rend() const { return (const_rev_random_access_iterator<T>(&_ptr[-1])); }
+		iterator				begin() { return (vector_iterator<T>(&_ptr[0])); }
+		const_iterator			begin() const { return (const_vector_iterator<T>(&_ptr[0])); }
+		iterator				end() { return (vector_iterator<T>(&_ptr[_size])); }
+		const_iterator			end() const { return (const_vector_iterator<T>(&_ptr[_size])); }
+		reverse_iterator		rbegin() { return (reverse_vector_iterator<T>(&_ptr[_size - 1])); }
+		const_reverse_iterator	rbegin() const { return (const_reverse_vector_iterator<T>(&_ptr[_size - 1])); }
+		reverse_iterator		rend() { return (reverse_vector_iterator<T>(&_ptr[-1])); }
+		const_reverse_iterator	rend() const { return (const_reverse_vector_iterator<T>(&_ptr[-1])); }
 
 		size_type				size() const {return (_size); };
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }

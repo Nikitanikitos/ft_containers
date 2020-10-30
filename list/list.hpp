@@ -15,8 +15,8 @@
 
 # include <iostream>
 # include <string>
-# include "bidirectional_iterator.hpp"
-# include "reverse_bidirectional_iterator.hpp"
+# include "list_iterator.hpp"
+# include "reverse_list_iterator.hpp"
 
 namespace ft
 {
@@ -47,10 +47,10 @@ namespace ft
 		typedef typename	allocator_type::const_reference					const_reference;
 		typedef typename	allocator_type::pointer							pointer;
 		typedef typename	allocator_type::const_pointer					const_pointer;
-		typedef 			bidirectional_iterator<s_list, T>				iterator;
-		typedef				const_bidirectional_iterator<s_list, T>			const_iterator;
-		typedef				rev_bidirectional_iterator<s_list, T>			reverse_iterator;
-		typedef				const_rev_bidirectional_iterator<s_list, T>		const_reverse_iterator;
+		typedef 			list_iterator<s_list, T>				iterator;
+		typedef				const_list_iterator<s_list, T>			const_iterator;
+		typedef				reverse_list_iterator<s_list, T>			reverse_iterator;
+		typedef				const_reverse_list_iterator<s_list, T>		const_reverse_iterator;
 		typedef				std::ptrdiff_t									difference_type;
 		typedef				std::size_t										size_type;
 
