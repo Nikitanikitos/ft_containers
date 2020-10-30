@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 18:08:16 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 19:16:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 # include <utility>
 # include "bidirectional_iterator.hpp"
 # include "reverse_bidirectional_iterator.hpp"
+# include "queue.hpp"
 
 # define RED	true
 # define BLACK	false
 
 namespace ft
 {
-	namespace {
-		template<bool B, class T = void>
-		struct enable_if {};
-
-		template<class T>
-		struct enable_if<true, T> { typedef T type; };
-	}
+//	namespace {
+//		template<bool B, class T = void>
+//		struct enable_if {};
+//
+//		template<class T>
+//		struct enable_if<true, T> { typedef T type; };
+//	}
 
 	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class map
@@ -85,6 +86,19 @@ namespace ft
 			return (x);
 		}
 
+		void		_create_end_node() {
+			value_type	*value = _alloc.allocate(1);
+
+			_alloc.construct(value, value_type());
+			_end_node = _alloc_rebind.allocate(1);
+
+			_end_node->val = value;
+			_end_node->parent = _end_node;
+			_end_node->left = 0;
+			_end_node->right = 0;
+			_end_node->color = BLACK;
+		}
+
 		s_node*		_put(s_node *node, const value_type& val) {
 			if (node == _end_node) {
 				s_node	*new_node = _create_new_node(val, _end_node->parent);
@@ -100,9 +114,9 @@ namespace ft
 				node->right = _put(node->right, val);
 
 			if (node->right->color == RED && node->left->color == BLACK)
-				_reverse_left(node);
+				node = _reverse_left(node);
 			if (node->left->color == RED && node->left->left->color == RED)
-				_reverse_right(node);
+				node = _reverse_right(node);
 			if (node->right->color == RED && node->left->color == RED)
 				_flip_color(node);
 			return (node);
@@ -153,14 +167,43 @@ namespace ft
 				return (node);
 		}
 
+		void		_delete_node(s_node *node) {
+			_alloc.deallocate(node->val, 1);
+			_alloc_rebind.deallocate(node, 1);
+			_size--;
+		}
+
+		void		_clear() {
+			queue<s_node *>	queue;
+			s_node			*node = _root;
+
+			queue.push(node);
+			while (!queue.empty()) {
+				if (node->right != _end_node)
+					queue.push(node->right);
+				if (node->left != _end_node)
+					queue.push(node->left);
+				node = queue.front();
+				_delete_node(node);
+				queue.pop();
+				node = queue.front();
+			}
+		}
+
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-										const allocator_type& alloc = allocator_type(),
-										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
+							const allocator_type& alloc = allocator_type(),
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
+													: _root(0), _end_node(0), _size(0), _alloc(alloc), _compare(comp) {
+			_create_end_node();
+			for (; first != last; ++first)
+				insert(*first);
+		}
+
 		map(const map& x);
-		~map() { };
+		~map() { _clear(); }
 		map&	operator=(const map& x);
 
 		iterator				begin();
@@ -217,16 +260,7 @@ namespace ft
 	template<class Key, class Value, class Compare, class Alloc>
 	map<Key, Value, Compare, Alloc>::map(const key_compare &comp, const allocator_type &alloc)
 													: _root(0), _end_node(0), _size(0), _alloc(alloc), _compare(comp) {
-		value_type	*value = _alloc.allocate(1);
-
-		_alloc.construct(value, value_type());
-		_end_node = _alloc_rebind.allocate(1);
-
-		_end_node->val = value;
-		_end_node->parent = _end_node;
-		_end_node->left = 0;
-		_end_node->right = 0;
-		_end_node->color = BLACK;
+		_create_end_node();
 	}
 
 }

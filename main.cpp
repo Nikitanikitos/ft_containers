@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 18:08:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/30 18:08:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int 	main() {
 	map.insert(std::make_pair(6, 42));
 	map.insert(std::make_pair(2, 42));
 	map.insert(std::make_pair(42, 42));
-	map.insert(std::make_pair(13, 42));
+	map.insert(std::make_pair(21, 42));
 	return (0);
 }
