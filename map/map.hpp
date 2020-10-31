@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 20:13:31 by imicah           ###   ########.fr       */
+/*   Updated: 2020/10/31 21:28:40 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ namespace ft
 		allocator_type	_alloc;
 		key_compare		_compare;
 
+		bool		_is_red(const s_node* node) { return (node->color == RED); }
+		bool		_is_black(const s_node* node) { return (node->color == BLACK); }
+
+		void		_flip_color(s_node* node) {
+			node->color = !node->color;
+			node->right->color = !node->right->color;
+			node->left->color = !node->left->color;
+		}
+
 		s_node*		_create_new_node(const value_type& val, s_node *parent) {
 			s_node*		x = _alloc_rebind.allocate(1);
 
@@ -92,38 +101,47 @@ namespace ft
 			_end_node->color = BLACK;
 		}
 
+		s_node*		_fix_up(s_node* node) {
+			if (node->right->color == RED)
+				node = _rotate_left(node);
+			if (_is_red(node->left) && _is_red(node->left->left))
+				node = _rotate_right(node);
+			if (_is_red(node->right) && _is_red(node->left))
+				_flip_color(node);
+			return (node);
+		}
+
 		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
 			std::pair<s_node*, bool>	pair;
+			bool						compare;
 
 			if (node == _end_node) {
 				s_node	*new_node = _create_new_node(val, _end_node->parent);
-				if (_compare(new_node->value->first, _first_node->value->first))
+				compare = _compare(new_node->value->first, _first_node->value->first);
+				if (compare)
 					_first_node = new_node;
-				else if (_compare(_last_node->value->first, new_node->value->first))
+				else
 					_last_node = new_node;
 				return (std::make_pair(new_node, true));
 			}
-			else if (_compare(val.first, node->value->first)) {
+
+			compare = _compare(val.first, node->value->first);
+			if (val.first == node->value->first)
+				return (std::make_pair(node, false));
+			else if (compare) {
 				pair = _put(node->left, val);
 				node->left = pair.first;
 			}
-			else if (_compare(node->value->first, val.first)) {
+			else {
 				pair = _put(node->right, val);
 				node->right = pair.first;
 			}
-			else
-				return (std::make_pair(node, false));
 
-			if (node->right->color == RED && node->left->color == BLACK)
-				node = _reverse_left(node);
-			if (node->left->color == RED && node->left->left->color == RED)
-				node = _reverse_right(node);
-			if (node->right->color == RED && node->left->color == RED)
-				_flip_color(node);
+			node = _fix_up(node);
 			return (std::make_pair(node, pair.second));
 		}
 
-		s_node*		_reverse_left(s_node* node) {
+		s_node*		_rotate_left(s_node* node) {
 			s_node*		x = node->right;
 
 			x->left->parent = node;
@@ -137,7 +155,7 @@ namespace ft
 			return (x);
 		}
 
-		s_node*		_reverse_right(s_node* node) {
+		s_node*		_rotate_right(s_node* node) {
 			s_node*		x = node->left;
 
 			x->right->parent = node;
@@ -151,25 +169,76 @@ namespace ft
 			return (x);
 		}
 
-		void		_flip_color(s_node* node) {
-			node->color = RED;
-			node->right->color = BLACK;
-			node->left->color = BLACK;
+		s_node*		_move_red_left(s_node *node) {
+			_flip_color(node);
+			if (_is_red(node->right->left)) {
+				node->right = _rotate_right(node->right);
+				node = _rotate_left(node);
+				_flip_color(node);
+			}
+			return (node);
+		}
+
+		s_node*		_move_red_right(s_node *node) {
+			_flip_color(node);
+			if (_is_red(node->left->left)) {
+				node = _rotate_right(node);
+				_flip_color(node);
+			}
+			return (node);
+		}
+
+		s_node		*_delete_min(s_node *node) {
+			if (node->left == _end_node && node->right == _end_node) {
+				_destroy_node(node);
+				return (_end_node);
+			}
+			if (_is_black(node->left) && _is_black(node->left->left))
+				_move_red_left(node);
+			node->left = _delete_min(node->left);
+			return (_fix_up(node));
+		}
+
+		s_node		*_delete(s_node *node, const key_type &key) {
+			int		compare = _compare(node->value->first, key);
+
+			if (compare < 0) {
+				if (_is_black(node->left)&& _is_black(node->left->left))
+					_move_red_left(node);
+				node->left = _delete(node->left, key);
+			}
+			else {
+				if (_is_red(node->left))
+					node = _rotate_right(node);
+				if (compare == 0 && node->right == _end_node) {
+					_destroy_node(node);
+					return (_end_node);
+				}
+				if (_is_black(node->right) && _is_black(node->right->left))
+					node = _move_red_right(node);
+				if (compare == 0) {
+					node->value = _min(node->right);
+					node->right = _delete_min(node->right);
+				}
+
+				return _fix_up(node);
+			}
 		}
 
 		s_node		*_search(const key_type &key, s_node *node) {
+			bool	compare = _compare(key, node->value->first);
 			if (node == _end_node)
 				return (_end_node);
-			else if (_compare(key, node->value->first))
-				_search(key, node->left);
-			else if (_compare(node->value->first, key))
+			else if (key == node->value->first)
+				return (node);
+			else if (compare)
 				_search(key, node->right);
 			else
-				return (node);
+				_search(key, node->left);
 			return (_end_node);
 		}
 
-		void		_delete_node(s_node *node) {
+		void		_destroy_node(s_node *node) {
 			_alloc.deallocate(node->value, 1);
 			_alloc_rebind.deallocate(node, 1);
 			_size--;
@@ -232,7 +301,6 @@ namespace ft
 			}
 			_size++;
 			return (std::make_pair(find(val.first), pair.second));
-//			return (std::make_pair(_root, pair.second));
 		}
 
 		iterator					insert(iterator position, const value_type& val);
@@ -259,7 +327,7 @@ namespace ft
 				if (node->left != _end_node)
 					queue.push(node->left);
 				node = queue.front();
-				_delete_node(node);
+				_destroy_node(node);
 				queue.pop();
 				node = queue.front();
 			}
