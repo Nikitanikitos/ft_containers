@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 14:59:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 16:46:48 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ public:
 	map_iterator<T, U>		&operator--() {
 		if (_ptr->color == true && _ptr->parent->parent == _ptr)
 			_ptr = _ptr->right;
-		else if (_ptr->left != 0) {
+		else if (_ptr->left && _ptr->left->left) {
 			T* x = _ptr->left;
-			while (x->right != 0)
+			while (_ptr->right && x->right->right)
 				x = x->right;
 			_ptr = x;
 		}

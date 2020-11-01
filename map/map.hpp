@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 15:06:55 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 17:02:12 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,16 +173,8 @@ namespace ft
 			std::pair<s_node*, bool>	pair;
 			bool						compare;
 
-			if (node == _end_node) {
-				s_node	*new_node = _create_new_node(val, _end_node->parent);
-				compare = _compare(new_node->value->first, _first_node->value->first);
-				if (compare)
-					_first_node = new_node;
-				else
-					_last_node = new_node;
-				return (std::make_pair(new_node, true));
-			}
-
+			if (node == _end_node)
+				return (std::make_pair(_create_new_node(val, _end_node->parent), true));
 			compare = _compare(val.first, node->value->first);
 			if (val.first == node->value->first)
 				return (std::make_pair(node, false));
@@ -256,6 +248,23 @@ namespace ft
 			_size--;
 		}
 
+		s_node		*_get_min_node() {
+			_first_node = _root;
+
+			while (_first_node != _end_node && _first_node->left != _end_node)
+				_first_node = _first_node->left;
+			return (_first_node);
+		}
+
+		s_node		*_get_max_node() {
+			_last_node = _root;
+
+			while (_last_node != _end_node && _last_node->right != _end_node)
+				_last_node = _last_node->right;
+			_end_node->parent = _last_node;
+			return (_last_node);
+		}
+
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 																			: _size(0), _alloc(alloc), _compare(comp) {
@@ -278,10 +287,7 @@ namespace ft
 				insert(*it);
 		}
 
-		~map() {
-			clear();
-			// TODO пофиксить деструктор
-		}
+		~map() { clear(); }
 
 		map&	operator=(const map& x) {
 			if (this == &x)
@@ -297,6 +303,7 @@ namespace ft
 		const_iterator			begin() const { return (_first_node); }
 		iterator				end() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
 		const_iterator			end() const { return (_last_node->right) ?(_last_node->right) :(_end_node); }
+
 //		reverse_iterator		rbegin() { return (_last_node->right); }
 //		const_reverse_iterator	rbegin() const { return (_last_node->right); }
 //		reverse_iterator		rend() { return (_first_node); }
@@ -329,6 +336,8 @@ namespace ft
 			_size++;
 			_root->parent = _end_node;
 			_root->color = BLACK;
+			_get_min_node();
+			_get_max_node();
 			return (std::make_pair(find(val.first), pair.second));
 		}
 
