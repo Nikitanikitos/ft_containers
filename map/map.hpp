@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 02:03:36 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/01 15:05:14 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ namespace ft
 		typedef typename	allocator_type::const_reference							const_reference;
 		typedef typename	allocator_type::pointer									pointer;
 		typedef typename	allocator_type::const_pointer							const_pointer;
-		typedef 			list_iterator<s_node, value_type>						iterator;
-		typedef				const_list_iterator<s_node, value_type>					const_iterator;
-		typedef				reverse_list_iterator<s_node, value_type>				reverse_iterator;
-		typedef				const_reverse_list_iterator<s_node, value_type>			const_reverse_iterator;
+		typedef 			map_iterator<s_node, value_type>						iterator;
+		typedef				map_iterator<s_node, value_type>						const_iterator; // TODO исправить обратно на const_map_iterator!
+//		typedef				reverse_map_iterator<s_node, value_type>				reverse_iterator;
+//		typedef				const_reverse_map_iterator<s_node, value_type>			const_reverse_iterator;
 		typedef				std::ptrdiff_t											difference_type;
 		typedef				std::size_t												size_type;
 
@@ -153,10 +153,20 @@ namespace ft
 			_end_node = _alloc_rebind.allocate(1);
 
 			_end_node->value = value;
-			_end_node->parent = _end_node;
 			_end_node->left = 0;
 			_end_node->right = 0;
 			_end_node->color = BLACK;
+		}
+
+		void		_zero_root() {
+			_first_node = _end_node;
+			_last_node = _end_node;
+			_root = _end_node;
+		}
+
+		void		_empty_map_init() {
+			_create_end_node();
+			_zero_root();
 		}
 
 		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
@@ -227,16 +237,17 @@ namespace ft
 		}
 
 		s_node		*_search(const key_type &key, s_node *node) {
-			bool	compare = _compare(key, node->value->first);
-			if (node == _end_node)
-				return (_end_node);
-			else if (key == node->value->first)
-				return (node);
-			else if (compare)
-				_search(key, node->right);
-			else
-				_search(key, node->left);
-			return (_end_node);
+			s_node	*temp_node = node;
+
+			while (temp_node != _end_node) {
+				if (key == temp_node->value->first)
+					break ;
+				else if (_compare(key, temp_node->value->first))
+					temp_node = temp_node->left;
+				else
+					temp_node = temp_node->right;
+			}
+			return (temp_node);
 		}
 
 		void		_destroy_node(s_node *node) {
@@ -248,7 +259,7 @@ namespace ft
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 																			: _size(0), _alloc(alloc), _compare(comp) {
-			_create_end_node();
+			_empty_map_init();
 		}
 
 		template <class InputIterator>
@@ -256,18 +267,21 @@ namespace ft
 							const allocator_type& alloc = allocator_type(),
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
 													: _root(0), _end_node(0), _size(0), _alloc(alloc), _compare(comp) {
-			_create_end_node();
+			_empty_map_init();
 			for (; first != last; ++first)
 				insert(*first);
 		}
 
 		map(const map& x) : _size(0), _alloc(x._alloc), _compare(x._compare) {
-			_create_end_node();
+			_empty_map_init();
 			for (const_iterator	it = x.begin(); it != x.end(); ++it)
 				insert(*it);
 		}
 
-		~map() { clear(); }
+		~map() {
+			clear();
+			// TODO пофиксить деструктор
+		}
 
 		map&	operator=(const map& x) {
 			if (this == &x)
@@ -280,12 +294,12 @@ namespace ft
 
 		iterator				begin() { return (_first_node); }
 		const_iterator			begin() const { return (_first_node); }
-		iterator				end() { return (_last_node->right); }
-		const_iterator			end() const { return (_last_node->right); }
-		reverse_iterator		rbegin() { return (_last_node->right); }
-		const_reverse_iterator	rbegin() const { return (_last_node->right); }
-		reverse_iterator		rend() { return (_first_node); }
-		const_reverse_iterator	rend() const { return (_first_node); }
+		iterator				end() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
+		const_iterator			end() const { return (_last_node->right) ?(_last_node->right) :(_end_node); }
+//		reverse_iterator		rbegin() { return (_last_node->right); }
+//		const_reverse_iterator	rbegin() const { return (_last_node->right); }
+//		reverse_iterator		rend() { return (_first_node); }
+//		const_reverse_iterator	rend() const { return (_first_node); }
 
 		bool					empty() const { return (_size == 0); }
 		size_type				size() const { return (_size); }
@@ -294,9 +308,9 @@ namespace ft
 		mapped_type&			operator[](const key_type& k) {
 			s_node	*node;
 
-			if ((node = _search(k, _root) == _end_node))
-				node = *insert(std::make_pair(k, mapped_type()));
-			return (node->value.second);
+			if ((node = _search(k, _root)) == _end_node)
+				insert(std::make_pair(k, mapped_type()));
+			return (node->value->second);
 		}
 
 		std::pair<iterator,bool>	insert(const value_type& val) {
@@ -305,33 +319,32 @@ namespace ft
 				_root = _create_new_node(val, 0);
 				_first_node = _root;
 				_last_node = _root;
-				return (std::make_pair(_root, true));
+				pair = std::make_pair(_root, true);
 			}
 			else {
 				pair = _put(_root, val);
 				_root = pair.first;
 			}
 			_size++;
+			_root->parent = _end_node;
+			_root->color = BLACK;
 			return (std::make_pair(find(val.first), pair.second));
 		}
 
 		iterator					insert(iterator position, const value_type& val);
 
 		template <class InputIterator>
-		void						insert(InputIterator first, InputIterator last) {
+		void						insert(InputIterator first, InputIterator last,
+									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 			for (; first != last; ++first)
 				insert(*first);
 		}
 
 		void						erase(iterator position) { _delete_min(position._get_ptr()); }
-		size_type					erase(const key_type& k) {
-			_delete(find(k));
-			return (1);
-		}
+		size_type					erase(const key_type& k) { _delete(find(k)); return (1); }
 
 		void						erase(iterator first, iterator last) {
-			for (; first != last; ++first)
-				_delete_min(first._get_ptr());
+			for (; first != last; ++first) _delete_min(first._get_ptr());
 		}
 
 		void						swap(map& x);
@@ -340,7 +353,8 @@ namespace ft
 			queue<s_node *>	queue;
 			s_node			*node = _root;
 
-			queue.push(node);
+			if (_root != _end_node)
+				queue.push(node);
 			while (!queue.empty()) {
 				if (node->right != _end_node)
 					queue.push(node->right);
@@ -351,6 +365,7 @@ namespace ft
 				queue.pop();
 				node = queue.front();
 			}
+			_zero_root();
 		}
 
 		key_compare					key_comp() const { return (_compare); }

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 19:30:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 14:59:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ public:
 				_ptr = y;
 				y = y->parent;
 			}
-			if (_ptr->right != y)
-				_ptr = y;
+			_ptr = y;
 		}
-		return (_ptr);
+		return (*this);
 	}
 
 	map_iterator<T, U>		&operator--() {
@@ -75,8 +74,7 @@ public:
 			}
 			_ptr = x;
 		}
-		return (_ptr);
-
+		return (*this);
 	}
 };
 
