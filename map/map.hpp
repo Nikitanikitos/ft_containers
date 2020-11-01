@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 17:02:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 17:22:51 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <utility>
 #include <limits>
 # include "map_iterator.hpp"
-//# include "reverse_map_iterator.hpp"
+# include "reverse_map_iterator.hpp"
 # include "queue.hpp"
 
 # define RED	true
@@ -51,22 +51,22 @@ namespace ft
 		typedef typename	allocator_type::const_pointer							const_pointer;
 		typedef 			map_iterator<s_node, value_type>						iterator;
 		typedef				const_map_iterator<s_node, value_type>					const_iterator;
-//		typedef				reverse_map_iterator<s_node, value_type>				reverse_iterator;
-//		typedef				const_reverse_map_iterator<s_node, value_type>			const_reverse_iterator;
+		typedef				reverse_map_iterator<s_node, value_type>				reverse_iterator;
+		typedef				const_reverse_map_iterator<s_node, value_type>			const_reverse_iterator;
 		typedef				std::ptrdiff_t											difference_type;
 		typedef				std::size_t												size_type;
 
 		typedef typename	allocator_type::template rebind<s_node>::other			alloc_rebind;
 
 	private:
-		s_node			*_root;
-		s_node			*_first_node;
-		s_node			*_last_node;
-		s_node			*_end_node;
-		size_type		_size;
-		alloc_rebind	_alloc_rebind;
-		allocator_type	_alloc;
-		key_compare		_compare;
+		s_node				*_root;
+		s_node				*_first_node;
+		s_node				*_last_node;
+		s_node				*_end_node;
+		size_type			_size;
+		alloc_rebind		_alloc_rebind;
+		allocator_type		_alloc;
+		key_compare			_compare;
 
 		bool		_is_red(const s_node* node) { return (node->color == RED); }
 		bool		_is_black(const s_node* node) { return (node->color == BLACK); }
@@ -304,10 +304,10 @@ namespace ft
 		iterator				end() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
 		const_iterator			end() const { return (_last_node->right) ?(_last_node->right) :(_end_node); }
 
-//		reverse_iterator		rbegin() { return (_last_node->right); }
-//		const_reverse_iterator	rbegin() const { return (_last_node->right); }
-//		reverse_iterator		rend() { return (_first_node); }
-//		const_reverse_iterator	rend() const { return (_first_node); }
+		reverse_iterator		rbegin() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
+		const_reverse_iterator	rbegin() const { return (_last_node->right); }
+		reverse_iterator		rend() { return (_first_node); }
+		const_reverse_iterator	rend() const { return (_first_node); }
 
 		bool					empty() const { return (_size == 0); }
 		size_type				size() const { return (_size); }
