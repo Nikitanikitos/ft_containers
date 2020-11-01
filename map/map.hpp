@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/31 21:28:40 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/01 02:03:36 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <utility>
+#include <limits>
 # include "map_iterator.hpp"
 //# include "reverse_map_iterator.hpp"
 # include "queue.hpp"
@@ -76,31 +77,6 @@ namespace ft
 			node->left->color = !node->left->color;
 		}
 
-		s_node*		_create_new_node(const value_type& val, s_node *parent) {
-			s_node*		x = _alloc_rebind.allocate(1);
-
-			x->value = _alloc.allocate(1);
-			_alloc.construct(x->value, val);
-			x->left = _end_node;
-			x->right = _end_node;
-			x->parent = parent;
-			x->color = RED;
-			return (x);
-		}
-
-		void		_create_end_node() {
-			value_type	*value = _alloc.allocate(1);
-
-			_alloc.construct(value, value_type());
-			_end_node = _alloc_rebind.allocate(1);
-
-			_end_node->value = value;
-			_end_node->parent = _end_node;
-			_end_node->left = 0;
-			_end_node->right = 0;
-			_end_node->color = BLACK;
-		}
-
 		s_node*		_fix_up(s_node* node) {
 			if (node->right->color == RED)
 				node = _rotate_left(node);
@@ -109,36 +85,6 @@ namespace ft
 			if (_is_red(node->right) && _is_red(node->left))
 				_flip_color(node);
 			return (node);
-		}
-
-		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
-			std::pair<s_node*, bool>	pair;
-			bool						compare;
-
-			if (node == _end_node) {
-				s_node	*new_node = _create_new_node(val, _end_node->parent);
-				compare = _compare(new_node->value->first, _first_node->value->first);
-				if (compare)
-					_first_node = new_node;
-				else
-					_last_node = new_node;
-				return (std::make_pair(new_node, true));
-			}
-
-			compare = _compare(val.first, node->value->first);
-			if (val.first == node->value->first)
-				return (std::make_pair(node, false));
-			else if (compare) {
-				pair = _put(node->left, val);
-				node->left = pair.first;
-			}
-			else {
-				pair = _put(node->right, val);
-				node->right = pair.first;
-			}
-
-			node = _fix_up(node);
-			return (std::make_pair(node, pair.second));
 		}
 
 		s_node*		_rotate_left(s_node* node) {
@@ -186,6 +132,61 @@ namespace ft
 				_flip_color(node);
 			}
 			return (node);
+		}
+
+		s_node*		_create_new_node(const value_type& val, s_node *parent) {
+			s_node*		x = _alloc_rebind.allocate(1);
+
+			x->value = _alloc.allocate(1);
+			_alloc.construct(x->value, val);
+			x->left = _end_node;
+			x->right = _end_node;
+			x->parent = parent;
+			x->color = RED;
+			return (x);
+		}
+
+		void		_create_end_node() {
+			value_type	*value = _alloc.allocate(1);
+
+			_alloc.construct(value, value_type());
+			_end_node = _alloc_rebind.allocate(1);
+
+			_end_node->value = value;
+			_end_node->parent = _end_node;
+			_end_node->left = 0;
+			_end_node->right = 0;
+			_end_node->color = BLACK;
+		}
+
+		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
+			std::pair<s_node*, bool>	pair;
+			bool						compare;
+
+			if (node == _end_node) {
+				s_node	*new_node = _create_new_node(val, _end_node->parent);
+				compare = _compare(new_node->value->first, _first_node->value->first);
+				if (compare)
+					_first_node = new_node;
+				else
+					_last_node = new_node;
+				return (std::make_pair(new_node, true));
+			}
+
+			compare = _compare(val.first, node->value->first);
+			if (val.first == node->value->first)
+				return (std::make_pair(node, false));
+			else if (compare) {
+				pair = _put(node->left, val);
+				node->left = pair.first;
+			}
+			else {
+				pair = _put(node->right, val);
+				node->right = pair.first;
+			}
+
+			node = _fix_up(node);
+			return (std::make_pair(node, pair.second));
 		}
 
 		s_node		*_delete_min(s_node *node) {
@@ -245,7 +246,11 @@ namespace ft
 		}
 
 	public:
-		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+																			: _size(0), _alloc(alloc), _compare(comp) {
+			_create_end_node();
+		}
+
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 							const allocator_type& alloc = allocator_type(),
@@ -256,14 +261,21 @@ namespace ft
 				insert(*first);
 		}
 
-		map(const map& x);
+		map(const map& x) : _size(0), _alloc(x._alloc), _compare(x._compare) {
+			_create_end_node();
+			for (const_iterator	it = x.begin(); it != x.end(); ++it)
+				insert(*it);
+		}
+
 		~map() { clear(); }
+
 		map&	operator=(const map& x) {
 			if (this == &x)
 				return (*this);
 			clear();
 			_size = 0;
-			// TODO Доделать!
+			for (const_iterator	it = x.begin(); it != x.end(); ++it)
+				insert(*it);
 		}
 
 		iterator				begin() { return (_first_node); }
@@ -277,7 +289,7 @@ namespace ft
 
 		bool					empty() const { return (_size == 0); }
 		size_type				size() const { return (_size); }
-		size_type				max_size() const;
+		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
 		mapped_type&			operator[](const key_type& k) {
 			s_node	*node;
@@ -311,9 +323,17 @@ namespace ft
 				insert(*first);
 		}
 
-		void						erase(iterator position);
-		size_type					erase(const key_type& k);
-		void						erase(iterator first, iterator last);
+		void						erase(iterator position) { _delete_min(position._get_ptr()); }
+		size_type					erase(const key_type& k) {
+			_delete(find(k));
+			return (1);
+		}
+
+		void						erase(iterator first, iterator last) {
+			for (; first != last; ++first)
+				_delete_min(first._get_ptr());
+		}
+
 		void						swap(map& x);
 
 		void						clear() {
@@ -350,21 +370,37 @@ namespace ft
 
 		size_type					count(const key_type& k) const { return ((_search(k, _root) != _end_node) ? 1 : 0); }
 
-		iterator					lower_bound(const key_type& k);
-		const_iterator				lower_bound(const key_type& k) const;
-		iterator					upper_bound(const key_type& k);
-		const_iterator				upper_bound(const key_type& k) const;
+		iterator					lower_bound(const key_type& k) {
+			for (iterator	it = begin(); it != _last_node; ++it)
+				if (!_compare(*it.first, k))
+					return (it);
+			return (_end_node);
+		}
+
+		const_iterator				lower_bound(const key_type& k) const {
+			for (const_iterator	it = begin(); it != _last_node; ++it)
+				if (!_compare(*it.first, k))
+					return (it);
+			return (_end_node);
+		}
+
+		iterator					upper_bound(const key_type& k) {
+			for (iterator it = end(); it != _first_node; --it)
+				if (_compare(k, *it.first))
+					return (it);
+			return (_end_node);
+		}
+
+		const_iterator				upper_bound(const key_type& k) const {
+			for (const_iterator it = end(); it != _first_node; --it)
+				if (_compare(k, *it.first))
+					return (it);
+			return (_end_node);
+		}
 
 		std::pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
 		std::pair<iterator,iterator>				equal_range (const key_type& k);
 	};
-
-	template<class Key, class Value, class Compare, class Alloc>
-	map<Key, Value, Compare, Alloc>::map(const key_compare &comp, const allocator_type &alloc)
-													: _root(0), _end_node(0), _size(0), _alloc(alloc), _compare(comp) {
-		_create_end_node();
-	}
-
 }
 
 #endif

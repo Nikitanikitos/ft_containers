@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <string>
+#include <limits>
 # include "list_iterator.hpp"
 # include "reverse_list_iterator.hpp"
 
@@ -72,17 +73,6 @@ namespace ft
 			_end_node->next = _end_node;
 			_end_node->prev = _end_node;
 			_end_node->value = value_node;
-		}
-
-		void	_tie_end_node() { // TODO think about better name
-			if (_first_node) {
-				_first_node->prev = _end_node;
-				_end_node->next = _first_node;
-			}
-			if (_last_node) {
-				_last_node->next = _end_node;
-				_end_node->prev = _last_node;
-			}
 		}
 
 		void	_assign_new_value_to_node(s_list *node, const value_type &val) {

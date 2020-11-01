@@ -40,6 +40,44 @@ public:
 	U			&operator*() const { return (*_ptr->value); }
 	U			*operator->() const { return (_ptr->value); }
 
+	map_iterator<T, U>		&operator++() {
+		if (_ptr->right->right) {
+			_ptr = _ptr->right;
+			while (_ptr->left->left)
+				_ptr = _ptr->left;
+		}
+		else {
+			T	*y = _ptr->parent;
+			while (_ptr == y->right) {
+				_ptr = y;
+				y = y->parent;
+			}
+			if (_ptr->right != y)
+				_ptr = y;
+		}
+		return (_ptr);
+	}
+
+	map_iterator<T, U>		&operator--() {
+		if (_ptr->color == true && _ptr->parent->parent == _ptr)
+			_ptr = _ptr->right;
+		else if (_ptr->left != 0) {
+			T* x = _ptr->left;
+			while (x->right != 0)
+				x = x->right;
+			_ptr = x;
+		}
+		else {
+			T* x = _ptr->parent;
+			while (_ptr == x->left) {
+				_ptr = x;
+				x = x->parent;
+			}
+			_ptr = x;
+		}
+		return (_ptr);
+
+	}
 };
 
 #endif //FT_CONTAINERS_MAP_ITERATOR_HPP
