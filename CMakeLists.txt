@@ -41,7 +41,8 @@ add_executable(ft_containers
 #        queue/tests/queue_constructor_tests.cpp
 #        queue/tests/queue_push_pop_tests.cpp
 
-        )
+        map/tests/map_constructor_tests.cpp
+        map/tests/map_iterator_tests.cpp)
 
 include_directories(
         includes

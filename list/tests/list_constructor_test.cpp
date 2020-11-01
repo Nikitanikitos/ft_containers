@@ -180,8 +180,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 }
 
 TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [constructor]",
-
-			   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 
