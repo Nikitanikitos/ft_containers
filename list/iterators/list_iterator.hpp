@@ -57,7 +57,6 @@ public:
 	}
 
 	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
-
 };
 
 template<class T, class U>

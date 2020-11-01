@@ -174,7 +174,7 @@ namespace ft
 			bool						compare;
 
 			if (node == _end_node)
-				return (std::make_pair(_create_new_node(val, _end_node->parent), true));
+				return (std::make_pair(_create_new_node(val, node->parent), true));
 			compare = _compare(val.first, node->value->first);
 			if (val.first == node->value->first)
 				return (std::make_pair(node, false));

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 15:21:57 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 17:34:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 19:35:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ TEMPLATE_TEST_CASE_SIG("Default const map iterator", "[map] [iterator]",
 		int			count_iterations = 0;
 
 		for (int i = 0; i < V; ++i) {
-			ft_map.insert(std::make_pair(i, "string" + std::to_string(i + 21)));
-			map.insert(std::make_pair(i, "string" + std::to_string(i + 21)));
+			ft_map.insert(std::make_pair(-i, "string" + std::to_string(i + 21)));
+			map.insert(std::make_pair(-i, "string" + std::to_string(i + 21)));
 		}
 
 		SECTION("Increment iterator") {
