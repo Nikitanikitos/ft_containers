@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 15:05:14 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 15:06:55 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,7 @@ namespace ft
 			_size = 0;
 			for (const_iterator	it = x.begin(); it != x.end(); ++it)
 				insert(*it);
+			return (*this);
 		}
 
 		iterator				begin() { return (_first_node); }
