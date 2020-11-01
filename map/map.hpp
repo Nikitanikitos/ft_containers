@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 17:02:12 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/01 17:02:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 		typedef typename	allocator_type::pointer									pointer;
 		typedef typename	allocator_type::const_pointer							const_pointer;
 		typedef 			map_iterator<s_node, value_type>						iterator;
-		typedef				map_iterator<s_node, value_type>						const_iterator; // TODO исправить обратно на const_map_iterator!
+		typedef				const_map_iterator<s_node, value_type>					const_iterator;
 //		typedef				reverse_map_iterator<s_node, value_type>				reverse_iterator;
 //		typedef				const_reverse_map_iterator<s_node, value_type>			const_reverse_iterator;
 		typedef				std::ptrdiff_t											difference_type;
