@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 14:01:28 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 15:38:49 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,9 +330,28 @@ namespace ft
 
 		mapped_type&			operator[](const key_type& k) {
 			s_node	*node;
+			iterator	it;
+
+			if ((node = _search(k, _root)) == _end_last_node) {
+				it = insert(std::make_pair(k, mapped_type())).first;
+				node = it._get_ptr();
+			}
+			return (node->value->second);
+		}
+
+		mapped_type& at (const key_type& k) {
+			s_node	*node;
 
 			if ((node = _search(k, _root)) == _end_last_node)
-				insert(std::make_pair(k, mapped_type()));
+				throw std::exception();
+			return (node->value->second);
+		}
+
+		const mapped_type& at (const key_type& k) const {
+			s_node	*node;
+
+			if ((node = _search(k, _root)) == _end_last_node)
+				throw std::exception();
 			return (node->value->second);
 		}
 
