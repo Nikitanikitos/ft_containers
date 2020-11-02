@@ -47,7 +47,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests map", "[
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vector] [access]",
+TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests map", "[map] [access]",
 												   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::map<T, char>		ft_map;
 	std::map<T, char>		map;
@@ -95,7 +95,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vect
 	}
 }
 
-TEMPLATE_TEST_CASE("method at getting a nonexistent item tests", "[vector] [access]", int) {
+TEMPLATE_TEST_CASE("method at getting a nonexistent item tests map", "[map] [access]", int) {
 	ft::map<TestType, char>		ft_map;
 	std::map<TestType, char>		map;
 
