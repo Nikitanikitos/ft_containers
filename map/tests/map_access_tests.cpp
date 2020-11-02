@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 15:18:32 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 15:33:17 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 15:47:53 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,23 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vect
 			else
 				REQUIRE(ft_map.at(i) == map.at(i));
 	}
+}
+
+TEMPLATE_TEST_CASE("method at getting a nonexistent item tests", "[vector] [access]", int) {
+	ft::map<TestType, char>		ft_map;
+	std::map<TestType, char>		map;
+
+	for (int i = 0; i < 7; ++i) {
+		if (i % 2) {
+			ft_map.insert(std::make_pair(-i, i));
+			map.insert(std::make_pair(-i, i));
+		}
+		else {
+			ft_map.insert(std::make_pair(i, -i));
+			map.insert(std::make_pair(i, -i));
+		}
+	}
+
+	REQUIRE_THROWS(ft_map.at(9));
+	REQUIRE_THROWS(map.at(9));
 }

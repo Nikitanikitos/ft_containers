@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 15:38:49 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 15:45:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,7 @@ namespace ft
 			s_node	*node;
 
 			if ((node = _search(k, _root)) == _end_last_node)
-				throw std::exception();
+				throw std::out_of_range("Out of range");
 			return (node->value->second);
 		}
 
@@ -351,7 +351,7 @@ namespace ft
 			s_node	*node;
 
 			if ((node = _search(k, _root)) == _end_last_node)
-				throw std::exception();
+				throw std::out_of_range("Out of range");
 			return (node->value->second);
 		}
 
