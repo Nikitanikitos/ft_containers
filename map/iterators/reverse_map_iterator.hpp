@@ -156,7 +156,7 @@ public:
 		}
 		else {
 			T* x = _ptr->parent;
-			while (_ptr == x->left) {
+			while (_ptr == x->left && x->left->left) {
 				_ptr = x;
 				x = x->parent;
 			}

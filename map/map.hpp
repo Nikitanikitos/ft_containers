@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 13:11:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 13:22:33 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,9 +330,6 @@ namespace ft
 			std::pair<s_node*, bool>	pair;
 			if (empty()) {
 				_root = _create_new_node(val, 0);
-				_first_node = _root;
-				_last_node = _root;
-				_end_node->parent = _last_node;
 				pair = std::make_pair(_root, true);
 			}
 			else {
@@ -342,9 +339,8 @@ namespace ft
 			_size++;
 			_root->parent = _end_node;
 			_root->color = BLACK;
-			_end_node->parent = _last_node;
-//			_get_min_node();
-//			_get_max_node();
+			_get_min_node();
+			_get_max_node();
 			return (std::make_pair(find(val.first), pair.second));
 		}
 
