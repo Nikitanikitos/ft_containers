@@ -162,7 +162,7 @@ public:
 				_ptr = x;
 				x = x->parent;
 			}
-			_ptr = x;
+//			_ptr = x;
 		}
 		return (*this);
 	}

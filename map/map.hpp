@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 21:16:52 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/02 13:11:04 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,17 +172,17 @@ namespace ft
 		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
 			std::pair<s_node*, bool>	pair;
 
-			if (node->right == _end_node && node->left == _end_node) {
-				if (val.first == node->value->first)
-					return (std::make_pair(node, false));
-				else if (_compare(val.first, node->value->first))
-					node->left = _create_new_node(val, node);
-				else
-					node->right = _create_new_node(val, node);
+			if (val.first == node->value->first)
+				return (std::make_pair(node, false));
+
+			if (node->left == _end_node && _compare(val.first, node->value->first)) {
+				node->left = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
-			else if (val.first == node->value->first)
-				return (std::make_pair(node, false));
+			else if (node->right == _end_node && _compare(node->value->first, val.first)) {
+				node->right = _create_new_node(val, node);
+				pair = std::make_pair(node, true);
+			}
 			else if (_compare(val.first, node->value->first)) {
 				pair = _put(node->left, val);
 				node->left = pair.first;
@@ -306,7 +306,7 @@ namespace ft
 
 		iterator				begin() { return (_first_node); }
 		const_iterator			begin() const { return (_first_node); }
-		iterator				end() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
+		iterator				end() { return (_last_node->right) ? (_last_node->right) : (_end_node); }
 		const_iterator			end() const { return (_last_node->right) ?(_last_node->right) :(_end_node); }
 
 		reverse_iterator		rbegin() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
@@ -332,6 +332,7 @@ namespace ft
 				_root = _create_new_node(val, 0);
 				_first_node = _root;
 				_last_node = _root;
+				_end_node->parent = _last_node;
 				pair = std::make_pair(_root, true);
 			}
 			else {
@@ -341,8 +342,9 @@ namespace ft
 			_size++;
 			_root->parent = _end_node;
 			_root->color = BLACK;
-			_get_min_node();
-			_get_max_node();
+			_end_node->parent = _last_node;
+//			_get_min_node();
+//			_get_max_node();
 			return (std::make_pair(find(val.first), pair.second));
 		}
 
