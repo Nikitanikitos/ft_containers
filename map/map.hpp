@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 15:45:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 18:04:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ namespace ft
 		alloc_rebind		_alloc_rebind;
 		allocator_type		_alloc;
 		key_compare			_compare;
+
+		template<class S>
+		void		_swap(S &first, S &second) {
+			S&	temp = S(first);
+
+			first = temp;
+			first = second;
+		}
 
 		bool		_is_red(const s_node* node) { return (node->color == RED); }
 		bool		_is_black(const s_node* node) { return (node->color == BLACK); }
@@ -216,10 +224,16 @@ namespace ft
 			return (_fix_up(node));
 		}
 
+		value_type	*_min(s_node *node) {
+			while (node->left != _end_first_node)
+				node = node->left;
+			return (node->value);
+		}
+
 		s_node		*_delete(s_node *node, const key_type &key) {
 			int		compare = _compare(node->value->first, key);
 
-			if (compare < 0) {
+			if (!compare && node->value->first != key) {
 				if (_is_black(node->left)&& _is_black(node->left->left))
 					_move_red_left(node);
 				node->left = _delete(node->left, key);
@@ -227,19 +241,34 @@ namespace ft
 			else {
 				if (_is_red(node->left))
 					node = _rotate_right(node);
-				if (compare == 0 && node->right == _end_last_node) {
+				if (node->value->first == key && node->right == _end_last_node) {
 					_destroy_node(node);
 					return (_end_last_node);
 				}
 				if (_is_black(node->right) && _is_black(node->right->left))
 					node = _move_red_right(node);
-				if (compare == 0) {
+				if (node->value->first == key) {
 					node->value = _min(node->right);
 					node->right = _delete_min(node->right);
 				}
-
-				return _fix_up(node);
+				else
+					node->right = _delete(node->right, key);
 			}
+			return _fix_up(node);
+		}
+
+		s_node		*_delete(s_node *node) {
+			if (_is_red(node->left))
+				node = _rotate_right(node);
+			if (node->right == _end_last_node) {
+				_destroy_node(node);
+				return (_end_last_node);
+			}
+			if (_is_black(node->right) && _is_black(node->right->left))
+				node = _move_red_right(node);
+			node->value = _min(node->right);
+			node->right = _delete_min(node->right);
+			return _fix_up(node);
 		}
 
 		s_node		*_search(const key_type &key, s_node *node) {
@@ -382,14 +411,25 @@ namespace ft
 				insert(*first);
 		}
 
-		void						erase(iterator position) { _delete_min(position._get_ptr()); }
-		size_type					erase(const key_type& k) { _delete(find(k)); return (1); }
+		void						erase(iterator position) { _delete(position._get_ptr()); }
+
+		size_type					erase(const key_type& k) { _root = _delete(_root, k); return (1); }
 
 		void						erase(iterator first, iterator last) {
 			for (; first != last; ++first) _delete_min(first._get_ptr());
 		}
 
-		void						swap(map& x);
+		void						swap(map& x) {
+			_swap(x._root, _root);
+			_swap(x._end_first_node, _end_first_node);
+			_swap(x._end_last_node, _end_last_node);
+			_swap(x._first_node, _first_node);
+			_swap(x._last_node, _last_node);
+			_swap(x._alloc, _alloc);
+			_swap(x._alloc_rebind, _alloc_rebind);
+			_swap(x._size, _size);
+			_swap(x._compare, _compare);
+		}
 
 		void						clear() {
 			queue<s_node *>	queue;
