@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 18:04:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 21:42:59 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,12 +411,21 @@ namespace ft
 				insert(*first);
 		}
 
-		void						erase(iterator position) { _delete(position._get_ptr()); }
+		void						erase(iterator position) {
+			s_node	*node = position._get_ptr();
+			erase(node->value->first);
+		}
 
 		size_type					erase(const key_type& k) { _root = _delete(_root, k); return (1); }
 
 		void						erase(iterator first, iterator last) {
-			for (; first != last; ++first) _delete_min(first._get_ptr());
+			iterator	temp_it = first;
+
+			for (; temp_it != last; ++temp_it) {
+				temp_it = first;
+				++temp_it;
+				erase(first);
+			}
 		}
 
 		void						swap(map& x) {

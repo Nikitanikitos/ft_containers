@@ -14,7 +14,7 @@
 #include <vector>
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests", "[vector] [access]",
+TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests vector", "[vector] [access]",
 					 							  ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 		ft::vector<T>		ft_vector;
 		std::vector<T>		vector;
@@ -43,7 +43,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item tests", "[vect
 		}
 }
 
-TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vector] [access]",
+TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests vector", "[vector] [access]",
 									  			 ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 		ft::vector<T>		ft_vector;
 		std::vector<T>		vector;
@@ -75,7 +75,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes tests", "[vect
 		}
 }
 
-TEMPLATE_TEST_CASE("method at getting a nonexistent item tests", "[vector] [access]", int) {
+TEMPLATE_TEST_CASE("method at getting a nonexistent item tests vector", "[vector] [access]", int) {
 		ft::vector<TestType>		ft_vector;
 		std::vector<TestType>		vector;
 

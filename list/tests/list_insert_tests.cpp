@@ -368,7 +368,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = 1 through two iterator", "[li
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through two iterator", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5)) {
+																			   ((typename T, int V), T, V), (int, 5), (char, 31)) {
 	ft::list<T>							ft_list(V, -26);
 	std::list<T>						list(V, -26);
 	ft::list<T>							ft_list_for_insert;
