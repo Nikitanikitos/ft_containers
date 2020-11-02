@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 13:22:33 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 14:01:28 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ namespace ft
 		s_node				*_root;
 		s_node				*_first_node;
 		s_node				*_last_node;
-		s_node				*_end_node;
+		s_node				*_end_last_node;
+		s_node				*_end_first_node;
 		size_type			_size;
 		alloc_rebind		_alloc_rebind;
 		allocator_type		_alloc;
@@ -139,8 +140,8 @@ namespace ft
 
 			x->value = _alloc.allocate(1);
 			_alloc.construct(x->value, val);
-			x->left = _end_node;
-			x->right = _end_node;
+			x->left = _end_last_node;
+			x->right = _end_last_node;
 			x->parent = parent;
 			x->color = RED;
 			return (x);
@@ -150,18 +151,26 @@ namespace ft
 			value_type	*value = _alloc.allocate(1);
 
 			_alloc.construct(value, value_type());
-			_end_node = _alloc_rebind.allocate(1);
+			_end_last_node = _alloc_rebind.allocate(1);
+			_end_first_node = _alloc_rebind.allocate(1);
 
-			_end_node->value = value;
-			_end_node->left = 0;
-			_end_node->right = 0;
-			_end_node->color = BLACK;
+			_end_last_node->value = value;
+			_end_last_node->left = 0;
+			_end_last_node->right = 0;
+			_end_last_node->color = BLACK;
+			_end_last_node->parent = _end_last_node;
+
+			_end_first_node->value = value;
+			_end_first_node->left = 0;
+			_end_first_node->right = 0;
+			_end_first_node->color = BLACK;
+			_end_first_node->parent = _end_first_node;
 		}
 
 		void		_zero_root() {
-			_first_node = _end_node;
-			_last_node = _end_node;
-			_root = _end_node;
+			_first_node = _end_last_node;
+			_last_node = _end_last_node;
+			_root = _end_last_node;
 		}
 
 		void		_empty_map_init() {
@@ -175,11 +184,11 @@ namespace ft
 			if (val.first == node->value->first)
 				return (std::make_pair(node, false));
 
-			if (node->left == _end_node && _compare(val.first, node->value->first)) {
+			if (node->left == _end_last_node && _compare(val.first, node->value->first)) {
 				node->left = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
-			else if (node->right == _end_node && _compare(node->value->first, val.first)) {
+			else if (node->right == _end_last_node && _compare(node->value->first, val.first)) {
 				node->right = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
@@ -197,9 +206,9 @@ namespace ft
 		}
 
 		s_node		*_delete_min(s_node *node) {
-			if (node->left == _end_node && node->right == _end_node) {
+			if (node->left == _end_last_node && node->right == _end_last_node) {
 				_destroy_node(node);
-				return (_end_node);
+				return (_end_last_node);
 			}
 			if (_is_black(node->left) && _is_black(node->left->left))
 				_move_red_left(node);
@@ -218,9 +227,9 @@ namespace ft
 			else {
 				if (_is_red(node->left))
 					node = _rotate_right(node);
-				if (compare == 0 && node->right == _end_node) {
+				if (compare == 0 && node->right == _end_last_node) {
 					_destroy_node(node);
-					return (_end_node);
+					return (_end_last_node);
 				}
 				if (_is_black(node->right) && _is_black(node->right->left))
 					node = _move_red_right(node);
@@ -236,7 +245,7 @@ namespace ft
 		s_node		*_search(const key_type &key, s_node *node) {
 			s_node	*temp_node = node;
 
-			while (temp_node != _end_node) {
+			while (temp_node != _end_last_node) {
 				if (key == temp_node->value->first)
 					break ;
 				else if (_compare(key, temp_node->value->first))
@@ -256,17 +265,18 @@ namespace ft
 		s_node		*_get_min_node() {
 			_first_node = _root;
 
-			while (_first_node != _end_node && _first_node->left != _end_node)
+			while (_first_node != _end_last_node && _first_node->left != _end_last_node)
 				_first_node = _first_node->left;
+			_end_first_node->parent = _first_node;
 			return (_first_node);
 		}
 
 		s_node		*_get_max_node() {
 			_last_node = _root;
 
-			while (_last_node != _end_node && _last_node->right != _end_node)
+			while (_last_node != _end_last_node && _last_node->right != _end_last_node)
 				_last_node = _last_node->right;
-			_end_node->parent = _last_node;
+			_end_last_node->parent = _last_node;
 			return (_last_node);
 		}
 
@@ -280,7 +290,7 @@ namespace ft
 		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 							const allocator_type& alloc = allocator_type(),
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-													: _root(0), _end_node(0), _size(0), _alloc(alloc), _compare(comp) {
+													: _root(0), _end_last_node(0), _end_first_node(0), _size(0), _alloc(alloc), _compare(comp) {
 			_empty_map_init();
 			for (; first != last; ++first)
 				insert(*first);
@@ -306,13 +316,13 @@ namespace ft
 
 		iterator				begin() { return (_first_node); }
 		const_iterator			begin() const { return (_first_node); }
-		iterator				end() { return (_last_node->right) ? (_last_node->right) : (_end_node); }
-		const_iterator			end() const { return (_last_node->right) ?(_last_node->right) :(_end_node); }
+		iterator				end() { return (_end_last_node); }
+		const_iterator			end() const { return (_end_last_node); }
 
-		reverse_iterator		rbegin() { return (_last_node->right) ?(_last_node->right) : (_end_node); }
-		const_reverse_iterator	rbegin() const { return (_last_node->right); }
-		reverse_iterator		rend() { return (_first_node); }
-		const_reverse_iterator	rend() const { return (_first_node); }
+		reverse_iterator		rbegin() { return (_end_last_node->parent); }
+		const_reverse_iterator	rbegin() const { return (_end_last_node->parent); }
+		reverse_iterator		rend() { return (_end_first_node); }
+		const_reverse_iterator	rend() const { return (_end_first_node); }
 
 		bool					empty() const { return (_size == 0); }
 		size_type				size() const { return (_size); }
@@ -321,7 +331,7 @@ namespace ft
 		mapped_type&			operator[](const key_type& k) {
 			s_node	*node;
 
-			if ((node = _search(k, _root)) == _end_node)
+			if ((node = _search(k, _root)) == _end_last_node)
 				insert(std::make_pair(k, mapped_type()));
 			return (node->value->second);
 		}
@@ -337,7 +347,7 @@ namespace ft
 				_root = pair.first;
 			}
 			_size++;
-			_root->parent = _end_node;
+			_root->parent = _end_last_node;
 			_root->color = BLACK;
 			_get_min_node();
 			_get_max_node();
@@ -366,12 +376,12 @@ namespace ft
 			queue<s_node *>	queue;
 			s_node			*node = _root;
 
-			if (_root != _end_node)
+			if (_root != _end_last_node)
 				queue.push(node);
 			while (!queue.empty()) {
-				if (node->right != _end_node)
+				if (node->right != _end_last_node)
 					queue.push(node->right);
-				if (node->left != _end_node)
+				if (node->left != _end_last_node)
 					queue.push(node->left);
 				node = queue.front();
 				_destroy_node(node);
@@ -396,34 +406,34 @@ namespace ft
 			return (node);
 		}
 
-		size_type					count(const key_type& k) const { return ((_search(k, _root) != _end_node) ? 1 : 0); }
+		size_type					count(const key_type& k) const { return ((_search(k, _root) != _end_last_node) ? 1 : 0); }
 
 		iterator					lower_bound(const key_type& k) {
 			for (iterator	it = begin(); it != _last_node; ++it)
 				if (!_compare(*it.first, k))
 					return (it);
-			return (_end_node);
+			return (_end_last_node);
 		}
 
 		const_iterator				lower_bound(const key_type& k) const {
 			for (const_iterator	it = begin(); it != _last_node; ++it)
 				if (!_compare(*it.first, k))
 					return (it);
-			return (_end_node);
+			return (_end_last_node);
 		}
 
 		iterator					upper_bound(const key_type& k) {
 			for (iterator it = end(); it != _first_node; --it)
 				if (_compare(k, *it.first))
 					return (it);
-			return (_end_node);
+			return (_end_last_node);
 		}
 
 		const_iterator				upper_bound(const key_type& k) const {
 			for (const_iterator it = end(); it != _first_node; --it)
 				if (_compare(k, *it.first))
 					return (it);
-			return (_end_node);
+			return (_end_last_node);
 		}
 
 		std::pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;

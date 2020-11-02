@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:17:45 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 17:22:51 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 14:13:08 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ public:
 	U			*operator->() const { return (_ptr->value); }
 
 	reverse_map_iterator<T, U>		&operator--() {
-		if (_ptr->right->right) {
+		if (_ptr->right && _ptr->right->right) {
 			_ptr = _ptr->right;
-			while (_ptr->left->left)
+			while (_ptr->left && _ptr->left->left)
 				_ptr = _ptr->left;
 		}
 		else {
@@ -74,7 +74,7 @@ public:
 		}
 		else {
 			T* x = _ptr->parent;
-			while (_ptr == x->left) {
+			while (_ptr == x->left && x->left->left) {
 				_ptr = x;
 				x = x->parent;
 			}
@@ -122,9 +122,9 @@ public:
 	U			*operator->() const { return (_ptr->value); }
 
 	const_reverse_map_iterator<T, U>		&operator--() {
-		if (_ptr->right->right) {
+		if (_ptr->right && _ptr->right->right) {
 			_ptr = _ptr->right;
-			while (_ptr->left->left)
+			while (_ptr->left && _ptr->left->left)
 				_ptr = _ptr->left;
 		}
 		else {
