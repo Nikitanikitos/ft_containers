@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:37:20 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 15:09:35 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 15:10:30 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Insert in empty map through two iterator", "[map] [insert]",
-					   ((typename T, int V), T, V), (int, 5)) {
+TEMPLATE_TEST_CASE_SIG("Insert in map through two iterator", "[map] [insert]",
+													 ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::map<T, float>							ft_map;
 	std::map<T, float>							map;
 	ft::map<T, float>							ft_map_for_insert;
@@ -79,7 +79,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in empty map through two iterator", "[map] [inser
 	typename ft::map<T, float>::iterator		ft_it;
 	typename std::map<T, float>::iterator		it;
 
-	SECTION("empty ft_list_for_insert") {
+	SECTION("empty map") {
 		ft_map.insert(ft_map_for_insert.begin(), ft_map_for_insert.end());
 		map.insert(map_for_insert.begin(), map_for_insert.end());
 

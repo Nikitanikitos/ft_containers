@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 15:21:57 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 14:14:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/02 14:15:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ TEMPLATE_TEST_CASE_SIG("Default map iterator", "[map] [iterator]", ((typename T,
 }
 
 TEMPLATE_TEST_CASE_SIG("Default const map iterator", "[map] [iterator]",
-																((typename T, int V), T, V), (int, 10)) {
+																((typename T, int V), T, V), (int, 10), (char, 13)) {
 	ft::map<T, std::string>							ft_map;
 	std::map<T, std::string>						map;
 	typename ft::map<T, std::string>::const_iterator		ft_it;
@@ -198,7 +198,7 @@ TEMPLATE_TEST_CASE_SIG("Default const map iterator", "[map] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse map iterator", "[map] [iterator]", ((typename T, int V), T, V), (int, 10)) {
+TEMPLATE_TEST_CASE_SIG("Reverse map iterator", "[map] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 29)) {
 	ft::map<T, std::string>									ft_map;
 	std::map<T, std::string>								map;
 	typename ft::map<T, std::string>::reverse_iterator		ft_it;
@@ -265,8 +265,8 @@ TEMPLATE_TEST_CASE_SIG("Reverse map iterator", "[map] [iterator]", ((typename T,
 
 TEMPLATE_TEST_CASE_SIG("const reverse map iterator", "[map] [iterator]",
 																((typename T, int V), T, V), (int, 10), (char, 20)) {
-	ft::map<T, std::string>									ft_map;
-	std::map<T, std::string>								map;
+	ft::map<T, std::string>											ft_map;
+	std::map<T, std::string>										map;
 	typename ft::map<T, std::string>::const_reverse_iterator		ft_it;
 	typename std::map<T, std::string>::const_reverse_iterator		it;
 
