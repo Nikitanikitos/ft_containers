@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 17:20:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 18:17:01 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
 # include <iostream>
 # include <iterator>
 # include <string>
+# include "tree.hpp"
 
 template<class T, class U>
 class	map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
+	typedef typename ft::Tree<bool, bool>		_tree;
+
 	T*		_ptr;
 
 public:
@@ -104,7 +107,7 @@ private:
 public:
 	const_map_iterator(T *ptr = 0) : _ptr(ptr) { }
 	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) { }
-	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
+//	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
 	~const_map_iterator() { }
 
 	const_map_iterator<T, U>	&operator=(const const_map_iterator<T, U> &it) {
@@ -113,10 +116,10 @@ public:
 		return (*this);
 	}
 
-	const_map_iterator<T, U>	&operator=(const map_iterator<T, U> &it) {
-		_ptr = it._get_ptr();
-		return (*this);
-	}
+//	const_map_iterator<T, U>	&operator=(const map_iterator<T, U> &it) {
+//		_ptr = it._get_ptr();
+//		return (*this);
+//	}
 
 	bool		operator!=(const const_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const const_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }

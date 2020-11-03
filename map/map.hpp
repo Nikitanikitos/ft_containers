@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 17:19:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 18:18:48 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,14 @@
 
 namespace ft
 {
-
 	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class map
 	{
 	private:
-		Tree<Key, Value, Compare, Alloc>	_tree;
-
 		typedef				Tree<Key, Value, Compare, Alloc>						_tree_type;
 		typedef typename	_tree_type::s_node										_s_node_type;
+
+		_tree_type 			_tree;
 
 	public:
 		typedef				Key														key_type;
@@ -55,9 +54,6 @@ namespace ft
 		typedef				const_map_iterator<_s_node_type, value_type>			const_iterator;
 		typedef				reverse_map_iterator<_s_node_type, value_type>			reverse_iterator;
 		typedef				const_reverse_map_iterator<_s_node_type, value_type>	const_reverse_iterator;
-
-//	private:
-//		typedef typename	allocator_type::template rebind<_s_node_type>::other	alloc_rebind;
 
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
@@ -117,7 +113,7 @@ namespace ft
 
 		mapped_type&			operator[](const key_type& k) {
 			_s_node_type*	node;
-			iterator	it;
+			iterator		it;
 
 			if ((node = _tree._search(k, _tree._root)) == _tree._last_node) {
 				it = insert(std::make_pair(k, mapped_type())).first;
@@ -126,7 +122,7 @@ namespace ft
 			return (node->value->second);
 		}
 
-		mapped_type& at (const key_type& k) {
+		mapped_type&				at(const key_type& k) {
 			_s_node_type*	node = _tree._search(k, _tree._root);
 
 			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
@@ -134,7 +130,7 @@ namespace ft
 			return (node->value->second);
 		}
 
-		const mapped_type& at (const key_type& k) const {
+		const mapped_type&			at(const key_type& k) const {
 			_s_node_type*	node = _search(k, _tree->_root);
 
 			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
@@ -202,22 +198,22 @@ namespace ft
 		}
 
 		void						clear() {
-//			queue<s_node *>	queue;
-//			s_node			*node = _root;
-//
-//			if (_root != _end_node)
-//				queue.push(node);
-//			while (!queue.empty()) {
-//				if (node->right != _end_node || node->right != _last_node)
-//					queue.push(node->right);
-//				if (node->_left != _end_node || node->_left != _first_node)
-//					queue.push(node->_left);
-//				node = queue.front();
-//				_destroy_node(node);
-//				queue.pop();
-//				node = queue.front();
-//			}
-//			_zero_root();
+			queue<_s_node_type*>	queue;
+			_s_node_type*			node;
+
+			node = _tree._root;
+			if (_tree._root != _tree._end_node)
+				queue.push(node);
+			while (!queue.empty()) {
+				if (node->right != _tree._end_node || node->right != _tree._last_node)
+					queue.push(node->right);
+				if (node->_left != _tree._end_node || node->_left != _tree._first_node)
+					queue.push(node->_left);
+				node = queue.front();
+				_destroy_node(node);
+				queue.pop();
+				node = queue.front();
+			}
 		}
 
 		key_compare					key_comp() const { return (_tree._compare); }
