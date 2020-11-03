@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 13:44:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 15:26:43 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 15:28:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in map container", "[map] [constru
 
 		REQUIRE(map.empty() == ft_map.empty());
 		REQUIRE(map.size() == ft_map.size());
+		REQUIRE(ft_map.begin() == ft_map.end());
 	}
 }
 
@@ -36,10 +37,11 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in map container", "[map] [constructor]
 
 		REQUIRE(map.empty() == ft_map.empty());
 		REQUIRE(map.size() == ft_map.size());
+		REQUIRE(ft_map.begin() == ft_map.end());
 	}
 
 	SECTION("With size") {
-		for (int i = 0; i < V; i++) {
+		for (int i = 1; i < V; i++) {
 			ft::map<T, float>			ft_map(ft_map_for_copy);
 			std::map<T, float>			map(map_for_copy);
 
