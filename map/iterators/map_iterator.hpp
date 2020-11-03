@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 18:17:01 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 20:11:54 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ template<class T, class U>
 class	map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
-	typedef typename ft::Tree<bool, bool>		_tree;
+	typedef typename ft::Tree<typename U::first_type, typename U::second_type>		_tree_type;
 
-	T*		_ptr;
+	T*			_ptr;
+	_tree_type	_tree;
 
 public:
 	map_iterator(T *ptr = 0) : _ptr(ptr) { }
@@ -44,19 +45,7 @@ public:
 	U			*operator->() const { return (_ptr->_value); }
 
 	map_iterator<T, U>		&operator++() {
-		if (_ptr->_right) {
-			_ptr = _ptr->_right;
-			while (_ptr->_left)
-				_ptr = _ptr->_left;
-		}
-		else {
-			T	*y = _ptr->_parent;
-			while (_ptr == y->_right) {
-				_ptr = y;
-				y = y->_parent;
-			}
-			_ptr = y;
-		}
+		_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
 		return (*this);
 	}
 
@@ -102,12 +91,15 @@ template<class T, class U>
 class	const_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
-	T*		_ptr;
+	typedef typename ft::Tree<typename U::first_type, typename U::second_type>		_tree_type;
+
+	T*			_ptr;
+	_tree_type	_tree;
 
 public:
 	const_map_iterator(T *ptr = 0) : _ptr(ptr) { }
 	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) { }
-//	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
+	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
 	~const_map_iterator() { }
 
 	const_map_iterator<T, U>	&operator=(const const_map_iterator<T, U> &it) {
@@ -116,10 +108,10 @@ public:
 		return (*this);
 	}
 
-//	const_map_iterator<T, U>	&operator=(const map_iterator<T, U> &it) {
-//		_ptr = it._get_ptr();
-//		return (*this);
-//	}
+	const_map_iterator<T, U>	&operator=(const map_iterator<T, U> &it) {
+		_ptr = it._get_ptr();
+		return (*this);
+	}
 
 	bool		operator!=(const const_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const const_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
@@ -127,20 +119,7 @@ public:
 	U			*operator->() const { return (_ptr->_value); }
 
 	const_map_iterator<T, U>		&operator++() {
-		if (_ptr->_right) {
-			_ptr = _ptr->_right;
-			while (_ptr->_left)
-				_ptr = _ptr->_left;
-		}
-		else {
-			T	*y = _ptr->_parent;
-			while (_ptr == y->_right) {
-				_ptr = y;
-				y = y->_parent;
-			}
-//			if (_ptr->_parent != y)
-				_ptr = y;
-		}
+		_ptr = (T*)_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
 		return (*this);
 	}
 

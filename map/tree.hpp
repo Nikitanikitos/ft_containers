@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 17:13:27 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 19:45:20 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ namespace ft {
 	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class Tree
 	{
+		friend class map<Key, Value>;
 
 		typedef				Key														key_type;
 		typedef				Value													mapped_type;
@@ -59,7 +60,6 @@ namespace ft {
 		explicit Tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc()) : _size(0), _alloc(alloc), _compare(comp) {
 			_empty_map_init();
 		}
-		friend class map<Key, Value>;
 
 		template<class S>
 		void		_swap(S &first, S &second) {
@@ -317,6 +317,23 @@ namespace ft {
 			return (_last_node);
 		}
 
+		s_node*		_increment_ptr(s_node* _ptr) {
+			if (_ptr->_right != _end_node && _ptr->_right != _last_node) {
+				_ptr = _ptr->_right;
+				while (_ptr->_left != _end_node && _ptr->_left != _first_node)
+					_ptr = _ptr->_left;
+			}
+			else {
+				s_node	*y = _ptr->_parent;
+				while (_ptr == y->_right) {
+					_ptr = y;
+					y = y->_parent;
+				}
+				if (_ptr->_right != y)
+					_ptr = y;
+			}
+			return (_ptr);
+		}
 	};
 }
 

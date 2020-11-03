@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 18:18:48 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 20:11:37 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
 	{
 	private:
 		typedef				Tree<Key, Value, Compare, Alloc>						_tree_type;
-		typedef typename	_tree_type::s_node										_s_node_type;
+		typedef typename	_tree_type::s_node										_node_type;
 
 		_tree_type 			_tree;
 
@@ -50,10 +50,10 @@ namespace ft
 		typedef				std::ptrdiff_t											difference_type;
 		typedef				std::size_t												size_type;
 
-		typedef 			map_iterator<_s_node_type, value_type>					iterator;
-		typedef				const_map_iterator<_s_node_type, value_type>			const_iterator;
-		typedef				reverse_map_iterator<_s_node_type, value_type>			reverse_iterator;
-		typedef				const_reverse_map_iterator<_s_node_type, value_type>	const_reverse_iterator;
+		typedef 			map_iterator<_node_type, value_type>					iterator;
+		typedef				const_map_iterator<_node_type, value_type>			const_iterator;
+		typedef				reverse_map_iterator<_node_type, value_type>			reverse_iterator;
+		typedef				const_reverse_map_iterator<_node_type, value_type>	const_reverse_iterator;
 
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
@@ -112,7 +112,7 @@ namespace ft
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
 		mapped_type&			operator[](const key_type& k) {
-			_s_node_type*	node;
+			_node_type*	node;
 			iterator		it;
 
 			if ((node = _tree._search(k, _tree._root)) == _tree._last_node) {
@@ -123,7 +123,7 @@ namespace ft
 		}
 
 		mapped_type&				at(const key_type& k) {
-			_s_node_type*	node = _tree._search(k, _tree._root);
+			_node_type*	node = _tree._search(k, _tree._root);
 
 			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
 				throw std::out_of_range("Out of range");
@@ -131,7 +131,7 @@ namespace ft
 		}
 
 		const mapped_type&			at(const key_type& k) const {
-			_s_node_type*	node = _search(k, _tree->_root);
+			_node_type*	node = _search(k, _tree->_root);
 
 			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
 				throw std::out_of_range("Out of range");
@@ -139,7 +139,7 @@ namespace ft
 		}
 
 		std::pair<iterator,bool>	insert(const value_type& val) {
-			std::pair<_s_node_type*, bool>	pair;
+			std::pair<_node_type*, bool>	pair;
 
 			if (empty()) {
 				_tree._root = _tree._create_new_node(val, _tree._end_node);
@@ -169,7 +169,7 @@ namespace ft
 		}
 
 		void						erase(iterator position) {
-			_s_node_type*	node = position._get_ptr();
+			_node_type*	node = position._get_ptr();
 			erase(node->value->first);
 		}
 
@@ -198,19 +198,19 @@ namespace ft
 		}
 
 		void						clear() {
-			queue<_s_node_type*>	queue;
-			_s_node_type*			node;
+			queue<_node_type*>	queue;
+			_node_type*			node;
 
 			node = _tree._root;
 			if (_tree._root != _tree._end_node)
 				queue.push(node);
 			while (!queue.empty()) {
-				if (node->right != _tree._end_node || node->right != _tree._last_node)
-					queue.push(node->right);
+				if (node->_right != _tree._end_node || node->_right != _tree._last_node)
+					queue.push(node->_right);
 				if (node->_left != _tree._end_node || node->_left != _tree._first_node)
 					queue.push(node->_left);
 				node = queue.front();
-				_destroy_node(node);
+				_tree._destroy_node(node);
 				queue.pop();
 				node = queue.front();
 			}
@@ -220,13 +220,13 @@ namespace ft
 		value_compare				value_comp() const;
 
 		iterator					find(const key_type& k) {
-			_s_node_type*	node = _tree._search(k, _tree._root);
+			_node_type*	node = _tree._search(k, _tree._root);
 
 			return (node);
 		}
 
 		const_iterator				find(const key_type& k) const {
-			_s_node_type*	node = _tree._search(k, _tree._root);
+			_node_type*	node = _tree._search(k, _tree._root);
 
 			return (node);
 		}
