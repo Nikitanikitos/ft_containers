@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 02:11:53 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:00:52 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ namespace ft
 		typedef				std::size_t												size_type;
 
 		typedef 			map_iterator<_node_type, value_type>					iterator;
-		typedef				const_map_iterator<_node_type, value_type>			const_iterator;
+		typedef				const_map_iterator<_node_type, value_type>				const_iterator;
 		typedef				reverse_map_iterator<_node_type, value_type>			reverse_iterator;
-		typedef				const_reverse_map_iterator<_node_type, value_type>	const_reverse_iterator;
+		typedef				const_reverse_map_iterator<_node_type, value_type>		const_reverse_iterator;
 
 	public:
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
 			_tree._compare = comp;
 			_tree._alloc = alloc;
-			_tree._empty_map_init();
+			_tree._empty_tree_init();
 		}
 
 		template <class InputIterator>
@@ -68,19 +68,15 @@ namespace ft
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 			_tree._compare = comp;
 			_tree._alloc = alloc;
-			_tree._empty_map_init();
+			_tree._empty_tree_init();
 			for (; first != last; ++first)
 				insert(*first);
 		}
 
 		map(const map& x) {
-			_tree._empty_map_init();
-			const_iterator	it = x.begin();
-			const_iterator	it_end = x.end();
-			for (; it != it_end;) {
+			_tree._empty_tree_init();
+			for (const_iterator	it = x.begin(); it != x.end(); ++it)
 				insert(*it);
-				++it;
-			}
 		}
 
 		~map() {
@@ -99,8 +95,8 @@ namespace ft
 
 		iterator				begin() { return (_tree._first_node->_parent); }
 		const_iterator			begin() const { return (_tree._first_node->_parent); }
-		iterator				end() { return (empty() ? _tree._end_node : _tree._last_node); }
-		const_iterator			end() const { return (empty() ? _tree._end_node : _tree._last_node); }
+		iterator				end() { return (_tree._last_node); }
+		const_iterator			end() const { return (_tree._last_node); }
 
 //		reverse_iterator		rbegin() { return (_last_node->_parent); }
 //		const_reverse_iterator	rbegin() const { return (_last_node->_parent); }
@@ -142,11 +138,7 @@ namespace ft
 			std::pair<_node_type*, bool>	pair;
 
 			if (empty()) {
-				_tree._root = _tree._create_new_node(val, _tree._end_node);
-				_tree._root->_left = _tree._first_node;
-				_tree._root->_right = _tree._last_node;
-				_tree._first_node->_parent = _tree._root;
-				_tree._last_node->_parent = _tree._root;
+				_tree._create_root_node(val);
 				pair = std::make_pair(_tree._root, true);
 			}
 			else {
@@ -205,9 +197,9 @@ namespace ft
 			if (_tree._root)
 				queue.push(node);
 			while (!queue.empty()) {
-				if (node->_right != node->_last_node)
+				if (node->_right && node->_right != _tree._last_node)
 					queue.push(node->_right);
-				if (node->_left != node->_first_node)
+				if (node->_left && node->_left != _tree._first_node)
 					queue.push(node->_left);
 				node = queue.front();
 				_tree._destroy_node(node);

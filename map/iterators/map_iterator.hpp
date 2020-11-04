@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 23:59:46 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:51:02 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,20 @@ public:
 	U			*operator->() const { return (_ptr->_value); }
 
 	map_iterator<T, U>		&operator++() {
-		if (_ptr->_right->_right) {
+		if (_ptr->_right) {
 			_ptr = _ptr->_right;
-			while (_ptr->_left->_left)
+			while (_ptr->_left)
 				_ptr = _ptr->_left;
 		}
 		else {
 			T*		y = _ptr->_parent;
-			while (y == _ptr->_right) {
+			while (_ptr == y->_right) {
 				_ptr = y;
-				y = _ptr->_parent;
+				y = y->_parent;
 			}
-			if (y != _ptr->_right)
+			if (_ptr->_right != y)
 				_ptr = y;
 		}
-//		_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
 		return (*this);
 	}
 
@@ -73,15 +72,15 @@ public:
 	map_iterator<T, U>		&operator--() {
 		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
-		else if (_ptr->_left && _ptr->_left->_left) {
+		else if (_ptr->_left) {
 			T* x = _ptr->_left;
-			while (_ptr->_right && x->_right->_right)
+			while (x->_right)
 				x = x->_right;
 			_ptr = x;
 		}
 		else {
 			T* x = _ptr->_parent;
-			while (_ptr == x->_left && x->_left->_left) {
+			while (_ptr == x->_left) {
 				_ptr = x;
 				x = x->_parent;
 			}
@@ -133,7 +132,20 @@ public:
 	U			*operator->() const { return (_ptr->_value); }
 
 	const_map_iterator<T, U>		&operator++() {
-		_ptr = (T*)_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
+		if (_ptr->_right) {
+			_ptr = _ptr->_right;
+			while (_ptr->_left)
+				_ptr = _ptr->_left;
+		}
+		else {
+			T*		y = _ptr->_parent;
+			while (_ptr == y->_right) {
+				_ptr = y;
+				y = y->_parent;
+			}
+			if (_ptr->_right != y)
+				_ptr = y;
+		}
 		return (*this);
 	}
 

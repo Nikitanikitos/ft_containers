@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 02:11:53 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/04 13:47:28 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft {
 		Compare							_compare;
 
 		explicit Tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc()) : _size(0), _alloc(alloc), _compare(comp) {
-			_empty_map_init();
+			_empty_tree_init();
 		}
 
 		template<class S>
@@ -68,15 +68,8 @@ namespace ft {
 			first = second;
 		}
 
-		bool		_is_red(const s_node* node) {
-			try { return (node->_color == RED); }
-			catch (std::exception &) { return (BLACK); }
-		}
-
-		bool		_is_black(const s_node* node) {
-			try { return (node->_color == BLACK); }
-			catch (std::exception&) { return (BLACK); }
-		}
+		bool		_is_red(const s_node* node) { return ((node) ? node->_color == RED : BLACK); }
+		bool		_is_black(const s_node* node) { return ((node) ? node->_color == BLACK : BLACK); }
 
 		void		_flip_color(s_node* node) {
 			node->_color = !node->_color;
@@ -97,7 +90,8 @@ namespace ft {
 		s_node*		_rotate_left(s_node* node) {
 			s_node*		x = node->_right;
 
-			x->_left->_parent = node;
+			if (x->_left)
+				x->_left->_parent = node;
 			x->_parent = node->_parent;
 			node->_parent = x;
 
@@ -111,7 +105,8 @@ namespace ft {
 		s_node*		_rotate_right(s_node* node) {
 			s_node*		x = node->_left;
 
-			x->_right->_parent = node;
+			if (x->_right)
+				x->_right->_parent = node;
 			x->_parent = node->_parent;
 			node->_parent = x;
 
@@ -164,7 +159,7 @@ namespace ft {
 			return (x);
 		}
 
-		void		_create_end_node() {
+		void		_empty_tree_init() {
 			value_type	*value = _alloc.allocate(1);
 
 			_alloc.construct(value, value_type());
@@ -188,8 +183,16 @@ namespace ft {
 			_root = 0;
 		}
 
-		void		_empty_map_init() {
-			_create_end_node();
+		void		_create_root_node(const value_type& val) {
+			_root = _alloc_rebind.allocate(1);
+
+			_root->_value = _alloc.allocate(1);
+			_alloc.construct(_root->_value, val);
+
+			_root->_left = _first_node;
+			_root->_right = _last_node;
+			_first_node->_parent = _root;
+			_last_node->_parent = _root;
 		}
 
 		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
@@ -198,11 +201,11 @@ namespace ft {
 			if (val.first == node->_value->first)
 				return (std::make_pair(node, false));
 
-			if (node->_left == 0 && _compare(val.first, node->_value->first)) {
+			if ((node->_left == 0 || node->_left == _first_node) && _compare(val.first, node->_value->first)) {
 				node->_left = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
-			else if (node->_right == 0 && _compare(node->_value->first, val.first)) {
+			else if ((node->_right == 0 || node->_right == _last_node) && _compare(node->_value->first, val.first)) {
 				node->_right = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
@@ -284,9 +287,9 @@ namespace ft {
 		}
 
 		s_node*		_increment_ptr(s_node* _ptr) {
-			if (_ptr->_right != 0) {
+			if (_ptr->_right) {
 				_ptr = _ptr->_right;
-				while (_ptr->_left != 0)
+				while (_ptr->_left)
 					_ptr = _ptr->_left;
 			}
 			else {

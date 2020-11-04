@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 13:44:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 15:28:41 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 13:59:48 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in map container", "[map] [constructor]
 			std::map<T, float>			map(map_for_copy);
 
 			REQUIRE(map.size() == ft_map.size());
-//			if (i > 1) REQUIRE(*map.begin() == *ft_map.begin());
+			if (i > 1) REQUIRE(*map.begin() == *ft_map.begin());
 
 			ft_map_for_copy.insert(std::make_pair(i, i + .21));
 			map_for_copy.insert(std::make_pair(i, i + .21));
