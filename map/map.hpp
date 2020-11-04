@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 14:54:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 17:37:18 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ namespace ft
 		size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
 		mapped_type&			operator[](const key_type& k) {
-			_node_type*	node;
-			iterator		it;
+			_node_type*	node = _tree._search(k, _tree._root);
+			iterator	it;
 
-			if ((node = _tree._search(k, _tree._root)) == _tree._last_node) {
+			if (node == _tree._last_node || node == _tree._first_node || node == 0) {
 				it = insert(std::make_pair(k, mapped_type())).first;
 				node = it._get_ptr();
 			}
-			return (node->value->second);
+			return (node->_value->second);
 		}
 
 		mapped_type&				at(const key_type& k) {
@@ -123,7 +123,7 @@ namespace ft
 
 			if (node == _tree._last_node || node == _tree._first_node || node == 0)
 				throw std::out_of_range("Out of range");
-			return (node->value->second);
+			return (node->_value->second);
 		}
 
 		const mapped_type&			at(const key_type& k) const {
@@ -131,7 +131,7 @@ namespace ft
 
 			if (node == _tree._last_node || node == _tree._first_node || node == 0)
 				throw std::out_of_range("Out of range");
-			return (node->value->second);
+			return (node->_value->second);
 		}
 
 		std::pair<iterator,bool>	insert(const value_type& val) {
@@ -162,10 +162,14 @@ namespace ft
 
 		void						erase(iterator position) {
 			_node_type*	node = position._get_ptr();
-			erase(node->value->first);
+			erase(node->_value->first);
 		}
 
-		size_type					erase(const key_type& k) { _tree._root = _tree._delete(_tree._root, k); return (1); }
+		size_type					erase(const key_type& k) {
+			_tree._root = _tree._delete(_tree._root, k);
+			if (empty())
+				_tree._empty_nodes_init();
+			return (1); }
 
 		void						erase(iterator first, iterator last) {
 			iterator	temp_it = first;

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 14:59:06 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 23:20:55 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ namespace ft {
 		s_node*		_rotate_left(s_node* node) {
 			s_node*		x = node->_right;
 
+
 			if (x->_left)
 				x->_left->_parent = node;
 			x->_parent = node->_parent;
@@ -99,6 +100,8 @@ namespace ft {
 			x->_left = node;
 			x->_color = node->_color;
 			node->_color = RED;
+			if (node == _root)
+				_root = x;
 			return (x);
 		}
 
@@ -114,6 +117,8 @@ namespace ft {
 			x->_right = node;
 			x->_color = node->_color;
 			node->_color = RED;
+			if (node == _root)
+				_root = x;
 			return (x);
 		}
 
@@ -159,6 +164,18 @@ namespace ft {
 			return (x);
 		}
 
+		void		_empty_nodes_init() {
+			_last_node->_right = _first_node;
+			_last_node->_left = 0;
+			_last_node->_parent = _first_node;
+
+			_first_node->_right = 0;
+			_first_node->_left = 0;
+			_first_node->_parent = _last_node;
+
+			_root = 0;
+		}
+
 		void		_empty_tree_init() {
 			value_type	*value = _alloc.allocate(1);
 
@@ -172,15 +189,7 @@ namespace ft {
 			_last_node->_color = BLACK;
 			_first_node->_color = BLACK;
 
-			_last_node->_right = _first_node;
-			_last_node->_left = 0;
-			_last_node->_parent = _first_node;
-
-			_first_node->_right = 0;
-			_first_node->_left = 0;
-			_first_node->_parent = _last_node;
-
-			_root = 0;
+			_empty_nodes_init();
 		}
 
 		void		_create_root_node(const value_type& val) {
@@ -223,9 +232,10 @@ namespace ft {
 		}
 
 		s_node		*_delete_min(s_node *node) {
-			if (node->_left == _first_node || node->_right == 0) {
+			s_node	*return_node = (node->_right == _last_node) ? _last_node : 0;
+			if (node->_left == _first_node || node->_left == 0) {
 				_destroy_node(node);
-				return (_last_node);
+				return (return_node);
 			}
 			if (_is_black(node->_left) && _is_black(node->_left->_left))
 				_move_red_left(node);
@@ -234,9 +244,16 @@ namespace ft {
 		}
 
 		value_type	*_min(s_node *node) {
-			while (node->_left != _first_node)
+			value_type	*val = _alloc.allocate(1);
+			while (node->_left && node->_left != _first_node)
 				node = node->_left;
-			return (node->_value);
+			_alloc.construct(val, *node->_value);
+			return (val);
+		}
+
+		bool		_is_list(s_node* node) {
+			return ((node->_right == 0 || node->_right == _last_node) &&
+					(node->_left == 0 || node->_left == _first_node));
 		}
 
 		s_node		*_delete(s_node *node, const key_type &key) {
@@ -244,20 +261,32 @@ namespace ft {
 
 			if (!compare && node->_value->first != key) {
 				if (_is_black(node->_left)&& _is_black(node->_left->_left))
-					_move_red_left(node);
+					node = _move_red_left(node);
 				node->_left = _delete(node->_left, key);
 			}
 			else {
 				if (_is_red(node->_left))
 					node = _rotate_right(node);
-				if (node->_value->first == key && node->_right == _last_node) { // TODO уточнить условие
-					_destroy_node(node);
-					return (_last_node);
+				if (node->_value->first == key && _is_list(node)) {
+					if (node->_right == _last_node) {
+						_last_node->_parent = node->_parent;
+						_destroy_node(node);
+						return (_last_node);
+					}
+					if (node->_left == _first_node) {
+						_first_node->_parent = node->_parent;
+						_destroy_node(node);
+						return (_first_node);
+					}
+					else {
+						_destroy_node(node);
+						return (0);
+					}
 				}
 				if (_is_black(node->_right) && _is_black(node->_right->_left))
 					node = _move_red_right(node);
 				if (node->_value->first == key) {
-					node->_value = _min(node->_right);
+					node->_value = _min(node->_right); // TODO убрать утечку
 					node->_right = _delete_min(node->_right);
 				}
 				else
@@ -284,24 +313,6 @@ namespace ft {
 			_alloc.deallocate(node->_value, 1);
 			_alloc_rebind.deallocate(node, 1);
 			_size--;
-		}
-
-		s_node*		_increment_ptr(s_node* _ptr) {
-			if (_ptr->_right) {
-				_ptr = _ptr->_right;
-				while (_ptr->_left)
-					_ptr = _ptr->_left;
-			}
-			else {
-				s_node	*y = _ptr->_parent;
-				while (_ptr == y->_right) {
-					_ptr = y;
-					y = y->_parent;
-				}
-				if (_ptr->_right != y)
-					_ptr = y;
-			}
-			return (_ptr);
 		}
 	};
 }
