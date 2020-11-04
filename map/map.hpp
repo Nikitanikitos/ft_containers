@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 20:11:37 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 02:11:53 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ namespace ft
 		mapped_type&				at(const key_type& k) {
 			_node_type*	node = _tree._search(k, _tree._root);
 
-			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
+			if (node == _tree._last_node || node == _tree._first_node || node == 0)
 				throw std::out_of_range("Out of range");
 			return (node->value->second);
 		}
@@ -133,7 +133,7 @@ namespace ft
 		const mapped_type&			at(const key_type& k) const {
 			_node_type*	node = _search(k, _tree->_root);
 
-			if (node == _tree._last_node || node == _tree._first_node || node == _tree._end_node)
+			if (node == _tree._last_node || node == _tree._first_node || node == 0)
 				throw std::out_of_range("Out of range");
 			return (node->value->second);
 		}
@@ -154,7 +154,7 @@ namespace ft
 				_tree._root = pair.first;
 			}
 			_tree._size++;
-			_tree._root->_parent = _tree._end_node;
+			_tree._root->_parent = 0;
 			_tree._root->_color = BLACK;
 			return (std::make_pair(find(val.first), pair.second));
 		}
@@ -202,12 +202,12 @@ namespace ft
 			_node_type*			node;
 
 			node = _tree._root;
-			if (_tree._root != _tree._end_node)
+			if (_tree._root)
 				queue.push(node);
 			while (!queue.empty()) {
-				if (node->_right != _tree._end_node || node->_right != _tree._last_node)
+				if (node->_right != node->_last_node)
 					queue.push(node->_right);
-				if (node->_left != _tree._end_node || node->_left != _tree._first_node)
+				if (node->_left != node->_first_node)
 					queue.push(node->_left);
 				node = queue.front();
 				_tree._destroy_node(node);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 20:11:54 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/03 23:59:46 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,21 @@ public:
 	U			*operator->() const { return (_ptr->_value); }
 
 	map_iterator<T, U>		&operator++() {
-		_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
+		if (_ptr->_right->_right) {
+			_ptr = _ptr->_right;
+			while (_ptr->_left->_left)
+				_ptr = _ptr->_left;
+		}
+		else {
+			T*		y = _ptr->_parent;
+			while (y == _ptr->_right) {
+				_ptr = y;
+				y = _ptr->_parent;
+			}
+			if (y != _ptr->_right)
+				_ptr = y;
+		}
+//		_tree._increment_ptr((typename _tree_type::s_node*)_ptr);
 		return (*this);
 	}
 

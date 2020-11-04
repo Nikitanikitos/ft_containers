@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/03 19:45:20 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 02:11:53 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ namespace ft {
 		s_node							*_root;
 		s_node							*_last_node;
 		s_node							*_first_node;
-		s_node							*_end_node;
 
 		size_type						_size;
 		alloc_rebind					_alloc_rebind;
@@ -69,8 +68,15 @@ namespace ft {
 			first = second;
 		}
 
-		bool		_is_red(const s_node* node) { return (node->_color == RED); }
-		bool		_is_black(const s_node* node) { return (node->_color == BLACK); }
+		bool		_is_red(const s_node* node) {
+			try { return (node->_color == RED); }
+			catch (std::exception &) { return (BLACK); }
+		}
+
+		bool		_is_black(const s_node* node) {
+			try { return (node->_color == BLACK); }
+			catch (std::exception&) { return (BLACK); }
+		}
 
 		void		_flip_color(s_node* node) {
 			node->_color = !node->_color;
@@ -79,7 +85,7 @@ namespace ft {
 		}
 
 		s_node*		_fix_up(s_node* node) {
-			if (node->_right->_color == RED)
+			if (_is_red(node->_right))
 				node = _rotate_left(node);
 			if (_is_red(node->_left) && _is_red(node->_left->_left))
 				node = _rotate_right(node);
@@ -141,19 +147,17 @@ namespace ft {
 			x->_value = _alloc.allocate(1);
 			_alloc.construct(x->_value, val);
 
+			x->_left = 0;
+			x->_right = 0;
+
 			if (_compare(val.first, _first_node->_parent->_value->first)) {
 				x->_left = _first_node;
 				_first_node->_parent = x;
 			}
-			else
-				x->_left = _end_node;
-
-			if (_compare(_last_node->_parent->_value->first, val.first)) {
+			else if (_compare(_last_node->_parent->_value->first, val.first)) {
 				x->_right = _last_node;
 				_last_node->_parent = x;
 			}
-			else
-				x->_right = _end_node;
 
 			x->_parent = parent;
 			x->_color = RED;
@@ -166,32 +170,26 @@ namespace ft {
 			_alloc.construct(value, value_type());
 			_last_node = _alloc_rebind.allocate(1);
 			_first_node = _alloc_rebind.allocate(1);
-			_end_node = _alloc_rebind.allocate(1);
 
 			_last_node->_value = value;
 			_first_node->_value = value;
-			_end_node->_value = value;
 
 			_last_node->_color = BLACK;
 			_first_node->_color = BLACK;
-			_end_node->_color = BLACK;
 
-			_end_node->_right = 0;
-			_end_node->_left = 0;
-			_end_node->_parent = _end_node;
-
-			_last_node->_right = 0;
+			_last_node->_right = _first_node;
 			_last_node->_left = 0;
-			_last_node->_parent = _end_node;
+			_last_node->_parent = 0;
 
 			_first_node->_right = 0;
 			_first_node->_left = 0;
-			_first_node->_parent = _end_node;
+			_first_node->_parent = _last_node;
+
+			_root = 0;
 		}
 
 		void		_empty_map_init() {
 			_create_end_node();
-			_root = _end_node;
 		}
 
 		std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
@@ -200,11 +198,11 @@ namespace ft {
 			if (val.first == node->_value->first)
 				return (std::make_pair(node, false));
 
-			if ((node->_left == _first_node || node->_left == _end_node) && _compare(val.first, node->_value->first)) {
+			if (node->_left == 0 && _compare(val.first, node->_value->first)) {
 				node->_left = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
-			else if ((node->_right == _last_node || node->_right == _end_node) && _compare(node->_value->first, val.first)) {
+			else if (node->_right == 0 && _compare(node->_value->first, val.first)) {
 				node->_right = _create_new_node(val, node);
 				pair = std::make_pair(node, true);
 			}
@@ -222,7 +220,7 @@ namespace ft {
 		}
 
 		s_node		*_delete_min(s_node *node) {
-			if (node->_left == _last_node && node->_right == _last_node) {
+			if (node->_left == _first_node || node->_right == 0) {
 				_destroy_node(node);
 				return (_last_node);
 			}
@@ -249,7 +247,7 @@ namespace ft {
 			else {
 				if (_is_red(node->_left))
 					node = _rotate_right(node);
-				if (node->_value->first == key && node->_right == _last_node) {
+				if (node->_value->first == key && node->_right == _last_node) { // TODO уточнить условие
 					_destroy_node(node);
 					return (_last_node);
 				}
@@ -265,24 +263,10 @@ namespace ft {
 			return _fix_up(node);
 		}
 
-		s_node		*_delete(s_node *node) {
-			if (_is_red(node->_left))
-				node = _rotate_right(node);
-			if (node->_right == _last_node) {
-				_destroy_node(node);
-				return (_last_node);
-			}
-			if (_is_black(node->_right) && _is_black(node->_right->_left))
-				node = _move_red_right(node);
-			node->_value = _min(node->_right);
-			node->_right = _delete_min(node->_right);
-			return _fix_up(node);
-		}
-
 		s_node		*_search(const key_type &key, s_node *node) {
 			s_node	*temp_node = node;
 
-			while (temp_node != _last_node) {
+			while (temp_node) {
 				if (key == temp_node->_value->first)
 					break ;
 				else if (_compare(key, temp_node->_value->first))
@@ -299,28 +283,10 @@ namespace ft {
 			_size--;
 		}
 
-		s_node		*_get_min_node() {
-			_first_node = _root;
-
-			while (_first_node != _last_node && _first_node->_left != _last_node)
-				_first_node = _first_node->_left;
-			_first_node->_parent = _first_node;
-			return (_first_node);
-		}
-
-		s_node		*_get_max_node() {
-			_last_node = _root;
-
-			while (_last_node != _last_node && _last_node->_right != _last_node)
-				_last_node = _last_node->_right;
-			_last_node->_parent = _last_node;
-			return (_last_node);
-		}
-
 		s_node*		_increment_ptr(s_node* _ptr) {
-			if (_ptr->_right != _end_node && _ptr->_right != _last_node) {
+			if (_ptr->_right != 0) {
 				_ptr = _ptr->_right;
-				while (_ptr->_left != _end_node && _ptr->_left != _first_node)
+				while (_ptr->_left != 0)
 					_ptr = _ptr->_left;
 			}
 			else {
