@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 14:51:02 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:52:40 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,17 +157,17 @@ public:
 	}
 
 	const_map_iterator<T, U>		&operator--() {
-		if (_ptr->color == true && _ptr->_parent->_parent == _ptr)
+		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
-		else if (_ptr->_left && _ptr->_left->_left) {
+		else if (_ptr->_left) {
 			T* x = _ptr->_left;
-			while (_ptr->_right && x->_right->_right)
+			while (x->_right)
 				x = x->_right;
 			_ptr = x;
 		}
 		else {
 			T* x = _ptr->_parent;
-			while (_ptr == x->_left && x->_left->_left) {
+			while (_ptr == x->_left) {
 				_ptr = x;
 				x = x->_parent;
 			}

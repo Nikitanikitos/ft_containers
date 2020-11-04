@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 14:00:52 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:54:29 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ namespace ft
 		iterator				end() { return (_tree._last_node); }
 		const_iterator			end() const { return (_tree._last_node); }
 
-//		reverse_iterator		rbegin() { return (_last_node->_parent); }
-//		const_reverse_iterator	rbegin() const { return (_last_node->_parent); }
-//		reverse_iterator		rend() { return (_first_node); }
-//		const_reverse_iterator	rend() const { return (_first_node); }
+		reverse_iterator		rbegin() { return (_tree._last_node->_parent); }
+		const_reverse_iterator	rbegin() const { return (_tree._last_node->_parent); }
+		reverse_iterator		rend() { return (_tree._first_node); }
+		const_reverse_iterator	rend() const { return (_tree._first_node); }
 
 		bool					empty() const { return (_tree._size == 0); }
 		size_type				size() const { return (_tree._size); }

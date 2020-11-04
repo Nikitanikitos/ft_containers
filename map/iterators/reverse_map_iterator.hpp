@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:17:45 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 14:13:08 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:55:21 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,23 @@ public:
 
 	bool		operator!=(const reverse_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const reverse_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	U			&operator*() const { return (*_ptr->value); }
-	U			*operator->() const { return (_ptr->value); }
+	U			&operator*() const { return (*_ptr->_value); }
+	U			*operator->() const { return (_ptr->_value); }
 
 	reverse_map_iterator<T, U>		&operator--() {
-		if (_ptr->right && _ptr->right->right) {
-			_ptr = _ptr->right;
-			while (_ptr->left && _ptr->left->left)
-				_ptr = _ptr->left;
+		if (_ptr->_right) {
+			_ptr = _ptr->_right;
+			while (_ptr->_left)
+				_ptr = _ptr->_left;
 		}
 		else {
-			T	*y = _ptr->parent;
-			while (_ptr == y->right) {
+			T*		y = _ptr->_parent;
+			while (_ptr == y->_right) {
 				_ptr = y;
-				y = y->parent;
+				y = y->_parent;
 			}
-			_ptr = y;
+			if (_ptr->_right != y)
+				_ptr = y;
 		}
 		return (*this);
 	}
@@ -64,19 +65,19 @@ public:
 	}
 
 	reverse_map_iterator<T, U>		&operator++() {
-		if (_ptr->color == true && _ptr->parent->parent == _ptr)
-			_ptr = _ptr->right;
-		else if (_ptr->left && _ptr->left->left) {
-			T* x = _ptr->left;
-			while (_ptr->right && x->right->right)
-				x = x->right;
+		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+			_ptr = _ptr->_right;
+		else if (_ptr->_left) {
+			T* x = _ptr->_left;
+			while (x->_right)
+				x = x->_right;
 			_ptr = x;
 		}
 		else {
-			T* x = _ptr->parent;
-			while (_ptr == x->left && x->left->left) {
+			T* x = _ptr->_parent;
+			while (_ptr == x->_left) {
 				_ptr = x;
-				x = x->parent;
+				x = x->_parent;
 			}
 			_ptr = x;
 		}
@@ -118,22 +119,23 @@ public:
 
 	bool		operator!=(const const_reverse_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const const_reverse_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	U			&operator*() const { return (*_ptr->value); }
-	U			*operator->() const { return (_ptr->value); }
+	U			&operator*() const { return (*_ptr->_value); }
+	U			*operator->() const { return (_ptr->_value); }
 
 	const_reverse_map_iterator<T, U>		&operator--() {
-		if (_ptr->right && _ptr->right->right) {
-			_ptr = _ptr->right;
-			while (_ptr->left && _ptr->left->left)
-				_ptr = _ptr->left;
+		if (_ptr->_right) {
+			_ptr = _ptr->_right;
+			while (_ptr->_left)
+				_ptr = _ptr->_left;
 		}
 		else {
-			T	*y = _ptr->parent;
-			while (_ptr == y->right) {
+			T*		y = _ptr->_parent;
+			while (_ptr == y->_right) {
 				_ptr = y;
-				y = y->parent;
+				y = y->_parent;
 			}
-			_ptr = y;
+			if (_ptr->_right != y)
+				_ptr = y;
 		}
 		return (*this);
 	}
@@ -146,19 +148,19 @@ public:
 	}
 
 	const_reverse_map_iterator<T, U>		&operator++() {
-		if (_ptr->color == true && _ptr->parent->parent == _ptr)
-			_ptr = _ptr->right;
-		else if (_ptr->left && _ptr->left->left) {
-			T* x = _ptr->left;
-			while (_ptr->right && x->right->right)
-				x = x->right;
+		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+			_ptr = _ptr->_right;
+		else if (_ptr->_left) {
+			T* x = _ptr->_left;
+			while (x->_right)
+				x = x->_right;
 			_ptr = x;
 		}
 		else {
-			T* x = _ptr->parent;
-			while (_ptr == x->left && x->left->left) {
+			T* x = _ptr->_parent;
+			while (_ptr == x->_left) {
 				_ptr = x;
-				x = x->parent;
+				x = x->_parent;
 			}
 			_ptr = x;
 		}

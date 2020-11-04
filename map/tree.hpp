@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 13:47:28 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:59:06 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ namespace ft {
 
 			_last_node->_right = _first_node;
 			_last_node->_left = 0;
-			_last_node->_parent = 0;
+			_last_node->_parent = _first_node;
 
 			_first_node->_right = 0;
 			_first_node->_left = 0;

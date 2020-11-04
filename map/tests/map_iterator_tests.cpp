@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 15:21:57 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/02 14:15:25 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/04 15:03:00 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ TEMPLATE_TEST_CASE_SIG("Default map iterator", "[map] [iterator]", ((typename T,
 
 		REQUIRE(ft_it != ft_map.end());
 		REQUIRE(*ft_it == *map.begin());
+
+		++ft_it;
+		REQUIRE(ft_it == ft_map.end());
 	}
 
 	SECTION("With many node") {
@@ -126,6 +129,9 @@ TEMPLATE_TEST_CASE_SIG("Default const map iterator", "[map] [iterator]",
 
 		REQUIRE(ft_it != ft_map.end());
 		REQUIRE(*ft_it == *map.begin());
+
+		++ft_it;
+		REQUIRE(ft_it == ft_map.end());
 	}
 
 	SECTION("With many node") {
@@ -207,7 +213,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse map iterator", "[map] [iterator]", ((typename T,
 	SECTION("Empty list") {
 		ft_it = ft_map.rbegin();
 
-//		REQUIRE(ft_it == ft_map.rend());
+		REQUIRE(ft_it == ft_map.rend());
 	}
 
 	SECTION("With one node") {
@@ -217,6 +223,9 @@ TEMPLATE_TEST_CASE_SIG("Reverse map iterator", "[map] [iterator]", ((typename T,
 
 		REQUIRE(ft_it != ft_map.rend());
 		REQUIRE(*ft_it == *ft_map.rbegin());
+
+		++ft_it;
+		REQUIRE(ft_it == ft_map.rend());
 	}
 
 	SECTION("With many node") {
@@ -273,7 +282,7 @@ TEMPLATE_TEST_CASE_SIG("const reverse map iterator", "[map] [iterator]",
 	SECTION("Empty list") {
 		ft_it = ft_map.rbegin();
 
-//		REQUIRE(ft_it == ft_map.rend());
+		REQUIRE(ft_it == ft_map.rend());
 	}
 
 	SECTION("With one node") {
@@ -283,6 +292,9 @@ TEMPLATE_TEST_CASE_SIG("const reverse map iterator", "[map] [iterator]",
 
 		REQUIRE(ft_it != ft_map.rend());
 		REQUIRE(*ft_it == *ft_map.rbegin());
+
+		++ft_it;
+		REQUIRE(ft_it == ft_map.rend());
 	}
 
 	SECTION("With many node") {
