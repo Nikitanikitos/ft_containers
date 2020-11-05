@@ -18,8 +18,9 @@
 # include <string>
 
 template<class T, class U>
-class	reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
+	friend class ft::map<class Key, class Value>;
 private:
 	T*		_ptr;
 
@@ -90,13 +91,12 @@ public:
 		--temp;
 		return (temp);
 	}
-
-	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 };
 
 template<class T, class U>
-class	const_reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::const_reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
+	friend class ft::map<class Key, class Value>;
 private:
 	T*		_ptr;
 
@@ -173,8 +173,6 @@ public:
 		--temp;
 		return (temp);
 	}
-
-	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 };
 
 #endif //FT_CONTAINERS_REVERSE_MAP_ITERATOR_HPP

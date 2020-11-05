@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 13:13:36 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/05 13:28:35 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ private:
 
 	_tree_type 			_tree;
 
-private:
+public:
 	typedef				Key														key_type;
 	typedef				Value													mapped_type;
 	typedef				std::pair<const key_type, mapped_type>					value_type;
@@ -53,7 +53,6 @@ private:
 	typedef				reverse_map_iterator<_node_type, value_type>			reverse_iterator;
 	typedef				const_reverse_map_iterator<_node_type, value_type>		const_reverse_iterator;
 
-public:
 	explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
 		_tree._compare = comp;
 		_tree._alloc = alloc;
@@ -111,7 +110,7 @@ public:
 
 		if (node == _tree._last_node || node == _tree._first_node || node == 0) {
 			it = insert(std::make_pair(k, mapped_type())).first;
-			node = it._get_ptr();
+			node = it._ptr;
 		}
 		return (node->_value->second);
 	}
@@ -145,7 +144,7 @@ public:
 		}
 		_tree._size++;
 		_tree._root->_parent = 0;
-		_tree._root->_color = _black;
+		_tree._root->_color = false;
 		return (std::make_pair(find(val.first), pair.second));
 	}
 
@@ -159,7 +158,7 @@ public:
 //		}
 
 	void						erase(iterator position) {
-		_node_type*	node = position._get_ptr();
+		_node_type*	node = position._ptr;
 		erase(node->_value->first);
 	}
 
