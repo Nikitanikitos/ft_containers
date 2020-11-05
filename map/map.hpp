@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 14:04:02 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/05 18:29:02 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@ public:
 		_tree._empty_tree_init();
 	}
 
-//		template <class InputIterator>
-//		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-//							const allocator_type& alloc = allocator_type(),
-//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//			_tree._compare = comp;
-//			_tree._alloc = alloc;
-//			_tree._empty_tree_init();
-//			for (; first != last; ++first)
-//				insert(*first);
-//		}
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+							const allocator_type& alloc = allocator_type(),
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+			_tree._compare = comp;
+			_tree._alloc = alloc;
+			_tree._empty_tree_init();
+			for (; first != last; ++first)
+				insert(*first);
+		}
 
 	map(const map& x) {
 		_tree._empty_tree_init();
@@ -147,12 +147,12 @@ public:
 
 	iterator					insert(iterator position, const value_type& val);
 
-//		template <class InputIterator>
-//		void						insert(InputIterator first, InputIterator last,
-//									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//			for (; first != last; ++first)
-//				insert(*first);
-//		}
+		template <class InputIterator>
+		void						insert(InputIterator first, InputIterator last,
+									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+			for (; first != last; ++first)
+				insert(*first);
+		}
 
 	void						erase(iterator position) {
 		_node_type*	node = position._ptr;

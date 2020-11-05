@@ -21,6 +21,7 @@ template<class T, class U>
 class	ft::reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 	friend class ft::map<class Key, class Value>;
+	friend class ft::const_reverse_map_iterator<T, U>;
 private:
 	T*		_ptr;
 
@@ -103,7 +104,7 @@ private:
 public:
 	const_reverse_map_iterator(T *ptr = 0) : _ptr(ptr) { }
 	const_reverse_map_iterator(const const_reverse_map_iterator<T, U> &it) : _ptr(it._ptr) { }
-	const_reverse_map_iterator(const reverse_map_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
+	const_reverse_map_iterator(const reverse_map_iterator<T, U> &it) : _ptr(it._ptr) { }
 	~const_reverse_map_iterator() { }
 
 	const_reverse_map_iterator<T, U>	&operator=(const const_reverse_map_iterator<T, U> &it) {
@@ -113,7 +114,7 @@ public:
 	}
 
 	const_reverse_map_iterator<T, U>	&operator=(const reverse_map_iterator<T, U> &it) {
-		_ptr = it._get_ptr();
+		_ptr = it._ptr;
 		return (*this);
 	}
 

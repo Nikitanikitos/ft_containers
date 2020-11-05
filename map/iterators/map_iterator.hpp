@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 13:28:35 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/05 18:34:29 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 template<class T, class U>
 class	ft::map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-	friend class ft::map<class Key, class Value>;
+	friend class ft::map<class Key, class Value, class Compare, class Alloc>;
+	friend class ft::const_map_iterator<T, U>;
+
 private:
 	T *_ptr;
 
@@ -31,7 +33,7 @@ public:
 
 	map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
-	~map_iterator() {}
+	~map_iterator() { }
 
 	map_iterator<T, U> &operator=(const map_iterator<T, U> &it) {
 		if (this != &it)
@@ -102,6 +104,7 @@ template<class T, class U>
 class	ft::const_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 	friend class ft::map<class Key, class Value>;
+
 private:
 	T *_ptr;
 
@@ -110,7 +113,7 @@ public:
 
 	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
-	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._get_ptr()) {}
+	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
 	~const_map_iterator() {}
 
@@ -121,7 +124,7 @@ public:
 	}
 
 	const_map_iterator<T, U> &operator=(const map_iterator<T, U> &it) {
-		_ptr = it._get_ptr();
+		_ptr = it._ptr;
 		return (*this);
 	}
 
