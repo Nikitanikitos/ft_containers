@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 13:28:35 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/05 14:04:02 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,17 @@
 # include <iostream>
 # include <utility>
 # include <limits>
-//# include "queue.hpp"
+# include "queue.hpp"
 # include "map_iterator.hpp"
 # include "reverse_map_iterator.hpp"
 #include "tree.hpp"
 # include "ft.hpp"
 
-# define RED	true
-# define BLACK	false
-
 template < class Key, class Value, class Compare, class Alloc>
 class ft::map
 {
 private:
-	typedef				ft::Tree<Key, Value, Compare, Alloc>					_tree_type;
+	typedef				ft::tree<Key, Value, Compare, Alloc>					_tree_type;
 	typedef typename	_tree_type::s_node										_node_type;
 
 	_tree_type 			_tree;
@@ -191,22 +188,22 @@ public:
 	}
 
 	void						clear() {
-//			queue<_node_type*>	queue;
-//			_node_type*			node;
-//
-//			node = _tree._root;
-//			if (_tree._root)
-//				queue.push(node);
-//			while (!queue.empty()) {
-//				if (node->_right && node->_right != _tree._last_node)
-//					queue.push(node->_right);
-//				if (node->_left && node->_left != _tree._first_node)
-//					queue.push(node->_left);
-//				node = queue.front();
-//				_tree._destroy_node(node);
-//				queue.pop();
-//				node = queue.front();
-//			}
+			queue<_node_type*>	queue;
+			_node_type*			node;
+
+			node = _tree._root;
+			if (_tree._root)
+				queue.push(node);
+			while (!queue.empty()) {
+				if (node->_right && node->_right != _tree._last_node)
+					queue.push(node->_right);
+				if (node->_left && node->_left != _tree._first_node)
+					queue.push(node->_left);
+				node = queue.front();
+				_tree._destroy_node(node);
+				queue.pop();
+				node = queue.front();
+			}
 	}
 
 	key_compare					key_comp() const { return (_tree._compare); }

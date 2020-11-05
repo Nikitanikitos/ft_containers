@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 13:15:44 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/05 13:40:25 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "ft.hpp"
 
 template < class Key, class Value, class Compare, class Alloc>
-class ft::Tree
+class ft::tree
 {
 	friend class ft::map<Key, Value>;
 private:
@@ -25,7 +25,6 @@ private:
 	typedef				Value													mapped_type;
 	typedef				std::pair<const key_type, mapped_type>					value_type;
 	typedef				std::size_t												size_type;
-
 
 	enum color {
 		_red	= true,
@@ -51,7 +50,7 @@ private:
 	Alloc							_alloc;
 	Compare							_compare;
 
-	explicit Tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc()) : _size(0), _alloc(alloc), _compare(comp) {
+	explicit tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc()) : _size(0), _alloc(alloc), _compare(comp) {
 		_empty_tree_init();
 	}
 
