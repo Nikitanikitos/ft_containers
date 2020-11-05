@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 16:59:32 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/05 14:04:02 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ public:
 
 	iterator		insert(iterator position, const value_type &val) {
 		s_list		*temp_node = _new_node_init(val);
-		s_list		*node_position = position._get_ptr();
+		s_list		*node_position = position._ptr;
 
 		_insert_in_front_node(node_position, temp_node);
 		_check_for_insert();
@@ -302,7 +302,7 @@ public:
 
 	void			insert(iterator position, size_type n, const value_type& val) {
 		s_list		*temp_node;
-		s_list		*node_position = position._get_ptr();
+		s_list		*node_position = position._ptr;
 
 		for (size_type i = 0; i < n; ++i) {
 			temp_node = _new_node_init(val);
@@ -316,7 +316,7 @@ public:
 	void			insert(iterator position, InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 		s_list		*temp_node;
-		s_list		*node_position = position._get_ptr();
+		s_list		*node_position = position._ptr;
 
 		for (; first != last; ++first) {
 			temp_node = _new_node_init(*first);
@@ -327,7 +327,7 @@ public:
 	}
 
 	iterator		erase(list::iterator position) {
-		s_list		*node_position = position._get_ptr();
+		s_list		*node_position = position._ptr;
 		iterator	it = node_position->next;
 
 		node_position->prev->next = node_position->next;
@@ -339,8 +339,8 @@ public:
 	}
 
 	iterator		erase(list::iterator first, list::iterator last) {
-		s_list		*first_node = first._get_ptr();
-		s_list		*last_node = last._get_ptr();
+		s_list		*first_node = first._ptr;
+		s_list		*last_node = last._ptr;
 		s_list		*temp_node;
 		iterator	it;
 
@@ -401,7 +401,7 @@ public:
 	}
 
 	void			splice(iterator position, list& x) {
-		s_list	*node = position._get_ptr();
+		s_list	*node = position._ptr;
 
 		node->prev->next = x._first_node;
 		x._first_node->prev = node->prev;
@@ -419,8 +419,8 @@ public:
 	}
 
 	void			splice(iterator position, list& x, iterator i) {
-		s_list		*position_node = position._get_ptr();
-		s_list		*node = i._get_ptr();
+		s_list		*position_node = position._ptr;
+		s_list		*node = i._ptr;
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
@@ -437,9 +437,9 @@ public:
 	}
 
 	void			splice(iterator position, list& x, iterator first, iterator last) {
-		s_list		*position_node = position._get_ptr();
-		s_list		*first_node = first._get_ptr();
-		s_list		*last_node = last._get_ptr();
+		s_list		*position_node = position._ptr;
+		s_list		*first_node = first._ptr;
+		s_list		*last_node = last._ptr;
 		s_list		*new_last_node = last_node->prev;
 		value_type	segment_size = _get_segment_size(first, last);
 
@@ -476,7 +476,7 @@ public:
 
 		while (list != _end_node)
 			if (*list->value == *list->next->value)
-				list = erase(list)._get_ptr();
+				list = erase(list)._ptr;
 			else
 				list = list->next;
 	}
@@ -487,7 +487,7 @@ public:
 
 		while (list != _end_node)
 			if (binary_pred(*list->value, *list->next->value))
-				list = erase(list)._get_ptr();
+				list = erase(list)._ptr;
 			else
 				list = list->next;
 	}

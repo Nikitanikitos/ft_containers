@@ -16,10 +16,12 @@
 # include <iostream>
 # include <iterator>
 # include <string>
+# include "ft.hpp"
 
 template<class T, class U>
-class	list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
+	friend class ft::list<class S>;
 private:
 	T*		_ptr;
 
@@ -55,12 +57,10 @@ public:
 		_ptr = _ptr->prev;
 		return (temp);
 	}
-
-	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 };
 
 template<class T, class U>
-class	const_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::const_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
 	T*	_ptr;

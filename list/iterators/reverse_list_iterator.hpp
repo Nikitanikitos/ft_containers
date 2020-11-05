@@ -17,11 +17,12 @@
 # include <iostream>
 # include <iterator>
 # include <string>
+# include "ft.hpp"
 
 template<class T, class U>
-class	reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-protected:
+private:
 	T*		_ptr;
 
 public:
@@ -56,12 +57,10 @@ public:
 		_ptr = _ptr->next;
 		return (temp);
 	}
-
-	T*		_get_ptr() const { return(_ptr); } // TODO придумать что нибудь по лучше
 };
 
 template<class T, class U>
-class	const_reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class	ft::const_reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 private:
 	T*		_ptr;
