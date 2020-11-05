@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Iterator_list.hpp                                  :+:      :+:    :+:   */
+/*   list_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,6 +22,7 @@ template<class T, class U>
 class	ft::list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 	friend class ft::list<class S>;
+	friend class ft::const_list_iterator<T, U>;
 private:
 	T*		_ptr;
 
@@ -67,12 +68,12 @@ private:
 
 public:
 	const_list_iterator(T *ptr = 0) : _ptr(ptr) { }
-	const_list_iterator(const list_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
+	const_list_iterator(const list_iterator<T, U> &it) : _ptr(it._ptr) { }
 	const_list_iterator(const const_list_iterator<T, U> &it) : _ptr(it._ptr) { }
 	~const_list_iterator() { }
 
 	const_list_iterator<T, U>		&operator=(const list_iterator<T, U> &it) {
-		_ptr = it._get_ptr();
+		_ptr = it.ptr;
 		return (*this);
 	}
 
