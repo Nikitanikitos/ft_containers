@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.hpp                                           :+:      :+:    :+:   */
+/*   ft.hpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/21 23:50:46 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/05 13:10:30 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef main_hpp
-# define main_hpp
+#ifndef FT_HPP
+# define FT_HPP
 
-#include "catch.hpp"
+namespace ft {
+	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
+	class map;
+
+	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
+	class Tree;
+}
 
 #endif
