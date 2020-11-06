@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 18:31:01 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 13:39:00 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ private:
 		first = second;
 	}
 
-	bool		_is_red(const s_node* node) { return ((node) ? node->_color == _red : _black); }
-	bool		_is_black(const s_node* node) { return ((node) ? node->_color == _black : _black); }
+	bool		_is_red(const s_node* node) { return ((node) ? (node->_color == _red) : false); }
+	bool		_is_black(const s_node* node) { return ((node) ? (node->_color == _black) : false); }
 
 	void		_flip_color(s_node* node) {
 		node->_color = !node->_color;

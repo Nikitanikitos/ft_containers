@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 project(ft_containers)
 set(CMAKE_CXX_STANDARD 98)
 
@@ -6,7 +6,7 @@ SET(MYCOMPILE_FLAGS "-Wall -Wextra -Werror")
 add_definitions(${MYCOMPILE_FLAGS})
 
 add_executable(ft_containers
-        main.cpp
+        ft.cpp
 
 #        list/tests/list_constructor_test.cpp
 #        list/tests/list_push_front_back_tests.cpp
@@ -41,10 +41,11 @@ add_executable(ft_containers
 #        queue/tests/queue_constructor_tests.cpp
 #        queue/tests/queue_push_pop_tests.cpp
 
-        map/tests/map_constructor_tests.cpp
-        map/tests/map_iterator_tests.cpp
-        map/iterators/reverse_map_iterator.hpp
-        map/tests/map_insert_tests.cpp)
+#        map/tests/map_constructor_tests.cpp
+#        map/tests/map_iterator_tests.cpp
+#        map/iterators/reverse_map_iterator.hpp
+#        map/tests/map_insert_tests.cpp
+        )
 
 include_directories(
         includes

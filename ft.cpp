@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ft.cpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/01 13:43:11 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 13:40:43 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 #include <map>
 #include <iostream>
-#include "map.hpp"
+#include <map.hpp>
 
 int 	main() {
 	ft::map<int,int>	map;
-	auto	it = map.begin();
+	ft::map<int,int>::iterator	it = map.begin();
 
+	map[3] = 5;
 	while (it != map.end())
 		std::cout << it->first << std::endl;
 	return (0);
