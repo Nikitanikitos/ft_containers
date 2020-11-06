@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 18:34:29 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 15:45:55 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 # include <iostream>
 # include <iterator>
 # include <string>
-# include "tree.hpp"
+# include "ft.hpp"
 
 template<class T, class U>
 class	ft::map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-	friend class ft::map<class Key, class Value, class Compare, class Alloc>;
-	friend class ft::const_map_iterator<T, U>;
+	template < class Key, class Value, class Compare, class Alloc>
+	friend class map;
+	friend class const_map_iterator<T, U>;
 
 private:
 	T *_ptr;
 
 public:
-	map_iterator(T *ptr = 0) : _ptr(ptr) {}
+	explicit map_iterator(T *ptr = 0) : _ptr(ptr) {}
 
 	map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
@@ -103,17 +104,18 @@ public:
 template<class T, class U>
 class	ft::const_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-	friend class ft::map<class Key, class Value>;
+	template < class Key, class Value, class Compare, class Alloc>
+	friend class map;
 
 private:
 	T *_ptr;
 
 public:
-	const_map_iterator(T *ptr = 0) : _ptr(ptr) {}
+	explicit const_map_iterator(T *ptr = 0) : _ptr(ptr) {}
 
 	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
-	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
+	explicit const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
 
 	~const_map_iterator() {}
 
