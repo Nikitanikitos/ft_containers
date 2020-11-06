@@ -15,9 +15,7 @@
 
 # include <iostream>
 # include <string>
-#include <limits>
-# include "list_iterator.hpp"
-# include "reverse_list_iterator.hpp"
+# include <limits>
 # include "ft.hpp"
 
 template<class T, class Alloc>
@@ -116,8 +114,7 @@ private:
 	}
 
 public:
-	explicit list(const allocator_type& alloc = allocator_type())
-								: _size(0), _alloc(alloc) {
+	explicit list(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc) {
 		_create_end_node();
 		_first_node = _end_node;
 		_last_node = _end_node;
