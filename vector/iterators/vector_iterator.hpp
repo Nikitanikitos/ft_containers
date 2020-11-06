@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/30 19:31:41 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:07:12 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include <iostream>
 # include <iterator>
 # include <string>
+# include "ft.hpp"
 
 template<class T>
 class	ft::vector_iterator : public std::iterator<std::random_access_iterator_tag, T>
 {
-	template <T, class Alloc>
+	template <class U, class Alloc>
 	friend class	vector;
 	friend class	const_vector_iterator<T>;
 

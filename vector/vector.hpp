@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 16:20:05 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:12:29 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #ifndef FT_CONTAINERS_VECTOR_HPP
 # define FT_CONTAINERS_VECTOR_HPP
 
+#include <limits>
 # include "vector_iterator.hpp"
 # include "reverse_vector_iterator.hpp"
 # include "ft.hpp"
@@ -109,14 +110,14 @@ public:
 		return (*this);
 	}
 
-	iterator				begin() { return (vector_iterator<T>(&_ptr[0])); }
-	const_iterator			begin() const { return (const_vector_iterator<T>(&_ptr[0])); }
-	iterator				end() { return (vector_iterator<T>(&_ptr[_size])); }
-	const_iterator			end() const { return (const_vector_iterator<T>(&_ptr[_size])); }
-	reverse_iterator		rbegin() { return (reverse_vector_iterator<T>(&_ptr[_size - 1])); }
-	const_reverse_iterator	rbegin() const { return (const_reverse_vector_iterator<T>(&_ptr[_size - 1])); }
-	reverse_iterator		rend() { return (reverse_vector_iterator<T>(&_ptr[-1])); }
-	const_reverse_iterator	rend() const { return (const_reverse_vector_iterator<T>(&_ptr[-1])); }
+	iterator				begin() { return (iterator(_ptr)); }
+	const_iterator			begin() const { return (const_iterator(_ptr)); }
+	iterator				end() { return (iterator(_ptr + _size)); }
+	const_iterator			end() const { return (const_iterator(_ptr + _size)); }
+	reverse_iterator		rbegin() { return (reverse_iterator(_ptr + _size - 1)); }
+	const_reverse_iterator	rbegin() const { return (const_reverse_iterator(_ptr + _size - 1)); }
+	reverse_iterator		rend() { return (reverse_iterator(_ptr - 1)); }
+	const_reverse_iterator	rend() const { return (const_reverse_iterator(_ptr - 1)); }
 
 	size_type				size() const {return (_size); };
 	size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }

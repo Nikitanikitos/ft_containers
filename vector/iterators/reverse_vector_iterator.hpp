@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_random_access_iterator.hpp                 :+:      :+:    :+:   */
+/*   reverse_vector_iterator.hpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:21:42 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:38:25 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:05:18 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #ifndef FT_CONTAINERS_REVERSE_VECTOR_ITERATOR_HPP
 #define FT_CONTAINERS_REVERSE_VECTOR_ITERATOR_HPP
 
-# include <iostream>
 # include <iterator>
-# include <string>
+# include "ft.hpp"
+
 
 template<class T>
 class	ft::reverse_vector_iterator : public std::iterator<std::random_access_iterator_tag, T>
