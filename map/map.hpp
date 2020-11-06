@@ -6,19 +6,20 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 15:39:29 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:19:37 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_CONTAINERS_MAP_HPP
 # define FT_CONTAINERS_MAP_HPP
 
-# include <iostream>
 # include <utility>
 # include <limits>
-//# include "queue.hpp"
-#include "tree.hpp"
+# include "queue.hpp"
+# include "tree.hpp"
 # include "ft.hpp"
+# include "map_iterator.hpp"
+# include "reverse_map_iterator.hpp"
 
 template < class Key, class Value, class Compare, class Alloc>
 class ft::map
@@ -54,16 +55,16 @@ public:
 		_tree._empty_tree_init();
 	}
 
-//		template <class InputIterator>
-//		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-//							const allocator_type& alloc = allocator_type(),
-//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//			_tree._compare = comp;
-//			_tree._alloc = alloc;
-//			_tree._empty_tree_init();
-//			for (; first != last; ++first)
-//				insert(*first);
-//		}
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+							const allocator_type& alloc = allocator_type(),
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+			_tree._compare = comp;
+			_tree._alloc = alloc;
+			_tree._empty_tree_init();
+			for (; first != last; ++first)
+				insert(*first);
+		}
 
 	map(const map& x) {
 		_tree._empty_tree_init();
@@ -72,7 +73,7 @@ public:
 	}
 
 	~map() {
-//			clear();
+			clear();
 	}
 
 	map&	operator=(const map& x) {
@@ -145,12 +146,12 @@ public:
 
 	iterator					insert(iterator position, const value_type& val);
 
-//		template <class InputIterator>
-//		void						insert(InputIterator first, InputIterator last,
-//									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//			for (; first != last; ++first)
-//				insert(*first);
-//		}
+		template <class InputIterator>
+		void						insert(InputIterator first, InputIterator last,
+									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+			for (; first != last; ++first)
+				insert(*first);
+		}
 
 	void						erase(iterator position) {
 		_node_type*	node = position._ptr;
@@ -186,22 +187,22 @@ public:
 	}
 
 	void						clear() {
-//			queue<_node_type*>	queue;
-//			_node_type*			node;
-//
-//			node = _tree._root;
-//			if (_tree._root)
-//				queue.push(node);
-//			while (!queue.empty()) {
-//				if (node->_right && node->_right != _tree._last_node)
-//					queue.push(node->_right);
-//				if (node->_left && node->_left != _tree._first_node)
-//					queue.push(node->_left);
-//				node = queue.front();
-//				_tree._destroy_node(node);
-//				queue.pop();
-//				node = queue.front();
-//			}
+			queue<_node_type*>	queue;
+			_node_type*			node;
+
+			node = _tree._root;
+			if (_tree._root)
+				queue.push(node);
+			while (!queue.empty()) {
+				if (node->_right && node->_right != _tree._last_node)
+					queue.push(node->_right);
+				if (node->_left && node->_left != _tree._first_node)
+					queue.push(node->_left);
+				node = queue.front();
+				_tree._destroy_node(node);
+				queue.pop();
+				node = queue.front();
+			}
 	}
 
 	key_compare					key_comp() const { return (_tree._compare); }

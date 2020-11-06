@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef FT_CONTAINERS_REVERSE_VECTOR_ITERATOR_HPP
-#define FT_CONTAINERS_REVERSE_VECTOR_ITERATOR_HPP
+# define FT_CONTAINERS_REVERSE_VECTOR_ITERATOR_HPP
 
 # include <iterator>
 # include "ft.hpp"
-
 
 template<class T>
 class	ft::reverse_vector_iterator : public std::iterator<std::random_access_iterator_tag, T>

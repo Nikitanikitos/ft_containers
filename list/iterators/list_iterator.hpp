@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_ITERATOR_HPP
-# define LIST_ITERATOR_HPP
+#ifndef FT_CONTAINERS_LIST_ITERATOR_HPP
+# define FT_CONTAINERS_LIST_ITERATOR_HPP
 
-# include <iostream>
 # include <iterator>
-# include <string>
 # include "ft.hpp"
 
 template<class P, class V>

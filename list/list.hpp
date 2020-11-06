@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 14:04:02 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 16:06:21 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef list_hpp
-# define list_hpp
+#ifndef FT_CONTAINERS_LIST_HPP
+# define FT_CONTAINERS_LIST_HPP
 
-# include <iostream>
-# include <string>
 # include <limits>
 # include "ft.hpp"
 
@@ -22,11 +20,11 @@ template<class T, class Alloc>
 class	ft::list
 {
 private:
-	struct				s_list {
+	typedef struct		_list_s {
 		T				*value;
-		struct s_list	*next;
-		struct s_list	*prev;
-	};
+		_list_s			*next;
+		_list_s			*prev;
+	}					_list_t;
 
 public:
 	typedef				T												value_type;
@@ -35,19 +33,19 @@ public:
 	typedef typename	allocator_type::const_reference					const_reference;
 	typedef typename	allocator_type::pointer							pointer;
 	typedef typename	allocator_type::const_pointer					const_pointer;
-	typedef 			list_iterator<s_list, T>						iterator;
-	typedef				const_list_iterator<s_list, T>					const_iterator;
-	typedef				reverse_list_iterator<s_list, T>				reverse_iterator;
-	typedef				const_reverse_list_iterator<s_list, T>			const_reverse_iterator;
+	typedef 			list_iterator<_list_t, T>						iterator;
+	typedef				const_list_iterator<_list_t, T>					const_iterator;
+	typedef				reverse_list_iterator<_list_t, T>				reverse_iterator;
+	typedef				const_reverse_list_iterator<_list_t, T>			const_reverse_iterator;
 	typedef				std::ptrdiff_t									difference_type;
 	typedef				std::size_t										size_type;
 
 private:
-	typedef typename allocator_type::template rebind<s_list>::other		alloc_rebind;
+	typedef typename allocator_type::template rebind<_list_t>::other		alloc_rebind;
 
-	s_list			*_first_node;
-	s_list			*_last_node;
-	s_list			*_end_node;
+	_list_t			*_first_node;
+	_list_t			*_last_node;
+	_list_t			*_end_node;
 	size_type		_size;
 	alloc_rebind	_alloc_rebind;
 	allocator_type	_alloc;
@@ -62,14 +60,14 @@ private:
 		_end_node->value = value_node;
 	}
 
-	void		_assign_new_value_to_node(s_list *node, const value_type &val) {
+	void		_assign_new_value_to_node(_list_t *node, const value_type &val) {
 		_alloc.destroy(node->value);
 		_alloc.construct(node->value, val);
 	}
 
-	s_list*		_new_node_init(const value_type &val) {
+	_list_t*		_new_node_init(const value_type &val) {
 		value_type	*node_value = _alloc.allocate(1);
-		s_list		*node = _alloc_rebind.allocate(1);
+		_list_t		*node = _alloc_rebind.allocate(1);
 
 		_alloc.construct(node_value, val);
 		node->value = node_value;
@@ -78,7 +76,7 @@ private:
 		return (node);
 	}
 
-	void		_destroy_node(s_list *node) {
+	void		_destroy_node(_list_t *node) {
 		_alloc.deallocate(node->value, 1);
 		_alloc_rebind.deallocate(node, 1);
 		_size--;
@@ -89,7 +87,7 @@ private:
 		_last_node = _end_node->prev;
 	}
 
-	void		_insert_in_front_node(s_list *node_position, s_list *node) {
+	void		_insert_in_front_node(_list_t *node_position, _list_t *node) {
 		node_position->prev->next = node;
 		node->prev = node_position->prev;
 		node->next = node_position;
@@ -156,7 +154,7 @@ public:
 		const_iterator	begin = list.begin();
 		const_iterator	end = list.end();
 		size_type		i = 0;
-		s_list			*temp_node = _first_node;
+		_list_t			*temp_node = _first_node;
 
 		for (; begin != end; begin++) {
 			if (_size >= list._size)
@@ -175,7 +173,7 @@ public:
 	}
 
 	~list() {
-		s_list		*temp_node;
+		_list_t		*temp_node;
 
 		for (size_type  i = 0; i < _size; ++i) {
 			temp_node = _first_node;
@@ -209,7 +207,7 @@ public:
 	void			assign(InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 		size_type		i = 0;
-		s_list			*temp_node = _first_node;
+		_list_t			*temp_node = _first_node;
 
 		for (; first != last; ++first) {
 			if (i++ < _size) {
@@ -224,7 +222,7 @@ public:
 	}
 
 	void			assign(list::size_type n, const value_type &val) {
-		s_list			*temp_node = _first_node;
+		_list_t			*temp_node = _first_node;
 		size_type		i;
 
 		for (i = 0; i < n; ++i) {
@@ -240,7 +238,7 @@ public:
 	}
 
 	void			push_front(const value_type& val) {
-		s_list		*node = _new_node_init(val);
+		_list_t		*node = _new_node_init(val);
 
 		_end_node->next = node;
 		node->prev = _end_node;
@@ -254,7 +252,7 @@ public:
 	}
 
 	void			pop_front() {
-		s_list	*node;
+		_list_t	*node;
 
 		node = _first_node;
 		_first_node->prev->next = _first_node->next;
@@ -264,7 +262,7 @@ public:
 	}
 
 	void			push_back(const value_type& val) {
-		s_list		*node = _new_node_init(val);
+		_list_t		*node = _new_node_init(val);
 
 		_end_node->prev = node;
 		node->next = _end_node;
@@ -278,7 +276,7 @@ public:
 	}
 
 	void			pop_back() {
-		s_list	*node;
+		_list_t	*node;
 
 		node = _last_node;
 		_last_node->prev->next = _last_node->next;
@@ -288,8 +286,8 @@ public:
 	}
 
 	iterator		insert(iterator position, const value_type &val) {
-		s_list		*temp_node = _new_node_init(val);
-		s_list		*node_position = position._ptr;
+		_list_t		*temp_node = _new_node_init(val);
+		_list_t		*node_position = position._ptr;
 
 		_insert_in_front_node(node_position, temp_node);
 		_check_for_insert();
@@ -298,8 +296,8 @@ public:
 	}
 
 	void			insert(iterator position, size_type n, const value_type& val) {
-		s_list		*temp_node;
-		s_list		*node_position = position._ptr;
+		_list_t		*temp_node;
+		_list_t		*node_position = position._ptr;
 
 		for (size_type i = 0; i < n; ++i) {
 			temp_node = _new_node_init(val);
@@ -312,8 +310,8 @@ public:
 	template <class InputIterator>
 	void			insert(iterator position, InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-		s_list		*temp_node;
-		s_list		*node_position = position._ptr;
+		_list_t		*temp_node;
+		_list_t		*node_position = position._ptr;
 
 		for (; first != last; ++first) {
 			temp_node = _new_node_init(*first);
@@ -324,7 +322,7 @@ public:
 	}
 
 	iterator		erase(list::iterator position) {
-		s_list		*node_position = position._ptr;
+		_list_t		*node_position = position._ptr;
 		iterator	it = node_position->next;
 
 		node_position->prev->next = node_position->next;
@@ -336,9 +334,9 @@ public:
 	}
 
 	iterator		erase(list::iterator first, list::iterator last) {
-		s_list		*first_node = first._ptr;
-		s_list		*last_node = last._ptr;
-		s_list		*temp_node;
+		_list_t		*first_node = first._ptr;
+		_list_t		*last_node = last._ptr;
+		_list_t		*temp_node;
 		iterator	it;
 
 		first_node->prev->next = last_node;
@@ -382,7 +380,7 @@ public:
 	}
 
 	void			clear() {
-		s_list		*temp_node;
+		_list_t		*temp_node;
 
 		for (size_type i = 0; i < _size; ++i) {
 			temp_node = _first_node;
@@ -398,7 +396,7 @@ public:
 	}
 
 	void			splice(iterator position, list& x) {
-		s_list	*node = position._ptr;
+		_list_t	*node = position._ptr;
 
 		node->prev->next = x._first_node;
 		x._first_node->prev = node->prev;
@@ -416,8 +414,8 @@ public:
 	}
 
 	void			splice(iterator position, list& x, iterator i) {
-		s_list		*position_node = position._ptr;
-		s_list		*node = i._ptr;
+		_list_t		*position_node = position._ptr;
+		_list_t		*node = i._ptr;
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
@@ -434,10 +432,10 @@ public:
 	}
 
 	void			splice(iterator position, list& x, iterator first, iterator last) {
-		s_list		*position_node = position._ptr;
-		s_list		*first_node = first._ptr;
-		s_list		*last_node = last._ptr;
-		s_list		*new_last_node = last_node->prev;
+		_list_t		*position_node = position._ptr;
+		_list_t		*first_node = first._ptr;
+		_list_t		*last_node = last._ptr;
+		_list_t		*new_last_node = last_node->prev;
 		value_type	segment_size = _get_segment_size(first, last);
 
 		_size += segment_size;
@@ -469,7 +467,7 @@ public:
 	}
 
 	void			unique() {
-		s_list		*list = _first_node;
+		_list_t		*list = _first_node;
 
 		while (list != _end_node)
 			if (*list->value == *list->next->value)
@@ -480,7 +478,7 @@ public:
 
 	template <class BinaryPredicate>
 	void			unique(BinaryPredicate binary_pred) {
-		s_list	*list = _first_node;
+		_list_t	*list = _first_node;
 
 		while (list != _end_node)
 			if (binary_pred(*list->value, *list->next->value))
@@ -520,8 +518,8 @@ public:
 
 	void			sort() {
 		value_type	temp_value;
-		s_list		*temp_node;
-		s_list		*list;
+		_list_t		*temp_node;
+		_list_t		*list;
 
 		list = _first_node;
 		while (list != _end_node) {
@@ -541,8 +539,8 @@ public:
 	template <class Compare>
 	void			sort(Compare comp) {
 		value_type temp_value;
-		s_list *temp_node;
-		s_list *list;
+		_list_t *temp_node;
+		_list_t *list;
 
 		list = _first_node;
 		while (list != _last_node) {
@@ -561,8 +559,8 @@ public:
 
 	void			reverse() {
 		value_type	temp_value;
-		s_list		*start_list = _first_node;
-		s_list		*end_list = _last_node;
+		_list_t		*start_list = _first_node;
+		_list_t		*end_list = _last_node;
 
 		for (int i = 0; i < _size / 2; ++i) {
 			temp_value = start_list->value;

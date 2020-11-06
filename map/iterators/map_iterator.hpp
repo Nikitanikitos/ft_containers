@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 15:45:55 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:17:37 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 #ifndef FT_CONTAINERS_MAP_ITERATOR_HPP
 # define FT_CONTAINERS_MAP_ITERATOR_HPP
 
-# include <iostream>
 # include <iterator>
-# include <string>
-# include "ft.hpp"
 
 template<class T, class U>
 class	ft::map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>

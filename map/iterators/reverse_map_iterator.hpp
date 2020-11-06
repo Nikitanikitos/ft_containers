@@ -13,9 +13,7 @@
 #ifndef FT_CONTAINERS_REVERSE_MAP_ITERATOR_HPP
 # define FT_CONTAINERS_REVERSE_MAP_ITERATOR_HPP
 
-# include <iostream>
 # include <iterator>
-# include <string>
 
 template<class T, class U>
 class	ft::reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>

@@ -13,7 +13,6 @@
 #ifndef FT_CONTAINERS_TREE_HPP
 # define FT_CONTAINERS_TREE_HPP
 
-# include <iostream>
 # include "ft.hpp"
 
 template < class Key, class Value, class Compare, class Alloc>
