@@ -8,47 +8,47 @@ add_definitions(${MYCOMPILE_FLAGS})
 add_executable(ft_containers
         ft.cpp
 
-#        list/tests/list_constructor_test.cpp
-#        list/tests/list_push_front_back_tests.cpp
-#        list/tests/list_iterator_tests.cpp
-#        list/tests/test_assign_tests.cpp
-#        list/tests/list_insert_tests.cpp
-#        list/tests/list_erase_tests.cpp
-#        list/tests/list_clear_tests.cpp
-#        list/tests/list_comparison_operators_tests.cpp
-#        list/tests/list_resize_tests.cpp
-#        list/tests/list_swap_tests.cpp
-#        list/tests/list_remove_tests.cpp
-#        list/tests/list_reverse_tests.cpp
-#        list/tests/list_unique_tests.cpp
-#        list/tests/list_sort_tests.cpp
-#        list/tests/list_splice_list.cpp
-#        list/tests/list_merge_lists.cpp
+#        list/vector_tests/list_constructor_test.cpp
+#        list/vector_tests/list_push_front_back_tests.cpp
+#        list/vector_tests/list_iterator_tests.cpp
+#        list/vector_tests/test_assign_tests.cpp
+#        list/vector_tests/list_insert_tests.cpp
+#        list/vector_tests/list_erase_tests.cpp
+#        list/vector_tests/list_clear_tests.cpp
+#        list/vector_tests/list_comparison_operators_tests.cpp
+#        list/vector_tests/list_resize_tests.cpp
+#        list/vector_tests/list_swap_tests.cpp
+#        list/vector_tests/list_remove_tests.cpp
+#        list/vector_tests/list_reverse_tests.cpp
+#        list/vector_tests/list_unique_tests.cpp
+#        list/vector_tests/list_sort_tests.cpp
+#        list/vector_tests/list_splice_list.cpp
+#        list/vector_tests/list_merge_lists.cpp
 
-#        vector/tests/vector_constructor_tests.cpp
-#        vector/tests/vector_comparison_operators_tests.cpp
-#        vector/tests/vector_push_pop_back_tests.cpp
-#        vector/tests/vector_resize_tests.cpp
-#        vector/tests/vector_access_operator_tests.cpp
-#        vector/tests/vector_iterator_tests.cpp
-#        vector/tests/vector_insert_tests.cpp
-#        vector/tests/vector_swap_tests.cpp
-#        vector/tests/vector_front_back_tests.cpp
-#        vector/tests/vector_erase_tests.cpp
+#        vector/vector_tests/vector_constructor_tests.cpp
+#        vector/vector_tests/vector_comparison_operators_tests.cpp
+#        vector/vector_tests/vector_push_pop_back_tests.cpp
+#        vector/vector_tests/vector_resize_tests.cpp
+#        vector/vector_tests/vector_access_operator_tests.cpp
+#        vector/vector_tests/vector_iterator_tests.cpp
+#        vector/vector_tests/vector_insert_tests.cpp
+#        vector/vector_tests/vector_swap_tests.cpp
+#        vector/vector_tests/vector_front_back_tests.cpp
+#        vector/vector_tests/vector_erase_tests.cpp
 #
-#        stack/tests/stack_constructor_tests.cpp
-#        stack/tests/stack_push_pop_tests.cpp
-#        queue/tests/queue_constructor_tests.cpp
-#        queue/tests/queue_push_pop_tests.cpp
+#        stack/vector_tests/stack_constructor_tests.cpp
+#        stack/vector_tests/stack_push_pop_tests.cpp
+#        queue/vector_tests/queue_constructor_tests.cpp
+#        queue/vector_tests/queue_push_pop_tests.cpp
 
-#        map/tests/map_constructor_tests.cpp
-#        map/tests/map_iterator_tests.cpp
+#        map/vector_tests/map_constructor_tests.cpp
+#        map/vector_tests/map_iterator_tests.cpp
 #        map/iterators/reverse_map_iterator.hpp
-#        map/tests/map_insert_tests.cpp
+#        map/vector_tests/map_insert_tests.cpp
         )
 
 include_directories(
-        includes
+		ft
 
         list
         list/iterators

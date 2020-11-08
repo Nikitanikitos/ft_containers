@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:31:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 13:40:43 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 22:08:38 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@
 #include <map>
 #include <iostream>
 #include <map.hpp>
+#include "vector.hpp"
+#include "list.hpp"
 
 int 	main() {
-	ft::map<int,int>	map;
-	ft::map<int,int>::iterator	it = map.begin();
+	ft::list<int>	qwe;
 
-	map[3] = 5;
-	while (it != map.end())
-		std::cout << it->first << std::endl;
+	for (int i = 0; i < 6; ++i) {
+		if (i % 2)
+			qwe.push_back(i);
+		else
+			qwe.push_back(-i);
+	}
+	qwe.sort();
 	return (0);
 }
