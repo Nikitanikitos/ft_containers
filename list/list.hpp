@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 16:06:21 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/08 11:59:00 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <limits>
 # include "ft.hpp"
+# include "list_iterator.hpp"
+# include "reverse_list_iterator.hpp"
 
 template<class T, class Alloc>
 class	ft::list
@@ -118,7 +120,7 @@ public:
 		_last_node = _end_node;
 	};
 
-	explicit list(size_type n, const value_type &val, const allocator_type &alloc) : _size(0), _alloc(alloc) {
+	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc) {
 		_create_end_node();
 		_first_last_node_init();
 
@@ -126,16 +128,16 @@ public:
 			push_back(val);
 	}
 
-	template <class InputIterator>
-	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-															: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
-		_create_end_node();
-		_first_last_node_init();
-
-		for(; first != last; ++first)
-			push_back(*first);
-	}
+//	template <class InputIterator>
+//	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
+//															: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+//		_create_end_node();
+//		_first_last_node_init();
+//
+//		for(; first != last; ++first)
+//			push_back(*first);
+//	}
 
 	list(const list& list) : _first_node(0), _last_node(0), _size(0), _alloc(list._alloc) {
 		const_iterator	it = list.begin();
@@ -185,10 +187,10 @@ public:
 		_alloc_rebind.deallocate(_end_node, 1);
 	}
 
-	iterator				begin()			{ return (_end_node->next); }
-	const_iterator			begin() const	{ return (_end_node->next); }
-	iterator				end()			{ return (_end_node); }
-	const_iterator			end() const		{ return (_end_node); }
+	iterator				begin()			{ return (iterator (_end_node->next)); }
+	const_iterator			begin() const	{ return (const_iterator (_end_node->next)); }
+	iterator				end()			{ return (iterator (_end_node)); }
+	const_iterator			end() const		{ return (const_iterator (_end_node)); }
 	reverse_iterator		rbegin()		{ return (_end_node->prev); }
 	const_reverse_iterator	rbegin() const	{ return (_end_node->prev); }
 	reverse_iterator		rend()			{ return (_end_node); }
@@ -203,23 +205,23 @@ public:
 	reference				back()			{ return (*_last_node->value); }
 	const_reference			back() const	{ return (*_last_node->value); }
 
-	template <class InputIterator>
-	void			assign(InputIterator first, InputIterator last,
-									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-		size_type		i = 0;
-		_list_t			*temp_node = _first_node;
-
-		for (; first != last; ++first) {
-			if (i++ < _size) {
-				_assign_new_value_to_node(temp_node, *first);
-				temp_node = temp_node->next;
-			}
-			else
-				push_back(*first);
-		}
-		while (i < _size)
-			pop_back();
-	}
+//	template <class InputIterator>
+//	void			assign(InputIterator first, InputIterator last,
+//									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+//		size_type		i = 0;
+//		_list_t			*temp_node = _first_node;
+//
+//		for (; first != last; ++first) {
+//			if (i++ < _size) {
+//				_assign_new_value_to_node(temp_node, *first);
+//				temp_node = temp_node->next;
+//			}
+//			else
+//				push_back(*first);
+//		}
+//		while (i < _size)
+//			pop_back();
+//	}
 
 	void			assign(list::size_type n, const value_type &val) {
 		_list_t			*temp_node = _first_node;
@@ -307,19 +309,19 @@ public:
 		_check_for_insert();
 	}
 
-	template <class InputIterator>
-	void			insert(iterator position, InputIterator first, InputIterator last,
-									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-		_list_t		*temp_node;
-		_list_t		*node_position = position._ptr;
-
-		for (; first != last; ++first) {
-			temp_node = _new_node_init(*first);
-			_insert_in_front_node(node_position, temp_node);
-			_size++;
-		}
-		_check_for_insert();
-	}
+//	template <class InputIterator>
+//	void			insert(iterator position, InputIterator first, InputIterator last,
+//									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+//		_list_t		*temp_node;
+//		_list_t		*node_position = position._ptr;
+//
+//		for (; first != last; ++first) {
+//			temp_node = _new_node_init(*first);
+//			_insert_in_front_node(node_position, temp_node);
+//			_size++;
+//		}
+//		_check_for_insert();
+//	}
 
 	iterator		erase(list::iterator position) {
 		_list_t		*node_position = position._ptr;
@@ -352,26 +354,12 @@ public:
 	}
 
 	void			swap(list &list) {
-		size_type	prev_this_size = _size;
-		size_type	prev_list_size = list._size;
-		iterator	this_it = begin();
-		iterator	list_it = list.begin();
-		value_type	val;
-
-		if (_size > list._size)
-			list.resize(_size);
-		else if (list._size > _size)
-			this->resize(list._size);
-
-		for (size_type i = 0; i < _size; ++i) {
-			val = *this_it;
-			*this_it = *list_it;
-			*list_it = val;
-			++this_it;
-			++list_it;
-		}
-		list.resize(prev_this_size);
-		this->resize(prev_list_size);
+		std::swap(_size, list._size);
+		std::swap(_alloc, list._alloc);
+		std::swap(_end_node, list._end_node);
+		std::swap(_last_node, list._last_node);
+		std::swap(_first_node, list._first_node);
+		std::swap(_alloc_rebind, list._alloc_rebind);
 	}
 
 	void			resize(list::size_type n, value_type val) {
@@ -467,24 +455,14 @@ public:
 	}
 
 	void			unique() {
-		_list_t		*list = _first_node;
-
-		while (list != _end_node)
-			if (*list->value == *list->next->value)
-				list = erase(list)._ptr;
-			else
-				list = list->next;
+		for (_list_t*	list = _first_node; list != _end_node;)
+			(*list->value == *list->next->value) ? list = erase(list)._ptr :list = list->next;
 	}
 
 	template <class BinaryPredicate>
 	void			unique(BinaryPredicate binary_pred) {
-		_list_t	*list = _first_node;
-
-		while (list != _end_node)
-			if (binary_pred(*list->value, *list->next->value))
-				list = erase(list)._ptr;
-			else
-				list = list->next;
+		for (_list_t*	list = _first_node; list != _end_node;)
+			(binary_pred(*list->value, *list->next->value)) ? list = erase(list)._ptr : list = list->next;
 	}
 
 	void			merge(list& x) {

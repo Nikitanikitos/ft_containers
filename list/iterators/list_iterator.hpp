@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 20:56:56 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/06 20:15:00 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 template<class P, class V>
 class	ft::list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
-	template<class T>
+	template<class T, class Alloc>
 	friend class list;
 	friend class ft::const_list_iterator<P, V>;
 private:
@@ -62,7 +62,7 @@ public:
 template<class P, class V>
 class	ft::const_list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
-	template<class T>
+	template<class T, class Alloc>
 	friend class list;
 
 private:
@@ -94,14 +94,14 @@ public:
 	const_list_iterator<P, V>		&operator--() { _ptr = _ptr->prev; return (*this); }
 
 	const_list_iterator<P, V>		operator++(int) {
-		list_iterator<P, V>		temp(_ptr);
+		const_list_iterator<P, V>		temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
 	}
 
 	const_list_iterator<P, V>		operator--(int) {
-		list_iterator<P, V>		temp(_ptr);
+		const_list_iterator<P, V>		temp(_ptr);
 
 		_ptr = _ptr->prev;
 		return (temp);

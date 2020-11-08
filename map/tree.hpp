@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 13:39:00 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:31:32 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ private:
 		_empty_tree_init();
 	}
 
-	template<class S>
-	void		_swap(S &first, S &second) {
-		S&	temp = S(first);
-
-		first = temp;
-		first = second;
-	}
-
 	bool		_is_red(const s_node* node) { return ((node) ? (node->_color == _red) : false); }
 	bool		_is_black(const s_node* node) { return ((node) ? (node->_color == _black) : false); }
 
@@ -82,7 +74,6 @@ private:
 
 	s_node*		_rotate_left(s_node* node) {
 		s_node*		x = node->_right;
-
 
 		if (x->_left)
 			x->_left->_parent = node;

@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 18:19:37 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/06 21:24:00 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ public:
 		_tree._empty_tree_init();
 	}
 
-		template <class InputIterator>
-		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-							const allocator_type& alloc = allocator_type(),
-										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-			_tree._compare = comp;
-			_tree._alloc = alloc;
-			_tree._empty_tree_init();
-			for (; first != last; ++first)
-				insert(*first);
-		}
+//		template <class InputIterator>
+//		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+//							const allocator_type& alloc = allocator_type(),
+//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+//			_tree._compare = comp;
+//			_tree._alloc = alloc;
+//			_tree._empty_tree_init();
+//			for (; first != last; ++first)
+//				insert(*first);
+//		}
 
 	map(const map& x) {
 		_tree._empty_tree_init();
@@ -73,7 +73,7 @@ public:
 	}
 
 	~map() {
-			clear();
+//			clear();
 	}
 
 	map&	operator=(const map& x) {
@@ -86,10 +86,10 @@ public:
 		return (*this);
 	}
 
-	iterator				begin() { return (_tree._first_node->_parent); }
-	const_iterator			begin() const { return (_tree._first_node->_parent); }
-	iterator				end() { return (_tree._last_node); }
-	const_iterator			end() const { return (_tree._last_node); }
+	iterator				begin() { return (iterator(_tree._first_node->_parent)); }
+	const_iterator			begin() const { return (const_iterator(_tree._first_node->_parent)); }
+	iterator				end() { return (iterator(_tree._last_node)); }
+	const_iterator			end() const { return (const_iterator(_tree._last_node)); }
 
 	reverse_iterator		rbegin() { return (_tree._last_node->_parent); }
 	const_reverse_iterator	rbegin() const { return (_tree._last_node->_parent); }
@@ -146,12 +146,12 @@ public:
 
 	iterator					insert(iterator position, const value_type& val);
 
-		template <class InputIterator>
-		void						insert(InputIterator first, InputIterator last,
-									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-			for (; first != last; ++first)
-				insert(*first);
-		}
+//		template <class InputIterator>
+//		void						insert(InputIterator first, InputIterator last,
+//									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+//			for (; first != last; ++first)
+//				insert(*first);
+//		}
 
 	void						erase(iterator position) {
 		_node_type*	node = position._ptr;
@@ -175,15 +175,15 @@ public:
 	}
 
 	void						swap(map& x) {
-		_tree._swap(x._root, _tree._root);
-		_tree._swap(x._first_node, _tree._first_node);
-		_tree._swap(x._last_node, _tree._last_node);
-		_tree._swap(x._first_node, _tree._first_node);
-		_tree._swap(x._last_node, _tree._last_node);
-		_tree._swap(x._alloc, _tree._alloc);
-		_tree._swap(x._alloc_rebind, _tree._alloc_rebind);
-		_tree._swap(x._size, _tree._size);
-		_tree._swap(x._compare, _tree._compare);
+		std::swap(x._tree._root, _tree._root);
+		std::swap(x._tree._first_node, _tree._first_node);
+		std::swap(x._tree._last_node, _tree._last_node);
+		std::swap(x._tree._first_node, _tree._first_node);
+		std::swap(x._tree._last_node, _tree._last_node);
+		std::swap(x._tree._alloc, _tree._alloc);
+		std::swap(x._tree._alloc_rebind, _tree._alloc_rebind);
+		std::swap(x._tree._size, _tree._size);
+		std::swap(x._tree._compare, _tree._compare);
 	}
 
 	void						clear() {
@@ -208,17 +208,8 @@ public:
 	key_compare					key_comp() const { return (_tree._compare); }
 	value_compare				value_comp() const;
 
-	iterator					find(const key_type& k) {
-		_node_type*	node = _tree._search(k, _tree._root);
-
-		return (node);
-	}
-
-	const_iterator				find(const key_type& k) const {
-		_node_type*	node = _tree._search(k, _tree._root);
-
-		return (node);
-	}
+	iterator					find(const key_type& k) { return (iterator(_tree._search(k, _tree._root))); }
+	const_iterator				find(const key_type& k) const { return (const_iterator(_tree._search(k, _tree._root))); }
 
 	size_type					count(const key_type& k) const { return ((_search(k, _tree._root) != _tree._last_node) ? 1 : 0); }
 
@@ -226,14 +217,14 @@ public:
 		for (iterator	it = begin(); it != _tree._last_node; ++it)
 			if (!_tree._compare(*it.first, k))
 				return (it);
-		return (_tree._last_node);
+		return (iterator(_tree._last_node));
 	}
 
 	const_iterator				lower_bound(const key_type& k) const {
 		for (const_iterator	it = begin(); it != _tree._last_node; ++it)
 			if (!_tree._compare(*it.first, k))
 				return (it);
-		return (_tree._last_node);
+		return (const_iterator(_tree._last_node));
 	}
 
 	iterator					upper_bound(const key_type& k) {
