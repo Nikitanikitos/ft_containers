@@ -14,12 +14,13 @@
 # define FT_CONTAINERS_REVERSE_MAP_ITERATOR_HPP
 
 # include <iterator>
+# include "ft.hpp"
 
 template<class T, class U>
 class	ft::reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-	friend class ft::map<class Key, class Value>;
-	friend class ft::const_reverse_map_iterator<T, U>;
+	friend class	map<class Key, class Value>;
+	friend class	const_reverse_map_iterator<T, U>;
 private:
 	T*		_ptr;
 
@@ -36,10 +37,11 @@ public:
 
 	bool		operator!=(const reverse_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const reverse_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	U			&operator*() const { return (*_ptr->_value); }
-	U			*operator->() const { return (_ptr->_value); }
 
-	reverse_map_iterator<T, U>		&operator--() {
+	U&			operator*() const { return (*_ptr->_value); }
+	U*			operator->() const { return (_ptr->_value); }
+
+	reverse_map_iterator<T, U>&		operator--() {
 		if (_ptr->_right) {
 			_ptr = _ptr->_right;
 			while (_ptr->_left)
@@ -64,7 +66,7 @@ public:
 		return (temp);
 	}
 
-	reverse_map_iterator<T, U>		&operator++() {
+	reverse_map_iterator<T, U>&		operator++() {
 		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
 		else if (_ptr->_left) {
@@ -95,7 +97,7 @@ public:
 template<class T, class U>
 class	ft::const_reverse_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-	friend class ft::map<class Key, class Value>;
+	friend class	map<class Key, class Value>;
 private:
 	T*		_ptr;
 
@@ -105,23 +107,24 @@ public:
 	const_reverse_map_iterator(const reverse_map_iterator<T, U> &it) : _ptr(it._ptr) { }
 	~const_reverse_map_iterator() { }
 
-	const_reverse_map_iterator<T, U>	&operator=(const const_reverse_map_iterator<T, U> &it) {
+	const_reverse_map_iterator<T, U>&		operator=(const const_reverse_map_iterator<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
 	}
 
-	const_reverse_map_iterator<T, U>	&operator=(const reverse_map_iterator<T, U> &it) {
+	const_reverse_map_iterator<T, U>&		operator=(const reverse_map_iterator<T, U> &it) {
 		_ptr = it._ptr;
 		return (*this);
 	}
 
 	bool		operator!=(const const_reverse_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const const_reverse_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	U			&operator*() const { return (*_ptr->_value); }
-	U			*operator->() const { return (_ptr->_value); }
 
-	const_reverse_map_iterator<T, U>		&operator--() {
+	const U&	operator*() const { return (*_ptr->_value); }
+	const U*	operator->() const { return (_ptr->_value); }
+
+	const_reverse_map_iterator<T, U>&		operator--() {
 		if (_ptr->_right) {
 			_ptr = _ptr->_right;
 			while (_ptr->_left)
@@ -146,7 +149,7 @@ public:
 		return (temp);
 	}
 
-	const_reverse_map_iterator<T, U>		&operator++() {
+	const_reverse_map_iterator<T, U>&		operator++() {
 		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
 		else if (_ptr->_left) {

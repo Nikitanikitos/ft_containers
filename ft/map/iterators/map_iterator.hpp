@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 19:29:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 18:17:37 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/08 12:23:07 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,30 @@ template<class T, class U>
 class	ft::map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 	template < class Key, class Value, class Compare, class Alloc>
-	friend class map;
-	friend class const_map_iterator<T, U>;
+	friend class	map;
+	friend class	const_map_iterator<T, U>;
 
 private:
-	T *_ptr;
+	T*	_ptr;
 
 public:
-	explicit map_iterator(T *ptr = 0) : _ptr(ptr) {}
-
-	map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
-
+	explicit map_iterator(T *ptr = 0) : _ptr(ptr) { }
+	map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) { }
 	~map_iterator() { }
 
-	map_iterator<T, U> &operator=(const map_iterator<T, U> &it) {
+	map_iterator<T, U>&		operator=(const map_iterator<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
 	}
 
-	bool operator!=(const map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
+	bool	operator!=(const map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
+	bool	operator==(const map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
 
-	bool operator==(const map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
+	U&		operator*() const { return (*_ptr->_value); }
+	U*		operator->() const { return (_ptr->_value); }
 
-	U &operator*() const { return (*_ptr->_value); }
-
-	U *operator->() const { return (_ptr->_value); }
-
-	map_iterator<T, U> &operator++() {
+	map_iterator<T, U>&		operator++() {
 		if (_ptr->_right) {
 			_ptr = _ptr->_right;
 			while (_ptr->_left)
@@ -64,14 +60,14 @@ public:
 		return (*this);
 	}
 
-	map_iterator<T, U> operator++(int) {
+	map_iterator<T, U>		operator++(int) {
 		map_iterator<T, U> temp(_ptr);
 
 		++temp;
 		return (temp);
 	}
 
-	map_iterator<T, U> &operator--() {
+	map_iterator<T, U>&		operator--() {
 		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
 		else if (_ptr->_left) {
@@ -90,7 +86,7 @@ public:
 		return (*this);
 	}
 
-	map_iterator<T, U> operator--(int) {
+	map_iterator<T, U>		operator--(int) {
 		map_iterator<T, U> temp(_ptr);
 
 		--temp;
@@ -102,40 +98,35 @@ template<class T, class U>
 class	ft::const_map_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
 	template < class Key, class Value, class Compare, class Alloc>
-	friend class map;
+	friend class	map;
 
 private:
-	T *_ptr;
+	T*		_ptr;
 
 public:
-	explicit const_map_iterator(T *ptr = 0) : _ptr(ptr) {}
+	explicit const_map_iterator(T *ptr = 0) : _ptr(ptr) { }
+	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) { }
+	const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) { }
+	~const_map_iterator() { }
 
-	const_map_iterator(const const_map_iterator<T, U> &it) : _ptr(it._ptr) {}
-
-	explicit const_map_iterator(const map_iterator<T, U> &it) : _ptr(it._ptr) {}
-
-	~const_map_iterator() {}
-
-	const_map_iterator<T, U> &operator=(const const_map_iterator<T, U> &it) {
+	const_map_iterator<T, U>&	operator=(const const_map_iterator<T, U> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
 	}
 
-	const_map_iterator<T, U> &operator=(const map_iterator<T, U> &it) {
+	const_map_iterator<T, U>&	operator=(const map_iterator<T, U> &it) {
 		_ptr = it._ptr;
 		return (*this);
 	}
 
-	bool operator!=(const const_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
+	bool	operator!=(const const_map_iterator<T, U> &it) const { return (_ptr != it._ptr); }
+	bool	operator==(const const_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
 
-	bool operator==(const const_map_iterator<T, U> &it) const { return (_ptr == it._ptr); }
+	const U&	operator*() const { return (*_ptr->_value); }
+	const U*	operator->() const { return (_ptr->_value); }
 
-	U &operator*() const { return (*_ptr->_value); }
-
-	U *operator->() const { return (_ptr->_value); }
-
-	const_map_iterator<T, U> &operator++() {
+	const_map_iterator<T, U>&		operator++() {
 		if (_ptr->_right) {
 			_ptr = _ptr->_right;
 			while (_ptr->_left)
@@ -152,14 +143,14 @@ public:
 		return (*this);
 	}
 
-	const_map_iterator<T, U> operator++(int) {
+	const_map_iterator<T, U>		operator++(int) {
 		const_map_iterator<T, U> temp(_ptr);
 
 		++temp;
 		return (temp);
 	}
 
-	const_map_iterator<T, U> &operator--() {
+	const_map_iterator<T, U>&		operator--() {
 		if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
 			_ptr = _ptr->_right;
 		else if (_ptr->_left) {

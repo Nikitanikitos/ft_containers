@@ -27,12 +27,11 @@ private:
 	T*		_ptr;
 
 public:
-	reverse_vector_iterator() : _ptr(0) { }
-	reverse_vector_iterator(T *ptr) : _ptr(ptr) { }
+	reverse_vector_iterator(T *ptr = 0) : _ptr(ptr) { }
 	reverse_vector_iterator(const reverse_vector_iterator<T> &x) : _ptr(x._ptr) { }
 	~reverse_vector_iterator() { }
 
-	reverse_vector_iterator<T>	&operator=(const reverse_vector_iterator<T> &x) {
+	reverse_vector_iterator<T>&		operator=(const reverse_vector_iterator<T> &x) {
 		if (this != &x)
 			_ptr = x._ptr;
 		return (*this);
@@ -45,17 +44,17 @@ public:
 	bool	operator>(const reverse_vector_iterator<T> &x) const { return (_ptr > x._ptr); }
 	bool	operator>=(const reverse_vector_iterator<T> &x) const { return (_ptr >= x._ptr); }
 
-	reverse_vector_iterator<T>	&operator++() { _ptr--; return (*this); }
-	reverse_vector_iterator<T>	&operator--() { _ptr++; return (*this); }
+	reverse_vector_iterator<T>&		operator++() { _ptr--; return (*this); }
+	reverse_vector_iterator<T>&		operator--() { _ptr++; return (*this); }
 
-	reverse_vector_iterator<T>	operator++(int) {
+	reverse_vector_iterator<T>		operator++(int) {
 		reverse_vector_iterator<T>		temp(_ptr);
 
 		--_ptr;
 		return (temp);
 	}
 
-	reverse_vector_iterator<T>	operator--(int) {
+	reverse_vector_iterator<T>		operator--(int) {
 		reverse_vector_iterator<T>		temp(_ptr);
 
 		++_ptr;
@@ -69,8 +68,8 @@ public:
 
 	reverse_vector_iterator<T>	operator[](size_t n) { return (_ptr[n]); }
 
-	T		&operator*() { return (*_ptr); }
-	T		*operator->() { return (_ptr); }
+	T&		operator*() { return (*_ptr); }
+	T*		operator->() { return (_ptr); }
 };
 
 template<class T>
@@ -83,19 +82,21 @@ private:
 	T*		_ptr;
 
 public:
-	const_reverse_vector_iterator() : _ptr(0) { }
-	explicit const_reverse_vector_iterator(T *ptr) : _ptr(ptr) { }
+	const_reverse_vector_iterator(T *ptr = 0) : _ptr(ptr) { }
 	const_reverse_vector_iterator(const const_reverse_vector_iterator<T> &x) : _ptr(x._ptr) { }
-	explicit const_reverse_vector_iterator(const reverse_vector_iterator<T> &x) : _ptr(x._ptr) { }
+	const_reverse_vector_iterator(const reverse_vector_iterator<T> &x) : _ptr(x._ptr) { }
 	~const_reverse_vector_iterator() { }
 
-	const_reverse_vector_iterator<T>	&operator=(const const_reverse_vector_iterator<T> &x) {
+	const_reverse_vector_iterator<T>&	operator=(const const_reverse_vector_iterator<T> &x) {
 		if (this != &x)
 			_ptr = x._ptr;
 		return (*this);
 	}
 
-	const_reverse_vector_iterator<T>	&operator=(const reverse_vector_iterator<T> &x) { _ptr = x._ptr(); return (*this); }
+	const_reverse_vector_iterator<T>&	operator=(const reverse_vector_iterator<T> &x) {
+		_ptr = x._ptr();
+		return (*this);
+	}
 
 	bool	operator==(const const_reverse_vector_iterator<T> &x) const { return (_ptr == x._ptr); }
 	bool	operator!=(const const_reverse_vector_iterator<T> &x) const { return (_ptr != x._ptr); }
@@ -104,8 +105,8 @@ public:
 	bool	operator>(const const_reverse_vector_iterator<T> &x) const { return (_ptr > x._ptr); }
 	bool	operator>=(const const_reverse_vector_iterator<T> &x) const { return (_ptr >= x._ptr); }
 
-	const_reverse_vector_iterator<T>	&operator++() { _ptr--; return (*this); }
-	const_reverse_vector_iterator<T>	&operator--() { _ptr++; return (*this); }
+	const_reverse_vector_iterator<T>&	operator++() { _ptr--; return (*this); }
+	const_reverse_vector_iterator<T>&	operator--() { _ptr++; return (*this); }
 
 	const_reverse_vector_iterator<T>	operator++(int) {
 		reverse_vector_iterator<T>		temp(_ptr);
@@ -127,8 +128,8 @@ public:
 	const_reverse_vector_iterator<T>	operator-=(const_reverse_vector_iterator<T> &x) { _ptr -= x._ptr; return (*this); }
 
 	T									operator[](size_t n) { return (_ptr[n]); }
-	T									&operator*() { return (*_ptr); }
-	T									*operator->() { return (_ptr); }
+	const T&							operator*() { return (*_ptr); }
+	const T*							operator->() { return (_ptr); }
 };
 
 #endif

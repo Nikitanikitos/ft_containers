@@ -26,10 +26,7 @@ namespace ft {
 	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class	map;
 
-	template < class Key, class Value, class Compare, class Alloc>
-	class	map<Key, Value, Compare, Alloc>::_tree;
-
-template<class T, class Alloc = std::allocator<T> >
+	template<class T, class Alloc = std::allocator<T> >
 	class	list;
 
 	template <class T, class Container = list<T> >

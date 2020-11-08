@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_list_iterator.hpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 21:37:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/05 18:30:06 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/08 12:59:41 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,85 +17,93 @@
 # include <iterator>
 # include "ft.hpp"
 
-template<class T, class U>
-class	ft::reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+template<class P, class V>
+class	ft::reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
+	template<class T, class Alloc>
+	friend class	list;
+	friend class	const_reverse_list_iterator<P, V>;
+
 private:
-	T*		_ptr;
+	P*		_ptr;
 
 public:
-	reverse_list_iterator(T *p = 0) : _ptr(p) { }
-	reverse_list_iterator(const reverse_list_iterator<T, U> &it) : _ptr(it._ptr) { }
+	explicit reverse_list_iterator(P *p = 0) : _ptr(p) { }
+	reverse_list_iterator(const reverse_list_iterator<P, V> &it) : _ptr(it._ptr) { }
 	~reverse_list_iterator() { }
 
-	reverse_list_iterator<T, U>		&operator=(const reverse_list_iterator<T, U> &it) {
+	reverse_list_iterator<P, V>&	operator=(const reverse_list_iterator<P, V> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
 	}
 
-	bool	operator!=(const reverse_list_iterator<T, U> &it) const { return (_ptr != it._ptr); }
-	bool	operator==(const reverse_list_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	U		&operator*() const { return (*_ptr->value); };
-	U		*operator->() const { return (this->_ptr->value); }
+	bool	operator!=(const reverse_list_iterator<P, V> &it) const { return (_ptr != it._ptr); }
+	bool	operator==(const reverse_list_iterator<P, V> &it) const { return (_ptr == it._ptr); }
+	V&		operator*() const { return (*_ptr->value); };
+	V*		operator->() const { return (_ptr->value); }
 
-	reverse_list_iterator<T, U>		&operator++() { _ptr = _ptr->prev; return (*this); }
-	reverse_list_iterator<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
+	reverse_list_iterator<P, V>&	operator++() { _ptr = _ptr->prev; return (*this); }
+	reverse_list_iterator<P, V>&	operator--() { _ptr = _ptr->next; return (*this); }
 
-	reverse_list_iterator<T, U>		operator++(int) {
-		reverse_list_iterator<T, U>	temp(_ptr);
+	reverse_list_iterator<P, V>		operator++(int) {
+		reverse_list_iterator<P, V>	temp(_ptr);
 
 		_ptr = _ptr->prev;
 		return (temp);
 	}
 
-	reverse_list_iterator<T, U>		operator--(int) {
-		reverse_list_iterator<T, U>	temp(_ptr);
+	reverse_list_iterator<P, V>		operator--(int) {
+		reverse_list_iterator<P, V>	temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);
 	}
 };
 
-template<class T, class U>
-class	ft::const_reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+template<class P, class V>
+class	ft::const_reverse_list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
+	template<class T, class Alloc>
+	friend class	list;
+
 private:
-	T*		_ptr;
+	P*		_ptr;
 
 public:
-	const_reverse_list_iterator(T *p = 0) : _ptr(p) { }
-	const_reverse_list_iterator(const reverse_list_iterator<T, U> &it) : _ptr(it._get_ptr()) { }
+	explicit const_reverse_list_iterator(P *p = 0) : _ptr(p) { }
+	const_reverse_list_iterator(const const_reverse_list_iterator<P, V> &it) : _ptr(it._ptr) { }
+	const_reverse_list_iterator(const reverse_list_iterator<P, V> &it) : _ptr(it._ptr) { }
 	~const_reverse_list_iterator() { }
 
-	const_reverse_list_iterator<T, U>		&operator=(const reverse_list_iterator<T, U> &it) {
-		_ptr = it._get_ptr();
+	const_reverse_list_iterator<P, V>&		operator=(const reverse_list_iterator<P, V> &it) {
+		_ptr = it._ptr;
 		return (*this);
 	}
 
-	const_reverse_list_iterator<T, U>		&operator=(const const_reverse_list_iterator<T, U> &it) {
+	const_reverse_list_iterator<P, V>&		operator=(const const_reverse_list_iterator<P, V> &it) {
 		if (this != &it)
 			_ptr - it._ptr;
 		return (*this);
 	}
 
-	bool		operator!=(const const_reverse_list_iterator<T, U> &it) const { return (_ptr != it._ptr); }
-	bool		operator==(const const_reverse_list_iterator<T, U> &it) const { return (_ptr == it._ptr); }
-	const U		&operator*() const { return (*(this->_ptr->value)); }
-	const U		*operator->() const { return (this->_ptr->value); }
+	bool		operator!=(const const_reverse_list_iterator<P, V> &it) const { return (_ptr != it._ptr); }
+	bool		operator==(const const_reverse_list_iterator<P, V> &it) const { return (_ptr == it._ptr); }
+	const V&	operator*() const { return (*(this->_ptr->value)); }
+	const V*	operator->() const { return (this->_ptr->value); }
 
-	const_reverse_list_iterator<T, U>		&operator++() { _ptr = _ptr->prev; return (*this); }
-	const_reverse_list_iterator<T, U>		&operator--() { _ptr = _ptr->next; return (*this); }
+	const_reverse_list_iterator<P, V>&		operator++() { _ptr = _ptr->prev; return (*this); }
+	const_reverse_list_iterator<P, V>&		operator--() { _ptr = _ptr->next; return (*this); }
 
-	const_reverse_list_iterator<T, U>		operator++(int) {
-		const_reverse_list_iterator<T, U>		temp(_ptr);
+	const_reverse_list_iterator<P, V>		operator++(int) {
+		const_reverse_list_iterator<P, V>		temp(_ptr);
 
 		_ptr = _ptr->prev;
 		return (temp);
 	}
 
-	const_reverse_list_iterator<T, U>		operator--(int) {
-		list_iterator<T, U>		temp(_ptr);
+	const_reverse_list_iterator<P, V>		operator--(int) {
+		const_reverse_list_iterator<P, V>		temp(_ptr);
 
 		_ptr = _ptr->next;
 		return (temp);

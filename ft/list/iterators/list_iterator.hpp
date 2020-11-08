@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:39:34 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 20:15:00 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/08 12:59:41 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ template<class P, class V>
 class	ft::list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
 	template<class T, class Alloc>
-	friend class list;
-	friend class ft::const_list_iterator<P, V>;
+	friend class	list;
+	friend class	const_list_iterator<P, V>;
+
 private:
 	P*		_ptr;
 
@@ -30,7 +31,7 @@ public:
 	list_iterator(const list_iterator<P, V> &it) : _ptr(it._ptr) { }
 	~list_iterator() { }
 
-	list_iterator<P, V>		&operator=(const list_iterator<P, V> &it) {
+	list_iterator<P, V>&	operator=(const list_iterator<P, V> &it) {
 		if (this != &it)
 			_ptr = it._ptr;
 		return (*this);
@@ -63,23 +64,23 @@ template<class P, class V>
 class	ft::const_list_iterator : public std::iterator<std::bidirectional_iterator_tag, P>
 {
 	template<class T, class Alloc>
-	friend class list;
+	friend class	list;
 
 private:
 	P*	_ptr;
 
 public:
 	explicit const_list_iterator(P *ptr = 0) : _ptr(ptr) { }
-	explicit const_list_iterator(const list_iterator<P, V> &it) : _ptr(it._ptr) { }
+	const_list_iterator(const list_iterator<P, V> &it) : _ptr(it._ptr) { }
 	const_list_iterator(const const_list_iterator<P, V> &it) : _ptr(it._ptr) { }
 	~const_list_iterator() { }
 
-	const_list_iterator<P, V>		&operator=(const list_iterator<P, V> &it) {
-		_ptr = it.ptr;
+	const_list_iterator<P, V>&		operator=(const list_iterator<P, V> &it) {
+		_ptr = it._ptr;
 		return (*this);
 	}
 
-	const_list_iterator<P, V>		&operator=(const const_list_iterator<P, V> &it) {
+	const_list_iterator<P, V>&		operator=(const const_list_iterator<P, V> &it) {
 		if (this != &it)
 			_ptr - it._ptr;
 		return (*this);
@@ -87,11 +88,11 @@ public:
 
 	bool		operator!=(const const_list_iterator<P, V> &it) const { return (_ptr != it._ptr); }
 	bool		operator==(const const_list_iterator<P, V> &it) const { return (_ptr == it._ptr); }
-	const V		&operator*() const { return (*(this->_ptr->value)); }
-	const V		*operator->() const { return (this->_ptr->value); }
+	const V&	operator*() const { return (*_ptr->value); }
+	const V*	operator->() const { return (_ptr->value); }
 
-	const_list_iterator<P, V>		&operator++() { _ptr = _ptr->next; return (*this); }
-	const_list_iterator<P, V>		&operator--() { _ptr = _ptr->prev; return (*this); }
+	const_list_iterator<P, V>&		operator++() { _ptr = _ptr->next; return (*this); }
+	const_list_iterator<P, V>&		operator--() { _ptr = _ptr->prev; return (*this); }
 
 	const_list_iterator<P, V>		operator++(int) {
 		const_list_iterator<P, V>		temp(_ptr);
