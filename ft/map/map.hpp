@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 12:24:31 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/08 15:04:08 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ public:
 	}
 
 	~map() {
-//			clear();
+			clear();
 	}
 
 	map&	operator=(const map& x) {
@@ -163,9 +163,9 @@ public:
 
 	size_type					erase(const key_type& k) {
 		_tree._root = _tree._delete(_tree._root, k);
-		if (empty())
-			_tree._empty_nodes_init();
-		return (1); }
+		if (empty()) _tree._empty_nodes_init();
+		return (1);
+	}
 
 	void						erase(iterator first, iterator last) {
 		iterator	temp_it = first;
@@ -190,22 +190,23 @@ public:
 	}
 
 	void						clear() {
-			queue<_node_type*>	queue;
-			_node_type*			node;
+		queue<_node_type*>	queue;
+		_node_type*			node;
 
-			node = _tree._root;
-			if (_tree._root)
-				queue.push(node);
-			while (!queue.empty()) {
-				if (node->_right && node->_right != _tree._last_node)
-					queue.push(node->_right);
-				if (node->_left && node->_left != _tree._first_node)
-					queue.push(node->_left);
-				node = queue.front();
-				_tree._destroy_node(node);
-				queue.pop();
-				node = queue.front();
-			}
+		node = _tree._root;
+		if (_tree._root)
+			queue.push(node);
+		while (!queue.empty()) {
+			if (node->_right && node->_right != _tree._last_node)
+				queue.push(node->_right);
+			if (node->_left && node->_left != _tree._first_node)
+				queue.push(node->_left);
+			node = queue.front();
+			_tree._destroy_node(node);
+			queue.pop();
+			node = queue.front();
+		}
+		_tree._empty_nodes_init();
 	}
 
 	key_compare					key_comp() const { return (_tree._compare); }
