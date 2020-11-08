@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 18:07:14 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 00:47:42 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,40 +30,41 @@ private:
 		_black	= false
 	};
 
-	struct		s_node {
-		value_type					*_value;
-		struct s_node				*_left;
-		struct s_node				*_right;
-		struct s_node				*_parent;
-		bool						_color;
-	};
-	typedef				s_node											s_node;
-	typedef typename	Alloc::template rebind<s_node>::other			alloc_rebind;
+	typedef struct			_node_s {
+		value_type*			_value;
+		struct _node_s*		_left;
+		struct _node_s*		_right;
+		struct _node_s*		_parent;
+		bool				_color;
+	}						_node_t;
 
-	s_node							*_root;
-	s_node							*_last_node;
-	s_node							*_first_node;
+	typedef				_node_t											_node_type;
+	typedef typename	Alloc::template rebind<_node_t>::other			_alloc_rebind_type;
 
-	size_type						_size;
-	alloc_rebind					_alloc_rebind;
-	Alloc							_alloc;
-	Compare							_compare;
+	_node_t*				_root;
+	_node_t*				_last_node;
+	_node_t*				_first_node;
+
+	size_type				_size;
+	_alloc_rebind_type		_alloc_rebind;
+	Alloc					_alloc;
+	Compare					_compare;
 
 	explicit tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc())
 																			: _size(0), _alloc(alloc), _compare(comp) {
 		_empty_tree_init();
 	}
 
-	bool		_is_red(const s_node* node) { return ((node) ? (node->_color == _red) : false); }
-	bool		_is_black(const s_node* node) { return ((node) ? (node->_color == _black) : false); }
+	bool		_is_red(const _node_t* node) { return ((node) ? (node->_color == _red) : false); }
+	bool		_is_black(const _node_t* node) { return ((node) ? (node->_color == _black) : false); }
 
-	void		_flip_color(s_node* node) {
+	void		_flip_color(_node_t* node) {
 		node->_color = !node->_color;
 		node->_right->_color = !node->_right->_color;
 		node->_left->_color = !node->_left->_color;
 	}
 
-	s_node*		_fix_up(s_node* node) {
+	_node_t*		_fix_up(_node_t* node) {
 		if (_is_red(node->_right))
 			node = _rotate_left(node);
 		if (_is_red(node->_left) && _is_red(node->_left->_left))
@@ -73,8 +74,8 @@ private:
 		return (node);
 	}
 
-	s_node*		_rotate_left(s_node* node) {
-		s_node*		x = node->_right;
+	_node_t*		_rotate_left(_node_t* node) {
+		_node_t*		x = node->_right;
 
 		if (x->_left) x->_left->_parent = node;
 		x->_parent = node->_parent;
@@ -88,8 +89,8 @@ private:
 		return (x);
 	}
 
-	s_node*		_rotate_right(s_node* node) {
-		s_node*		x = node->_left;
+	_node_t*		_rotate_right(_node_t* node) {
+		_node_t*		x = node->_left;
 
 		if (x->_right) x->_right->_parent = node;
 		x->_parent = node->_parent;
@@ -103,7 +104,7 @@ private:
 		return (x);
 	}
 
-	s_node*		_move_red_left(s_node *node) {
+	_node_t*		_move_red_left(_node_t *node) {
 		_flip_color(node);
 		if (_is_red(node->_right->_left)) {
 			node->_right = _rotate_right(node->_right);
@@ -113,7 +114,7 @@ private:
 		return (node);
 	}
 
-	s_node*		_move_red_right(s_node *node) {
+	_node_t*		_move_red_right(_node_t *node) {
 		_flip_color(node);
 		if (_is_red(node->_left->_left)) {
 			node = _rotate_right(node);
@@ -122,8 +123,8 @@ private:
 		return (node);
 	}
 
-	s_node*		_create_new_node(const value_type& val, s_node *parent) {
-		s_node*		x = _alloc_rebind.allocate(1);
+	_node_t*		_create_new_node(const value_type& val, _node_t *parent) {
+		_node_t*		x = _alloc_rebind.allocate(1);
 
 		x->_value = _alloc.allocate(1);
 		_alloc.construct(x->_value, val);
@@ -185,8 +186,8 @@ private:
 		_last_node->_parent = _root;
 	}
 
-	std::pair<s_node*, bool>		_put(s_node *node, const value_type& val) {
-		std::pair<s_node*, bool>	pair;
+	std::pair<_node_t*, bool>		_put(_node_t *node, const value_type& val) {
+		std::pair<_node_t*, bool>	pair;
 		bool		compare = _compare(val.first, node->_value->first);
 
 		if (val.first == node->_value->first)
@@ -211,7 +212,7 @@ private:
 		return (std::make_pair(node, pair.second));
 	}
 
-	s_node*			_delete_min(s_node *node) {
+	_node_t*			_delete_min(_node_t *node) {
 		if (_is_list(node))
 			return (_destroy_node(node));
 		else if (_is_black(node->_left) && _is_black(node->_left->_left))
@@ -220,18 +221,18 @@ private:
 		return (_fix_up(node));
 	}
 
-	value_type*		_min(s_node *node) {
-		value_type	*val = _alloc.allocate(1);
+	value_type*		_min(_node_t *node) {
+		value_type*		val = _alloc.allocate(1);
 		while (node->_left && node->_left != _first_node)
 			node = node->_left;
 		_alloc.construct(val, *node->_value);
 		return (val);
 	}
 
-	bool			_is_null_node(s_node* node) { return (node == 0 || node == _last_node || node == _first_node); }
-	bool			_is_list(s_node* node) { return (_is_null_node(node->_right) && _is_null_node(node->_left)); }
+	bool			_is_null_node(_node_t* node) { return (node == 0 || node == _last_node || node == _first_node); }
+	bool			_is_list(_node_t* node) { return (_is_null_node(node->_right) && _is_null_node(node->_left)); }
 
-	s_node*			_delete(s_node *node, const key_type &key) {
+	_node_t*			_delete(_node_t *node, const key_type &key) {
 		if (_is_null_node(node)) return (node);
 		bool	compare = _compare(node->_value->first, key);
 
@@ -247,7 +248,16 @@ private:
 				return (_destroy_node(node));
 			if (_is_black(node->_right) && _is_black(node->_right->_left))
 				node = _move_red_right(node);
-			if (node->_value->first == key) {
+			if (node->_value->first == key && node->_right == _last_node) {
+				if (!_is_null_node(node->_left)) {
+					_alloc.deallocate(node->_value, 1);
+					node->_value = _min(node->_left);
+					node->_left = _delete_min(node->_left);
+				}
+				else
+					return (_destroy_node(node));
+			}
+			else if (node->_value->first == key) {
 				_alloc.deallocate(node->_value, 1);
 				node->_value = _min(node->_right);
 				node->_right = _delete_min(node->_right);
@@ -258,8 +268,8 @@ private:
 		return (_fix_up(node));
 	}
 
-	s_node		*_search(const key_type &key, s_node *node) {
-		s_node	*result = node;
+	_node_t		*_search(const key_type &key, _node_t *node) {
+		_node_t*	result = node;
 
 		while (result) {
 			if (key == result->_value->first)
@@ -272,8 +282,8 @@ private:
 		return (result);
 	}
 
-	s_node*		_destroy_node(s_node *node) {
-		s_node*		result = 0;
+	_node_t*		_destroy_node(_node_t *node) {
+		_node_t*		result = 0;
 		if (node->_left == _first_node) {
 			_first_node->_parent = node->_parent;
 			result = _first_node;

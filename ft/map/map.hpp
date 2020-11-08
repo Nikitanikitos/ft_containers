@@ -6,7 +6,7 @@
 /*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 15:04:08 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:06:37 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ private:
 	class				_tree;
 
 	typedef				ft::tree<Key, Value, Compare, Alloc>					_tree_type;
-	typedef typename	_tree_type::s_node										_node_type;
+	typedef typename	_tree_type::_node_t										_node_type;
 
 	_tree_type 			_tree;
 
@@ -164,6 +164,7 @@ public:
 	size_type					erase(const key_type& k) {
 		_tree._root = _tree._delete(_tree._root, k);
 		if (empty()) _tree._empty_nodes_init();
+		else _tree._root->_color = false;
 		return (1);
 	}
 

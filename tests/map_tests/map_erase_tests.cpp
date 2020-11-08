@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_erase_tests.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 17:21:06 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/04 23:23:10 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 00:57:52 by nikita           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
 		REQUIRE(map.empty() == ft_map.empty());
 	}
 	for (int i = 0; i < V; ++i) {
-		ft_map.insert(std::make_pair(i, i - 21.42 * -0.1));
-		map.insert(std::make_pair(i, i - 21.42 * -0.1));
+		ft_map.insert(std::make_pair(i, i));
+		map.insert(std::make_pair(i, i));
 	}
 
 	SECTION("with size = V") {
@@ -41,7 +41,10 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
 			if (i % 2) {
 				ft_map.erase(i);
 				map.erase(i);
-				REQUIRE(*map.begin() == *ft_map.begin());
+				it = map.begin();
+				for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it) {
+					REQUIRE(*it++ == *ft_it);
+				}
 				REQUIRE(map.size() == ft_map.size());
 			}
 		}
@@ -51,7 +54,10 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
 		while (ft_map.size() > 1) {
 			ft_map.erase(ft_map.begin());
 			map.erase(map.begin());
-			REQUIRE(*map.begin() == *ft_map.begin());
+			it = map.begin();
+			for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it) {
+				REQUIRE(*it++ == *ft_it);
+			}
 		}
 	}
 
