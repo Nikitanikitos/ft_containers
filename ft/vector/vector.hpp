@@ -184,7 +184,7 @@ public:
 		}
 		_alloc.construct(_ptr + i, val);
 		_size++;
-		return (iterator(&_ptr[index_for_iter]));
+		return (iterator(_ptr + index_for_iter));
 	}
 
 	void					insert(iterator position, size_type n, const value_type& val) {

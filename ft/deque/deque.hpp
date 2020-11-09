@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 22:49:25 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 23:21:19 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,26 @@ public:
 
 	template <class InputIterator>
 	void					assign(InputIterator first, InputIterator last,
-				 						typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
-	void					assign(size_type n, const value_type& val);
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		_alloc.deallocate(_ptr, _capacity);
+		_ptr = _alloc.allocate(_capacity);
+		_offset_front = 0;
+		_offset_back = 0;
+		_size = 0;
+		for (; first != last; ++first)
+			push_back(*first);
+	}
+
+	void					assign(size_type n, const value_type& val) {
+		_alloc.deallocate(_ptr, _capacity);
+		_ptr = _alloc.allocate(n);
+		_capacity = n;
+		_offset_front = 0;
+		_offset_back = 0;
+		_size = n;
+		for (size_type i = 0; i < n; i++)
+			_alloc.construct(_ptr + i, val);
+	}
 
 	void					push_back(const value_type& val) {
 		if (_offset_back < 5)
@@ -162,7 +180,7 @@ public:
 
 	void					push_front(const value_type& val) {
 		if (_offset_front < 5)
-			_realloc(_offset_front + 5, _offset_back);
+			_realloc(_offset_front + 15, _offset_back);
 		_offset_front--;
 		_alloc.construct(_ptr + _offset_front, val);
 		_size++;
@@ -182,7 +200,12 @@ public:
 		if (_offset_front > 10) _realloc(_offset_front - 10, _offset_back);
 	}
 
-	iterator				insert(iterator position, const value_type& val);
+	iterator				insert(iterator position, const value_type& val) {
+		size_type i = _index_element(position);
+		size_type index_for_iter = i;
+
+	}
+
 	void					insert(iterator position, size_type n, const value_type& val);
 	template <class InputIterator>
 	void					insert(iterator position, InputIterator first, InputIterator last,
@@ -201,7 +224,6 @@ public:
 	}
 
 	void					clear() { while (_size) pop_back(); }
-
 };
 
 template <class T, class Alloc>
