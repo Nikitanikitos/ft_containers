@@ -6,7 +6,7 @@ SET(MYCOMPILE_FLAGS "-Wall -Wextra -Werror")
 add_definitions(${MYCOMPILE_FLAGS})
 
 add_executable(ft_containers
-        ft.cpp
+        main.cpp
 
 #		tests/map_tests/map_access_tests.cpp
 #		tests/map_tests/map_constructor_tests.cpp
@@ -37,26 +37,28 @@ add_executable(ft_containers
 #		tests/vector_tests/vector_access_operator_tests.cpp
 #		tests/vector_tests/vector_comparison_operators_tests.cpp
 #		tests/vector_tests/vector_constructor_tests.cpp
-		tests/vector_tests/vector_iterator_tests.cpp
+#		tests/vector_tests/vector_iterator_tests.cpp
 #		tests/vector_tests/vector_push_pop_back_tests.cpp
 #		tests/vector_tests/vector_resize_tests.cpp
 #		tests/vector_tests/vector_swap_tests.cpp
 
 		tests/deque_tests/deque_constructor_tests.cpp
 		tests/deque_tests/deque_push_pop_front_back_tests.cpp
-		tests/deque_tests/deque_access_operator_tests.cpp tests/deque_tests/deque_iterator_tests.cpp tests/deque_tests/deque_swap_tests.cpp tests/deque_tests/deque_resize_tests.cpp)
+		tests/deque_tests/deque_access_operator_tests.cpp
+		tests/deque_tests/deque_iterator_tests.cpp
+		tests/deque_tests/deque_swap_tests.cpp
+		tests/deque_tests/deque_resize_tests.cpp
+		tests/deque_tests/deque_assign_tests.cpp)
 
 include_directories(
 		tests
 		ft
+        ft/iterators
 		ft/list
-		ft/list/iterators
 		ft/map
-		ft/map/iterators
 		ft/queue
 		ft/stack
 		ft/vector
-		ft/vector/iterators
 		ft/deque
         )
 

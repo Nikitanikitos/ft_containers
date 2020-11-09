@@ -23,25 +23,25 @@ namespace ft {
 	template<class T>
 	struct enable_if<true, T> { typedef T type; };
 
-	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
+	template <class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class	map;
 
 	template<class T, class Alloc = std::allocator<T> >
 	class	list;
 
-	template <class T, class Container = list<T> >
-	class	queue;
+	template <class T, class Alloc = std::allocator<T> >
+	class	deque;
 
-	template < class T, class Alloc = std::allocator<T> >
-	class deque;
-
-	template <class T, class Container = list<T> >
+	template <class T, class Container = deque<T> >
 	class	stack;
+
+	template <class T, class Container = deque<T> >
+	class	queue;
 
 	template <class T, class Alloc = std::allocator<T> >
 	class	vector;
 
-	template < class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
+	template <class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class	tree;
 
 	template<class T, class U>
