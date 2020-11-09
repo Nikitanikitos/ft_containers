@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:25:55 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 20:50:06 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 22:29:30 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in deque container", "[deque] [con
 				REQUIRE(ft_deque.front() == ft_deque.front());
 				REQUIRE(ft_deque.back() == ft_deque.back());
 
-				ft_deque.clear();
 				ft_deque.clear();
 			}
 		}
