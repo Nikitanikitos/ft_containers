@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 23:21:19 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 23:32:50 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define FT_CONTAINERS_DEQUE_HPP
 
 # include "ft.hpp"
-# include "vector_iterator.hpp"
-# include "reverse_vector_iterator.hpp"
+# include "iterators/vector_iterator.hpp"
+# include "iterators/reverse_vector_iterator.hpp"
 
 template <class T, class Alloc>
 class ft::deque {
