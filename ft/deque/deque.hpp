@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 20:43:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 22:49:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,11 @@ public:
 	size_type				size() const {return (_size); };
 	size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
-	void					resize(size_type n, value_type val = value_type());
+	void					resize(size_type n, value_type val = value_type()) {
+		if (n > _capacity) _realloc(_offset_front, n);
+		while (n != _size)
+			(_size < n) ? push_back(val) : pop_back();
+	}
 
 	bool					empty() const { return (!_size); }
 
@@ -187,7 +191,14 @@ public:
 	iterator				erase(iterator position);
 	iterator				erase(iterator first, iterator last);
 
-	void					swap(deque& x);
+	void					swap(deque& x) {
+		std::swap(_offset_front, x._offset_front);
+		std::swap(_offset_back, x._offset_back);
+		std::swap(_ptr, x._ptr);
+		std::swap(_alloc, x._alloc);
+		std::swap(_capacity, x._capacity);
+		std::swap(_size, x._size);
+	}
 
 	void					clear() { while (_size) pop_back(); }
 
