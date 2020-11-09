@@ -32,6 +32,9 @@ namespace ft {
 	template <class T, class Container = list<T> >
 	class	queue;
 
+	template < class T, class Alloc = std::allocator<T> >
+	class deque;
+
 	template <class T, class Container = list<T> >
 	class	stack;
 
