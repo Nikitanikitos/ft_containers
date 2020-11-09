@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 00:47:42 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:46:43 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ private:
 		_empty_tree_init();
 	}
 
-	bool		_is_red(const _node_t* node) { return ((node) ? (node->_color == _red) : false); }
-	bool		_is_black(const _node_t* node) { return ((node) ? (node->_color == _black) : false); }
+	bool		_is_red(const _node_t* node) { return (node && node->_color == _red); }
+	bool		_is_black(const _node_t* node) { return (node && node->_color == _black); }
 
 	void		_flip_color(_node_t* node) {
 		node->_color = !node->_color;
@@ -248,16 +248,7 @@ private:
 				return (_destroy_node(node));
 			if (_is_black(node->_right) && _is_black(node->_right->_left))
 				node = _move_red_right(node);
-			if (node->_value->first == key && node->_right == _last_node) {
-				if (!_is_null_node(node->_left)) {
-					_alloc.deallocate(node->_value, 1);
-					node->_value = _min(node->_left);
-					node->_left = _delete_min(node->_left);
-				}
-				else
-					return (_destroy_node(node));
-			}
-			else if (node->_value->first == key) {
+			if (node->_value->first == key) {
 				_alloc.deallocate(node->_value, 1);
 				node->_value = _min(node->_right);
 				node->_right = _delete_min(node->_right);

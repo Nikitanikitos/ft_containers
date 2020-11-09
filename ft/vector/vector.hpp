@@ -81,13 +81,13 @@ public:
 		_capacity = n + 1;
 	}
 
-//	template <class InputIterator>
-//	vector(InputIterator first, InputIterator last, const alloc_type& alloc = alloc_type(),
-//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-//																	: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
-//		for (; first != last; ++first)
-//			push_back(*first);
-//	}
+	template <class InputIterator>
+	vector(InputIterator first, InputIterator last, const alloc_type& alloc = alloc_type(),
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
+																	: _ptr(0), _capacity(0), _size(0), _alloc(alloc) {
+		for (; first != last; ++first)
+			push_back(*first);
+	}
 
 	vector(const vector& x) : _capacity(x._capacity), _size(x._size), _alloc(x._alloc) {
 		_ptr = _alloc.allocate(_capacity);
@@ -209,24 +209,24 @@ public:
 		while (n--) _alloc.construct(_ptr + i++, val);
 	}
 
-//	template <class InputIterator>
-//	void					insert(iterator position, InputIterator first, InputIterator last,
-//									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//		size_type n = 0;
-//		size_type i = _index_element(position);
-//
-//		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
-//			n++;
-//		reserve(_size + n);
-//		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
-//			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
-//			_alloc.destroy(_ptr + _size - q - 1);
-//		}
-//		for (; first != last; ++first) {
-//			_alloc.construct(_ptr + i++, *first);
-//			_size++;
-//		}
-//	}
+	template <class InputIterator>
+	void					insert(iterator position, InputIterator first, InputIterator last,
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		size_type n = 0;
+		size_type i = _index_element(position);
+
+		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
+			n++;
+		reserve(_size + n);
+		for (size_type q = 0; _ptr + i != _ptr + _size - q; ++q) {
+			_alloc.construct(_ptr + _size - q + n - 1, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _size - q - 1);
+		}
+		for (; first != last; ++first) {
+			_alloc.construct(_ptr + i++, *first);
+			_size++;
+		}
+	}
 
 	iterator				erase (iterator position) {
 		size_type i = _index_element(position);

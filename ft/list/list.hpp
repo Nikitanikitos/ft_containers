@@ -23,9 +23,9 @@ class	ft::list
 {
 private:
 	typedef struct		_list_s {
-		T				*value;
-		_list_s			*next;
-		_list_s			*prev;
+		T*				value;
+		_list_s*		next;
+		_list_s*		prev;
 	}					_list_t;
 
 public:
@@ -128,16 +128,16 @@ public:
 			push_back(val);
 	}
 
-//	template <class InputIterator>
-//	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-//										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-//															: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
-//		_create_end_node();
-//		_first_last_node_init();
-//
-//		for(; first != last; ++first)
-//			push_back(*first);
-//	}
+	template <class InputIterator>
+	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
+															: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+		_create_end_node();
+		_first_last_node_init();
+
+		for(; first != last; ++first)
+			push_back(*first);
+	}
 
 	list(const list& list) : _first_node(0), _last_node(0), _size(0), _alloc(list._alloc) {
 		const_iterator	it = list.begin();
@@ -205,23 +205,23 @@ public:
 	reference				back()			{ return (*_last_node->value); }
 	const_reference			back() const	{ return (*_last_node->value); }
 
-//	template <class InputIterator>
-//	void			assign(InputIterator first, InputIterator last,
-//									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//		size_type		i = 0;
-//		_list_t			*temp_node = _first_node;
-//
-//		for (; first != last; ++first) {
-//			if (i++ < _size) {
-//				_assign_new_value_to_node(temp_node, *first);
-//				temp_node = temp_node->next;
-//			}
-//			else
-//				push_back(*first);
-//		}
-//		while (i < _size)
-//			pop_back();
-//	}
+	template <class InputIterator>
+	void			assign(InputIterator first, InputIterator last,
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		size_type		i = 0;
+		_list_t			*temp_node = _first_node;
+
+		for (; first != last; ++first) {
+			if (i++ < _size) {
+				_assign_new_value_to_node(temp_node, *first);
+				temp_node = temp_node->next;
+			}
+			else
+				push_back(*first);
+		}
+		while (i < _size)
+			pop_back();
+	}
 
 	void			assign(list::size_type n, const value_type &val) {
 		_list_t			*temp_node = _first_node;
@@ -309,19 +309,19 @@ public:
 		_check_for_insert();
 	}
 
-//	template <class InputIterator>
-//	void			insert(iterator position, InputIterator first, InputIterator last,
-//									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-//		_list_t		*temp_node;
-//		_list_t		*node_position = position._ptr;
-//
-//		for (; first != last; ++first) {
-//			temp_node = _new_node_init(*first);
-//			_insert_in_front_node(node_position, temp_node);
-//			_size++;
-//		}
-//		_check_for_insert();
-//	}
+	template <class InputIterator>
+	void			insert(iterator position, InputIterator first, InputIterator last,
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		_list_t		*temp_node;
+		_list_t		*node_position = position._ptr;
+
+		for (; first != last; ++first) {
+			temp_node = _new_node_init(*first);
+			_insert_in_front_node(node_position, temp_node);
+			_size++;
+		}
+		_check_for_insert();
+	}
 
 	iterator		erase(list::iterator position) {
 		_list_t		*node_position = position._ptr;

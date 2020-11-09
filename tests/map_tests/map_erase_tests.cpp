@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   map_erase_tests.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 17:21:06 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 00:57:52 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:36:42 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <map>
 #include "map.hpp"
-#include "../catch.hpp"
+#include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
-					   ((typename T, int V), T, V), (int, 10)) {
+														   ((typename T, int V), T, V), (int, 10)) {
 	ft::map<T, int>							ft_map;
-	std::map<T, int>							map;
+	std::map<T, int>						map;
 	typename ft::map<T, int>::iterator		ft_it;
 	typename std::map<T, int>::iterator		it;
 
@@ -51,7 +51,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
 	}
 
 	SECTION("erase begin") {
-		while (ft_map.size() > 1) {
+		while (ft_map.size()) {
 			ft_map.erase(ft_map.begin());
 			map.erase(map.begin());
 			it = map.begin();
