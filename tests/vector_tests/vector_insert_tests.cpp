@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 16:58:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 12:08:25 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 15:58:08 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]
 		vector.insert(vector.begin(), 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -32,7 +32,7 @@ TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]
 		vector.insert(vector.end(), 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -41,7 +41,7 @@ TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]
 		vector.insert(vector.begin() + 5, 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 }
@@ -62,7 +62,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through iterator and size
 		vector.insert(it, 3, 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -71,7 +71,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through iterator and size
 		vector.insert(it, 3, 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -80,7 +80,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through iterator and size
 		vector.insert(vector.end(), 3, 21);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 }
@@ -97,7 +97,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 		vector.insert(vector.begin(), vector_for_insert.begin(), vector_for_insert.end());
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -109,7 +109,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 		vector.insert(vector.begin(), vector_for_insert.begin(), vector_for_insert.end() - V / 2);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -121,7 +121,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 		vector.insert(vector.end(), vector_for_insert.begin(), vector_for_insert.end() - V / 2);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -133,7 +133,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 		vector.insert(vector.begin(), vector_for_insert.begin() + V / 2, vector_for_insert.end());
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -145,7 +145,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in vector with size = V through two iterator", "[
 		vector.insert(vector.end(), vector_for_insert.begin() + V / 2, vector_for_insert.end());
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 }

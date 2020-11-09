@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 14:44:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 14:53:24 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 16:00:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <vector>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Swap empty lists", "[vector] [swap]", int) {
+TEMPLATE_TEST_CASE("Swap empty vectors", "[vector] [swap]", int) {
 	ft::vector<TestType>		ft_vector_1;
 	ft::vector<TestType>		ft_vector_2;
 	std::vector<TestType>		vector_1;
@@ -57,7 +57,7 @@ TEMPLATE_TEST_CASE("Swap empty lists", "[vector] [swap]", int) {
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with equal size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap vectors with equal size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::vector<T>		ft_vector_1(V, 13);
 	ft::vector<T>		ft_vector_2(V, 31);
 	std::vector<T>		vector_1(V, 13);
@@ -72,14 +72,14 @@ TEMPLATE_TEST_CASE_SIG("Swap lists with equal size", "[vector] [swap]", ((typena
 	REQUIRE(vector_1.size() == ft_vector_1.size());
 	REQUIRE(vector_2.size() == ft_vector_2.size());
 
-	for (int i = 0; i < vector_1.size(); ++i) {
+	for (size_t i = 0; i < vector_1.size(); ++i) {
 		REQUIRE(vector_1[i] == ft_vector_1[i]);
 		REQUIRE(vector_2[i] == ft_vector_2[i]);
 
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with lower size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap vectors with lower size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::vector<T>		ft_vector_1(V / 2, 13);
 	ft::vector<T>		ft_vector_2(V, 31);
 	std::vector<T>		vector_1(V / 2, 13);
@@ -94,13 +94,13 @@ TEMPLATE_TEST_CASE_SIG("Swap lists with lower size", "[vector] [swap]", ((typena
 	REQUIRE(vector_1.size() == ft_vector_1.size());
 	REQUIRE(vector_2.size() == ft_vector_2.size());
 
-	for (int i = 0; i < vector_1.size(); ++i)
+	for (size_t i = 0; i < vector_1.size(); ++i)
 		REQUIRE(vector_1[i] == ft_vector_1[i]);
-	for (int i = 0; i < vector_2.size(); ++i)
+	for (size_t i = 0; i < vector_2.size(); ++i)
 		REQUIRE(vector_2[i] == ft_vector_2[i]);
 }
 
-TEMPLATE_TEST_CASE_SIG("Swap lists with greater size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
+TEMPLATE_TEST_CASE_SIG("Swap vectors with greater size", "[vector] [swap]", ((typename T, int V), T, V), (int, 13)) {
 	ft::vector<T>		ft_vector_1(V, 13);
 	ft::vector<T>		ft_vector_2(V / 2, 31);
 	std::vector<T>		vector_1(V, 13);
@@ -115,8 +115,8 @@ TEMPLATE_TEST_CASE_SIG("Swap lists with greater size", "[vector] [swap]", ((type
 	REQUIRE(vector_1.size() == ft_vector_1.size());
 	REQUIRE(vector_2.size() == ft_vector_2.size());
 
-	for (int i = 0; i < vector_1.size(); ++i)
+	for (size_t i = 0; i < vector_1.size(); ++i)
 		REQUIRE(vector_1[i] == ft_vector_1[i]);
-	for (int i = 0; i < vector_2.size(); ++i)
+	for (size_t i = 0; i < vector_2.size(); ++i)
 		REQUIRE(vector_2[i] == ft_vector_2[i]);
 }

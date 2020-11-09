@@ -14,7 +14,7 @@
 #include "list.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
@@ -87,7 +87,7 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[list] [iterator]", ((typename T, in
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Default constant iterator list", "[list] [iterator]",
 																   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>								ft_list;
 	std::list<T>							list;
@@ -161,7 +161,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[list] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>									ft_list;
 	std::list<T>								list;
 	typename ft::list<T>::reverse_iterator		ft_it;
@@ -234,7 +234,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[list] [iterator]", ((typename T, in
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[list] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Reverse constant iterator list", "[list] [iterator]",
 																 ((typename T, int V), T, V), (int, 10), (char, 10)) {
 	ft::list<T>										ft_list;
 	std::list<T>									list;

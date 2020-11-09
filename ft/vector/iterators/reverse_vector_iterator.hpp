@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_vector_iterator.hpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:21:42 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 18:05:18 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 16:01:15 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 template<class T>
 class	ft::reverse_vector_iterator : public std::iterator<std::random_access_iterator_tag, T>
 {
-	template <T, class Alloc>
+	template <class U, class Alloc>
 	friend class	vector;
 	friend class	const_reverse_vector_iterator<T>;
 
@@ -75,7 +75,7 @@ public:
 template<class T>
 class	ft::const_reverse_vector_iterator : public std::iterator<std::random_access_iterator_tag, T>
 {
-	template <T, class Alloc>
+	template <class U, class Alloc>
 	friend class	vector;
 
 private:
@@ -87,14 +87,14 @@ public:
 	const_reverse_vector_iterator(const reverse_vector_iterator<T> &x) : _ptr(x._ptr) { }
 	~const_reverse_vector_iterator() { }
 
-	const_reverse_vector_iterator<T>&	operator=(const const_reverse_vector_iterator<T> &x) {
-		if (this != &x)
-			_ptr = x._ptr;
+	const_reverse_vector_iterator<T>&	operator=(const const_reverse_vector_iterator<T> &it) {
+		if (this != &it)
+			_ptr = it._ptr;
 		return (*this);
 	}
 
-	const_reverse_vector_iterator<T>&	operator=(const reverse_vector_iterator<T> &x) {
-		_ptr = x._ptr();
+	const_reverse_vector_iterator<T>&	operator=(const reverse_vector_iterator<T> &it) {
+		_ptr = it._ptr;
 		return (*this);
 	}
 

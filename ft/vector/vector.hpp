@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 12:06:19 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 16:04:13 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,6 @@ private:
 			_alloc.construct(temp_ptr + i, _ptr[i]);
 		_alloc.deallocate(_ptr, _capacity);
 		_capacity += n;
-		_ptr = temp_ptr;
-	}
-
-	void		_reduce_capacity(const size_type n) {
-		T*			temp_ptr = _alloc.allocate(_capacity - n);
-
-		for (size_type  i = 0; i < _size; ++i)
-			_alloc.construct(temp_ptr + i, _ptr[i]);
-		_alloc.deallocate(_ptr, _capacity);
-		_capacity -= n;
 		_ptr = temp_ptr;
 	}
 
@@ -178,7 +168,7 @@ public:
 
 	void					pop_back() {
 		if (_capacity > _size + 20)
-			_reduce_capacity(10);
+			_realloc(-10);
 		_alloc.destroy(_ptr + _size - 1);
 		_size--;
 	}
@@ -238,7 +228,7 @@ public:
 			_alloc.destroy(_ptr + i + 1);
 		}
 		_size--;
-		return (iterator(&_ptr[index_for_iter - 1]));
+		return (iterator(_ptr + index_for_iter - 1));
 	}
 
 	iterator				erase(vector::iterator first, vector::iterator last) {
@@ -258,26 +248,14 @@ public:
 			_alloc.construct(_ptr + i++, _ptr[n]);
 			_alloc.destroy(_ptr + n++);
 		}
-		return (iterator(&_ptr[index_for_iter]));
+		return (iterator(_ptr + index_for_iter));
 	}
 
 	void					swap (vector& vector) {
-		size_type	prev_this_size = _size;
-		size_type	prev_list_size = vector._size;
-		value_type	val;
-
-		if (_size > vector._size)
-			vector.resize(_size);
-		else if (vector._size > _size)
-			this->resize(vector._size);
-
-		for (size_type i = 0; i < _size; ++i) {
-			val = _ptr[i];
-			_ptr[i] = vector[i];
-			vector[i] = val;
-		}
-		vector.resize(prev_this_size);
-		this->resize(prev_list_size);
+		std::swap(_ptr, vector._ptr);
+		std::swap(_capacity, vector._capacity);
+		std::swap(_size, vector._size);
+		std::swap(_alloc, vector._alloc);
 	}
 
 	void					clear() { while (_size) pop_back(); }

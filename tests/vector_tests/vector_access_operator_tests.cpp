@@ -38,7 +38,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item vector_tests v
 		}
 
 		SECTION("Method at") {
-			for (int i = 0; i < ft_vector.size(); ++i)
+			for (size_t i = 0; i < ft_vector.size(); ++i)
 				REQUIRE(ft_vector.at(i) == vector.at(i));
 		}
 }
@@ -66,11 +66,11 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes vector_tests v
 		}
 
 		SECTION("Method at") {
-			for (int i = 0; i < ft_vector.size(); ++i) {
+			for (size_t i = 0; i < ft_vector.size(); ++i) {
 				ft_vector.at(i) = i - 42;
 				vector.at(i) = i - 42;
 			}
-			for (int i = 0; i < ft_vector.size(); ++i)
+			for (size_t i = 0; i < ft_vector.size(); ++i)
 				REQUIRE(ft_vector.at(i) == vector.at(i));
 		}
 }

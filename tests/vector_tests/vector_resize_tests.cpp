@@ -41,7 +41,7 @@ TEMPLATE_TEST_CASE_SIG("Resize vector with empty vector", "[vector] [resize]",
 		vector.resize(V, 13);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 }
@@ -74,7 +74,7 @@ TEMPLATE_TEST_CASE_SIG("Resize vector with size = V", "[vector] [resize]",
 		vector.resize(V / 2, -13);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
@@ -83,7 +83,7 @@ TEMPLATE_TEST_CASE_SIG("Resize vector with size = V", "[vector] [resize]",
 		vector.resize(V * 2, 0);
 
 		REQUIRE(vector.size() == ft_vector.size());
-		for (int i = 0; i < ft_vector.size(); ++i)
+		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 }

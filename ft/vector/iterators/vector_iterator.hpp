@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/06 18:07:12 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 15:57:58 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ private:
 
 public:
 	vector_iterator(T *ptr = 0) : _ptr(ptr) { }
-	vector_iterator(const vector_iterator<T> &x) : _ptr(x._ptr) { }
+	vector_iterator(const vector_iterator<T> &it) : _ptr(it._ptr) { }
 	~vector_iterator() { }
 
 	vector_iterator<T>&		operator=(const vector_iterator<T> &it) {
 		if (this != &it)
-			_ptr = x._ptr;
+			_ptr = it._ptr;
 		return (*this);
 	}
 
@@ -86,7 +86,7 @@ public:
 template<class T>
 class	ft::const_vector_iterator : public std::iterator<std::random_access_iterator_tag, T>
 {
-	template <T, class Alloc>
+	template <class U, class Alloc>
 	friend class	vector;
 
 private:

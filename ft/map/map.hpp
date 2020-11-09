@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 15:11:12 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 15:22:07 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,17 @@ public:
 		return (std::make_pair(find(val.first), pair.second));
 	}
 
-	iterator					insert(iterator position, const value_type& val);
+	iterator					insert(iterator position, const value_type& val) {
+		(void )position;
+		return (insert(val).first);
+	}
 
-		template <class InputIterator>
-		void						insert(InputIterator first, InputIterator last,
-									   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-			for (; first != last; ++first)
-				insert(*first);
-		}
+	template <class InputIterator>
+	void						insert(InputIterator first, InputIterator last,
+								   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		for (; first != last; ++first)
+			insert(*first);
+	}
 
 	void						erase(iterator position) {
 		_node_type*	node = position._ptr;
@@ -194,8 +197,7 @@ public:
 		queue<_node_type*>	queue;
 		_node_type*			node;
 
-		node = _tree._root;
-		if (_tree._root)
+		if ((node = _tree._root))
 			queue.push(node);
 		while (!queue.empty()) {
 			if (node->_right && node->_right != _tree._last_node)

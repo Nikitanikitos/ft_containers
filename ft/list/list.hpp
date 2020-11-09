@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 11:59:00 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:36:27 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,14 +187,14 @@ public:
 		_alloc_rebind.deallocate(_end_node, 1);
 	}
 
-	iterator				begin()			{ return (iterator (_end_node->next)); }
-	const_iterator			begin() const	{ return (const_iterator (_end_node->next)); }
-	iterator				end()			{ return (iterator (_end_node)); }
-	const_iterator			end() const		{ return (const_iterator (_end_node)); }
-	reverse_iterator		rbegin()		{ return (_end_node->prev); }
-	const_reverse_iterator	rbegin() const	{ return (_end_node->prev); }
-	reverse_iterator		rend()			{ return (_end_node); }
-	const_reverse_iterator	rend() const	{ return (_end_node); }
+	iterator				begin()			{ return (iterator(_end_node->next)); }
+	const_iterator			begin() const	{ return (const_iterator(_end_node->next)); }
+	iterator				end()			{ return (iterator(_end_node)); }
+	const_iterator			end() const		{ return (const_iterator(_end_node)); }
+	reverse_iterator		rbegin()		{ return (reverse_iterator(_end_node->prev)); }
+	const_reverse_iterator	rbegin() const	{ return (const_reverse_iterator(_end_node->prev)); }
+	reverse_iterator		rend()			{ return (reverse_iterator(_end_node)); }
+	const_reverse_iterator	rend() const	{ return const_reverse_iterator((_end_node)); }
 
 	bool    				empty() const	{ return (!_size); }
 	size_type				size() const	{return (_size); };

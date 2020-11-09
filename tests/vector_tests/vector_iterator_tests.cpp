@@ -14,7 +14,7 @@
 #include "vector.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Default iterator", "[vector] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Default iterator vector", "[vector] [iterator]",
 																   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>							ft_vector;
 	std::vector<T>							vector;
@@ -88,7 +88,7 @@ TEMPLATE_TEST_CASE_SIG("Default iterator", "[vector] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[vector] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Default constant iterator vector", "[vector] [iterator]",
 																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>								ft_vector;
 	std::vector<T>								vector;
@@ -162,7 +162,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator", "[vector] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[vector] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Reverse iterator vector", "[vector] [iterator]",
 																((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::vector<T>									ft_vector;
 	std::vector<T>									vector;
@@ -236,7 +236,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator", "[vector] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse constant iterator", "[vector] [iterator]",
+TEMPLATE_TEST_CASE_SIG("Reverse constant iterator vector", "[vector] [iterator]",
 																   ((typename T, int V), T, V), (int, 10), (char, 10)) {
 	ft::vector<T>										ft_vector;
 	std::vector<T>										vector;
