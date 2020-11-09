@@ -201,17 +201,16 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in vector container", "[vector
 	std::vector<T>		vector_for_copy;
 
 	SECTION("Empty vector") {
-		ft::vector<T>		ft_list(ft_vector_for_copy.begin(), ft_vector_for_copy.end());
+		ft::vector<T>		ft_vector(ft_vector_for_copy.begin(), ft_vector_for_copy.end());
 		std::vector<T>		vector(vector_for_copy.begin(), vector_for_copy.end());
 
-		REQUIRE(vector.empty() == ft_list.empty());
-		REQUIRE(vector.size() == ft_list.size());
+		REQUIRE(vector.empty() == ft_vector.empty());
+		REQUIRE(vector.size() == ft_vector.size());
 	}
 
 	SECTION("With size") {
 		for (int i = 0; i < V; i++) {
 
-			ft::vector_iterator<T>	w = ft_vector_for_copy.end();
 			ft::vector<T>	ft_vector(ft_vector_for_copy.begin(), ft_vector_for_copy.end());
 			std::vector<T>	vector(vector_for_copy.begin(), vector_for_copy.end());
 
