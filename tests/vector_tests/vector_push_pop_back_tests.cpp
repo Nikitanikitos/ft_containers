@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 22:42:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 14:57:51 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/09 20:55:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <vector>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Push Back in empty vector", "[vector] [push]", int, float) {
+TEMPLATE_TEST_CASE("Push back in empty vector", "[vector] [push]", int, float) {
 	ft::vector<TestType>		ft_vector_number;
 	std::vector<TestType>		vector_number;
 	ft::vector<std::string>		ft_vector_string;
@@ -106,7 +106,7 @@ TEMPLATE_TEST_CASE("Pop Back in vector with size = 1", "[vector] [pop]", int, fl
 	ft::vector<std::string>		ft_vector_string(1, "Push Back String");
 	std::vector<std::string>	vector_string(1, "Push Back String");
 
-	SECTION("Push back number") {
+	SECTION("Pop back number") {
 		ft_vector_number.pop_back();
 		vector_number.pop_back();
 
@@ -114,7 +114,7 @@ TEMPLATE_TEST_CASE("Pop Back in vector with size = 1", "[vector] [pop]", int, fl
 		REQUIRE(vector_number.empty() == ft_vector_number.empty());
 	}
 
-	SECTION("Push back string") {
+	SECTION("Pop back string") {
 		ft_vector_string.pop_back();
 		vector_string.pop_back();
 
@@ -130,7 +130,7 @@ TEMPLATE_TEST_CASE_SIG("Pop back many times", "[vector] [pop]",
 	ft::vector<std::string>				ft_vector_string;
 	std::vector<std::string>			vector_string;
 
-	SECTION("Push back number") {
+	SECTION("Pop back number") {
 		for (int i = 0; i < V; ++i) {
 			ft_vector_number.push_back(i + 100);
 			vector_number.push_back(i + 100);
