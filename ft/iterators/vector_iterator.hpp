@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 17:09:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 15:57:58 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 13:07:42 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ class	ft::vector_iterator : public std::iterator<std::random_access_iterator_tag
 {
 	template <class U, class Alloc>
 	friend class	vector;
+	template <class U, class Alloc>
+	friend class	deque;
 	friend class	const_vector_iterator<T>;
 
 private:
@@ -88,6 +90,8 @@ class	ft::const_vector_iterator : public std::iterator<std::random_access_iterat
 {
 	template <class U, class Alloc>
 	friend class	vector;
+	template <class U, class Alloc>
+	friend class	deque;
 
 private:
 	T*		_ptr;

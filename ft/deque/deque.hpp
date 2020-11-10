@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 23:32:50 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 13:52:36 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,12 +204,52 @@ public:
 		size_type i = _index_element(position);
 		size_type index_for_iter = i;
 
+		if (_offset_back < 2)
+			_realloc(_offset_front, _offset_back + 2);
+		for (size_type q = 0; _ptr + i + _offset_front != _ptr + _offset_front + _size - q; ++q) {
+			_alloc.construct(_ptr + _offset_front + _size - q, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _offset_front + _size - q - 1);
+		}
+		_alloc.construct(_ptr + i + _offset_front, val);
+		_size++;
+		_offset_back--;
+		return (iterator(_ptr + _offset_front + index_for_iter));
 	}
 
-	void					insert(iterator position, size_type n, const value_type& val);
+	void					insert(iterator position, size_type n, const value_type& val) {
+		size_type i = _index_element(position);
+
+		if (_offset_back < n)
+			_realloc(_offset_front, _offset_back + n + 1);
+		for (size_type q = 0; _ptr + i + _offset_front != _ptr + _offset_front + _size - q; ++q) {
+			_alloc.construct(_ptr + _offset_front + _size - q + n - 1, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _offset_front + _size - q - 1);
+		}
+		_size += n;
+		_offset_back -= n;
+		while (n--) _alloc.construct(_ptr + _offset_front + i++, val);
+	}
+
 	template <class InputIterator>
 	void					insert(iterator position, InputIterator first, InputIterator last,
-										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0);
+										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		size_type n = 0;
+		size_type i = _index_element(position);
+
+		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
+			n++;
+		if (_offset_back < n)
+			_realloc(_offset_front, _offset_back + n + 1);
+		for (size_type q = 0; _ptr + i + _offset_front != _ptr + _offset_front + _size - q; ++q) {
+			_alloc.construct(_ptr + _offset_front + _size - q + n - 1, _ptr[_size - q - 1]);
+			_alloc.destroy(_ptr + _offset_front + _size - q - 1);
+		}
+		for (; first != last; ++first) {
+			_alloc.construct(_ptr + _offset_front + i++, *first);
+			_size++;
+			_offset_back--;
+		}
+	}
 
 	iterator				erase(iterator position);
 	iterator				erase(iterator first, iterator last);
