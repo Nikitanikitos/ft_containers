@@ -14,7 +14,6 @@
 #include <list>
 #include "../catch.hpp"
 
-
 template<typename T>
 bool	reverse_compare(const T &first, const T &second) { return (first > second); }
 

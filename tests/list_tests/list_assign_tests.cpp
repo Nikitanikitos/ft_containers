@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:03:13 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 19:43:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 00:15:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
-																((typename T, int V), T, V), (int, 20), (char, 40)) {
+																((typename T, int V), T, V), (int, 6), (char, 6)) {
 	ft::list<T>							ft_list_for_assign;
 	std::list<T>						list_for_assign;
 	typename ft::list<T>::iterator		ft_it;

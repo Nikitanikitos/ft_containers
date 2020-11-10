@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:31:27 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 15:15:43 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 00:54:58 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <list>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((typename T, int V), T, V), (int, 23)) {
+TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((typename T, int V), T, V), (int, 10)) {
 	ft::list<T>							ft_list_1;
 	ft::list<T>							ft_list_2;
 	std::list<T>						list_1;

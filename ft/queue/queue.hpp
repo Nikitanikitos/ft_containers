@@ -13,7 +13,7 @@
 #ifndef FT_CONTAINERS_QUEUE_HPP
 # define FT_CONTAINERS_QUEUE_HPP
 
-# include "list.hpp"
+# include "deque.hpp"
 
 template <class T, class Container>
 class ft::queue {

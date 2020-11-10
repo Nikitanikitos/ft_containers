@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 16:37:28 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 01:07:25 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ public:
 private:
 	typedef typename allocator_type::template rebind<_list_t>::other		alloc_rebind;
 
-	_list_t			*_first_node;
-	_list_t			*_last_node;
 	_list_t			*_end_node;
 	size_type		_size;
 	alloc_rebind	_alloc_rebind;
@@ -85,24 +83,11 @@ private:
 		_size--;
 	}
 
-	void		_first_last_node_init() {
-		_first_node = _end_node->next;
-		_last_node = _end_node->prev;
-	}
-
 	void		_insert_in_front_node(_list_t *node_position, _list_t *node) {
 		node_position->prev->next = node;
 		node->prev = node_position->prev;
 		node->next = node_position;
 		node_position->prev = node;
-	}
-
-	void		_check_for_insert() { // TODO think about better name
-		_first_node = _end_node->next;
-		if (_size == 0)
-			_last_node = _first_node;
-		else
-			_last_node = _end_node->prev;
 	}
 
 	size_type	_get_segment_size(iterator begin, iterator end) {
@@ -115,15 +100,10 @@ private:
 	}
 
 public:
-	explicit list(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc) {
-		_create_end_node();
-		_first_node = _end_node;
-		_last_node = _end_node;
-	};
+	explicit list(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc) { _create_end_node(); };
 
 	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc) {
 		_create_end_node();
-		_first_last_node_init();
 
 		for (size_type i = 0; i < n; ++i)
 			push_back(val);
@@ -132,19 +112,17 @@ public:
 	template <class InputIterator>
 	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-															: _first_node(0), _last_node(0), _size(0), _alloc(alloc) {
+															: _size(0), _alloc(alloc) {
 		_create_end_node();
-		_first_last_node_init();
 
 		for(; first != last; ++first)
 			push_back(*first);
 	}
 
-	list(const list& list) : _first_node(0), _last_node(0), _size(0), _alloc(list._alloc) {
+	list(const list& list) : _size(0), _alloc(list._alloc) {
 		const_iterator	it = list.begin();
 
 		_create_end_node();
-		_first_last_node_init();
 
 		for(; it != list.end(); ++it)
 			push_back(*it);
@@ -157,7 +135,7 @@ public:
 		const_iterator	begin = list.begin();
 		const_iterator	end = list.end();
 		size_type		i = 0;
-		_list_t			*temp_node = _first_node;
+		_list_t			*temp_node = _end_node->next;
 
 		for (; begin != end; begin++) {
 			if (_size >= list._size)
@@ -171,7 +149,6 @@ public:
 		}
 		while (_size > list._size)
 			pop_back();
-		_first_last_node_init();
 		return (*this);
 	}
 
@@ -193,16 +170,16 @@ public:
 	size_type				size() const	{return (_size); };
 	size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
-	reference				front()			{ return (*_first_node->value); }
-	const_reference			front() const	{ return (*_first_node->value); }
-	reference				back()			{ return (*_last_node->value); }
-	const_reference			back() const	{ return (*_last_node->value); }
+	reference				front()			{ return (*_end_node->next->value); }
+	const_reference			front() const	{ return (*_end_node->next->value); }
+	reference				back()			{ return (*_end_node->prev->value); }
+	const_reference			back() const	{ return (*_end_node->prev->value); }
 
 	template <class InputIterator>
 	void			assign(InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 		size_type		i = 0;
-		_list_t			*temp_node = _first_node;
+		_list_t			*temp_node = _end_node->next;
 
 		for (; first != last; ++first) {
 			if (i++ < _size) {
@@ -217,7 +194,7 @@ public:
 	}
 
 	void			assign(list::size_type n, const value_type &val) {
-		_list_t			*temp_node = _first_node;
+		_list_t			*temp_node = _end_node->next;
 		size_type		i;
 
 		for (i = 0; i < n; ++i) {
@@ -235,49 +212,39 @@ public:
 	void			push_front(const value_type& val) {
 		_list_t		*node = _new_node_init(val);
 
-		_end_node->next = node;
+		_end_node->next->prev = node;
+		node->next = _end_node->next;
 		node->prev = _end_node;
-		node->next = _first_node;
-		_first_node->prev = node;
-		_first_node = _end_node->next;
-
-		if (_last_node == _end_node)
-			_last_node = _first_node;
+		_end_node->next = node;
 		_size++;
 	}
 
 	void			pop_front() {
 		_list_t	*node;
 
-		node = _first_node;
-		_first_node->prev->next = _first_node->next;
-		_first_node->next->prev = _first_node->prev;
+		node = _end_node->next;
+		_end_node->next = node->next;
+		node->next->prev = _end_node;
 		_destroy_node(node);
-		_first_last_node_init();
 	}
 
 	void			push_back(const value_type& val) {
 		_list_t		*node = _new_node_init(val);
 
-		_end_node->prev = node;
+		_end_node->prev->next = node;
+		node->prev = _end_node->prev;
 		node->next = _end_node;
-		node->prev = _last_node;
-		_last_node->next = node;
-		_last_node = _end_node->prev;
-
-		if (_first_node == _end_node)
-			_first_node = _last_node;
+		_end_node->prev = node;
 		_size++;
 	}
 
 	void			pop_back() {
 		_list_t	*node;
 
-		node = _last_node;
-		_last_node->prev->next = _last_node->next;
-		_last_node->next->prev = _last_node->prev;
+		node = _end_node->prev;
+		node->prev->next = _end_node;
+		_end_node->prev = node->prev;
 		_destroy_node(node);
-		_first_last_node_init();
 	}
 
 	iterator		insert(iterator position, const value_type &val) {
@@ -285,7 +252,6 @@ public:
 		_list_t		*node_position = position._ptr;
 
 		_insert_in_front_node(node_position, temp_node);
-		_check_for_insert();
 		_size++;
 		return (iterator(temp_node));
 	}
@@ -299,7 +265,6 @@ public:
 			_insert_in_front_node(node_position, temp_node);
 			_size++;
 		}
-		_check_for_insert();
 	}
 
 	template <class InputIterator>
@@ -313,7 +278,6 @@ public:
 			_insert_in_front_node(node_position, temp_node);
 			_size++;
 		}
-		_check_for_insert();
 	}
 
 	iterator		erase(list::iterator position) {
@@ -324,7 +288,6 @@ public:
 		node_position->next->prev = node_position->prev;
 
 		_destroy_node(node_position);
-		_first_last_node_init();
 		return (it);
 	}
 
@@ -342,7 +305,6 @@ public:
 			first_node = first_node->next;
 			_destroy_node(temp_node);
 		}
-		_first_last_node_init();
 		return (it);
 	}
 
@@ -350,8 +312,6 @@ public:
 		std::swap(_size, list._size);
 		std::swap(_alloc, list._alloc);
 		std::swap(_end_node, list._end_node);
-		std::swap(_last_node, list._last_node);
-		std::swap(_first_node, list._first_node);
 		std::swap(_alloc_rebind, list._alloc_rebind);
 	}
 
@@ -364,12 +324,10 @@ public:
 		_list_t		*temp_node;
 
 		while (_size) {
-			temp_node = _first_node;
-			_first_node = _first_node->next;
+			temp_node = _end_node->next;
+			_end_node->next = temp_node->next;
 			_destroy_node(temp_node);
 		}
-		_first_node = _end_node;
-		_last_node = _end_node;
 		_end_node->prev = _end_node; // TODO вынести в отдельный метод
 		_end_node->next = _end_node;
 	}
@@ -377,16 +335,14 @@ public:
 	void			splice(iterator position, list& x) {
 		_list_t	*node = position._ptr;
 
-		node->prev->next = x._first_node;
-		x._first_node->prev = node->prev;
-		node->prev = x._last_node;
-		x._last_node->next = node;
+		node->prev->next = x._end_node->next;
+		x._end_node->next->prev = node->prev;
 
-		_first_last_node_init();
+		node->prev = x._end_node->prev;
+		x._end_node->prev->next = node;
 
 		x._end_node->next = x._end_node;
 		x._end_node->prev = x._end_node;
-		x._first_last_node_init();
 
 		_size += x._size;
 		x._size = 0;
@@ -398,36 +354,34 @@ public:
 
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
-		x._first_last_node_init();
 
 		position_node->prev->next = node;
 		node->prev = position_node->prev;
-		position_node->prev = node;
-		node->next = position_node;
-		_first_last_node_init();
 
+		node->next = position_node;
+		position_node->prev = node;
 		_size++;
 		x._size--;
 	}
 
 	void			splice(iterator position, list& x, iterator first, iterator last) {
-		_list_t		*position_node = position._ptr;
-		_list_t		*first_node = first._ptr;
-		_list_t		*last_node = last._ptr;
-		_list_t		*new_last_node = last_node->prev;
+		_list_t*	position_node = position._ptr;
+		_list_t*	first_node = first._ptr;
+		_list_t*	last_node = last._ptr;
+		_list_t*	new_last_node = last_node->prev;
 		value_type	segment_size = _get_segment_size(first, last);
-
-		_size += segment_size;
-		x._size -= segment_size;
 
 		first_node->prev->next = last_node;
 		last_node->prev = first_node->prev;
-		x._first_last_node_init();
-		first_node->prev = position_node->prev;
+
 		position_node->prev->next = first_node;
-		new_last_node->next = position_node;
+		first_node->prev = position_node->prev;
+
 		position_node->prev = new_last_node;
-		_first_last_node_init();
+		new_last_node->next = position_node;
+
+		_size += segment_size;
+		x._size -= segment_size;
 	}
 
 	void			remove(const value_type& val) {
@@ -446,13 +400,13 @@ public:
 	}
 
 	void			unique() {
-		for (_list_t*	list = _first_node; list != _end_node;)
+		for (_list_t*	list = _end_node->next; list != _end_node;)
 			(*list->value == *list->next->value) ? list = erase(list)._ptr :list = list->next;
 	}
 
 	template <class BinaryPredicate>
 	void			unique(BinaryPredicate binary_pred) {
-		for (_list_t*	list = _first_node; list != _end_node;)
+		for (_list_t*	list = _end_node->next; list != _end_node;)
 			(binary_pred(*list->value, *list->next->value)) ? list = erase(list)._ptr : list = list->next;
 	}
 
@@ -490,8 +444,8 @@ public:
 		_list_t		*temp_node;
 		_list_t		*list;
 
-		list = _first_node;
-		while (list != _end_node) {
+		list = _end_node->next;
+		while (list != _end_node->prev) {
 			temp_node = list->next;
 			while (temp_node != _end_node) {
 				if (*list->value > *temp_node->value) {
@@ -511,8 +465,8 @@ public:
 		_list_t *temp_node;
 		_list_t *list;
 
-		list = _first_node;
-		while (list != _last_node) {
+		list = _end_node->next;
+		while (list != _end_node->prev) {
 			temp_node = list->next;
 			while (temp_node != _end_node) {
 				if (!comp(*list->value, *temp_node->value)) {
@@ -528,8 +482,8 @@ public:
 
 	void			reverse() {
 		value_type	temp_value;
-		_list_t		*start_list = _first_node;
-		_list_t		*end_list = _last_node;
+		_list_t		*start_list = _end_node->next;
+		_list_t		*end_list = _end_node->prev;
 
 		for (int i = 0; i < _size / 2; ++i) {
 			temp_value = start_list->value;

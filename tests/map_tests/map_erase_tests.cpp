@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 17:21:06 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 14:36:42 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 20:15:55 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "map.hpp"
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
-														   ((typename T, int V), T, V), (int, 10)) {
+TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]", ((typename T, int V), T, V), (int, 10)) {
 	ft::map<T, int>							ft_map;
 	std::map<T, int>						map;
 	typename ft::map<T, int>::iterator		ft_it;
@@ -74,8 +73,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Erase in map through iterator", "[map] [erase]",
-					   ((typename T, int V), T, V), (int, 10)) {
+TEMPLATE_TEST_CASE_SIG("Erase in map through iterator", "[map] [erase]", ((typename T, int V), T, V), (int, 10)) {
 	ft::map<T, double>						ft_map;
 	std::map<T, double>						map;
 	typename ft::map<T, double>::iterator		ft_it;

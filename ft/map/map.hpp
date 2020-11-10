@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 15:22:07 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 20:29:57 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 template < class Key, class Value, class Compare, class Alloc>
 class ft::map
 {
-
 private:
 	class				_tree;
 
@@ -165,7 +164,10 @@ public:
 	}
 
 	size_type					erase(const key_type& k) {
-		_tree._root = _tree._delete(_tree._root, k);
+		if (k == _tree._last_node->_parent->_value->first)
+			_tree._root = _tree._delete_max(_tree._root);
+		else
+			_tree._root = _tree._delete(_tree._root, k);
 		if (empty()) _tree._empty_nodes_init();
 		else _tree._root->_color = false;
 		return (1);

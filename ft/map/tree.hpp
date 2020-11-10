@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 14:46:43 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 22:44:47 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,12 +212,26 @@ private:
 		return (std::make_pair(node, pair.second));
 	}
 
-	_node_t*			_delete_min(_node_t *node) {
-		if (_is_list(node))
+	_node_t*		_delete_min(_node_t* node) {
+		if (_is_null_node(node->_left))
 			return (_destroy_node(node));
 		else if (_is_black(node->_left) && _is_black(node->_left->_left))
-			_move_red_left(node);
+			node = _move_red_left(node);
 		node->_left = _delete_min(node->_left);
+		return (_fix_up(node));
+	}
+
+	_node_t*		_delete_max(_node_t* node) {
+		if (_is_red(node->_left))
+			node = _rotate_right(node);
+
+		if (_is_null_node(node->_right))
+			return (_destroy_node(node));
+
+		if (_is_black(node->_right) && _is_black(node->_right->_left))
+			node = _move_red_right(node);
+
+		node->_right = _delete_max(node->_right);
 		return (_fix_up(node));
 	}
 
@@ -232,11 +246,12 @@ private:
 	bool			_is_null_node(_node_t* node) { return (node == 0 || node == _last_node || node == _first_node); }
 	bool			_is_list(_node_t* node) { return (_is_null_node(node->_right) && _is_null_node(node->_left)); }
 
-	_node_t*			_delete(_node_t *node, const key_type &key) {
+	_node_t*		_delete(_node_t *node, const key_type &key) {
 		if (_is_null_node(node)) return (node);
+
 		bool	compare = _compare(node->_value->first, key);
 
-		if (!compare && node->_value->first != key) {
+		if (compare == 0 && node->_value->first != key) {
 			if (_is_black(node->_left)&& _is_black(node->_left->_left))
 				node = _move_red_left(node);
 			node->_left = _delete(node->_left, key);
@@ -244,7 +259,7 @@ private:
 		else {
 			if (_is_red(node->_left))
 				node = _rotate_right(node);
-			if (node->_value->first == key && _is_list(node))
+			if (node->_value->first == key && _is_null_node(node->_right))
 				return (_destroy_node(node));
 			if (_is_black(node->_right) && _is_black(node->_right->_left))
 				node = _move_red_right(node);
@@ -259,7 +274,7 @@ private:
 		return (_fix_up(node));
 	}
 
-	_node_t		*_search(const key_type &key, _node_t *node) {
+	_node_t*	_search(const key_type &key, _node_t *node) {
 		_node_t*	result = node;
 
 		while (result) {
