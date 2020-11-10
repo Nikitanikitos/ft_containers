@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 13:52:36 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 15:55:35 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define FT_CONTAINERS_DEQUE_HPP
 
 # include "ft.hpp"
-# include "iterators/vector_iterator.hpp"
-# include "iterators/reverse_vector_iterator.hpp"
+# include "vector_iterator.hpp"
+# include "reverse_vector_iterator.hpp"
 
 template <class T, class Alloc>
 class ft::deque {
@@ -213,7 +213,7 @@ public:
 		_alloc.construct(_ptr + i + _offset_front, val);
 		_size++;
 		_offset_back--;
-		return (iterator(_ptr + _offset_front + index_for_iter));
+		return (iterator(_ptr + index_for_iter));
 	}
 
 	void					insert(iterator position, size_type n, const value_type& val) {
@@ -251,8 +251,39 @@ public:
 		}
 	}
 
-	iterator				erase(iterator position);
-	iterator				erase(iterator first, iterator last);
+	iterator				erase(iterator position) {
+		size_type i = _index_element(position);
+		size_type index_for_iter = i;
+
+		_alloc.destroy(_ptr + _offset_front + i);
+		for (; _ptr + i + _offset_front != _ptr + _size + _offset_front; i++) {
+			_alloc.construct(_ptr + i + _offset_front, _ptr[i + 1]);
+			_alloc.destroy(_ptr + i + _offset_front + 1);
+		}
+		_size--;
+		return (iterator(_ptr + index_for_iter));
+	}
+
+	iterator				erase(iterator first, iterator last) {
+		size_type	n = 0;
+		size_type	i = _index_element(first);
+		size_type	index_for_iter = i;
+		iterator	temp_iter;
+
+		for (iterator temp_first = first; temp_first != last ; ++temp_first)
+			n++;
+		index_for_iter += n;
+		_size -= n;
+
+		while (first != last) {
+			temp_iter = first;
+			++first;
+			_alloc.destroy(temp_iter._ptr);
+			_alloc.construct(_ptr + _offset_front + i++, _ptr[n]);
+			_alloc.destroy(_ptr + _offset_front + n++);
+		}
+		return (iterator(_ptr + index_for_iter));
+	}
 
 	void					swap(deque& x) {
 		std::swap(_offset_front, x._offset_front);
