@@ -287,7 +287,7 @@ public:
 		_insert_in_front_node(node_position, temp_node);
 		_check_for_insert();
 		_size++;
-		return (temp_node);
+		return (iterator(temp_node));
 	}
 
 	void			insert(iterator position, size_type n, const value_type& val) {

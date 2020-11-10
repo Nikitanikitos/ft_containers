@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 16:08:08 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 20:50:35 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:55:47 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <list>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Insert in empty list list through iterator", "[list] [insert]", int) {
+TEMPLATE_TEST_CASE("Insert in empty list through iterator", "[list] [insert]", int, char, double) {
 	ft::list<TestType>		ft_list;
 	std::list<TestType>		list;
 
@@ -37,7 +37,7 @@ TEMPLATE_TEST_CASE("Insert in empty list list through iterator", "[list] [insert
 	}
 }
 
-TEMPLATE_TEST_CASE("Insert in list with size = 1 list through iterator", "[list] [insert]", int) {
+TEMPLATE_TEST_CASE("Insert in list with size = 1 through iterator", "[list] [insert]", int, double) {
 	ft::list<TestType>		ft_list(1, 12);
 	std::list<TestType>		list(1, 12);
 
@@ -60,8 +60,8 @@ TEMPLATE_TEST_CASE("Insert in list with size = 1 list through iterator", "[list]
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Insert in list with size = V list through iterator",  "[list] [insert]",
-													  ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through iterator",  "[list] [insert]",
+													  ((typename T, int V), T, V), (int, 46), (char, 89), (float, 24)) {
 	ft::list<T>							ft_list(V, 42);
 	std::list<T>						list(V, 42);
 	typename ft::list<T>::iterator		ft_it = ft_list.begin();
@@ -86,7 +86,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = V list through iterator",  "[
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in empty list through iterator and size", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5)) {
+															   ((typename T, int V), T, V), (int, 57), (double, 43)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it = ft_list.begin();
@@ -137,9 +137,9 @@ TEMPLATE_TEST_CASE_SIG("Insert in empty list through iterator and size", "[list]
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list with size = 1 through iterator and size", "[list] [insert]",
-																			  ((typename T, int V), T, V), (int, 5)) {
-	ft::list<T>		ft_list(1, 12);
-	std::list<T>	list(1, 12);
+																	  ((typename T, int V), T, V), (int, 125)) {
+	ft::list<T>							ft_list(1, 12);
+	std::list<T>						list(1, 12);
 	typename ft::list<T>::iterator		ft_it = ft_list.begin();
 	typename std::list<T>::iterator		it = list.begin();
 
@@ -187,9 +187,9 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = 1 through iterator and size",
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through iterator and size", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5)) {
-	ft::list<T>		ft_list(V, 42);
-	std::list<T>	list(V, 42);
+																	   ((typename T, int V), T, V), (int, 123)) {
+	ft::list<T>							ft_list(V, 42);
+	std::list<T>						list(V, 42);
 	typename ft::list<T>::iterator		ft_it = ft_list.begin();
 	typename std::list<T>::iterator		it = list.begin();
 
@@ -212,7 +212,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through iterator and size",
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list empty list through two iterator", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5)) {
+															   ((typename T, int V), T, V), (int, 74), (char, 2)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	ft::list<T>							ft_list_for_insert;
@@ -290,7 +290,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in list empty list through two iterator", "[list]
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list with size = 1 through two iterator", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5)) {
+															   ((typename T, int V), T, V), (int, 200), (char, 13)) {
 	ft::list<T>							ft_list(1, 13);
 	std::list<T>						list(1, 13);
 	ft::list<T>							ft_list_for_insert;
@@ -368,7 +368,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in list with size = 1 through two iterator", "[li
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in list with size = V through two iterator", "[list] [insert]",
-																			   ((typename T, int V), T, V), (int, 5), (char, 31)) {
+																   ((typename T, int V), T, V), (int, 5), (char, 31)) {
 	ft::list<T>							ft_list(V, -26);
 	std::list<T>						list(V, -26);
 	ft::list<T>							ft_list_for_insert;

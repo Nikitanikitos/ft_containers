@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 16:58:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 13:33:34 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:34:11 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,36 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]", int) {
-	ft::vector<TestType>		ft_vector(10);
-	std::vector<TestType>		vector(10);
+	ft::vector<TestType>						ft_vector(10);
+	std::vector<TestType>						vector(10);
+	typename ft::vector<TestType>::iterator		ft_it;
+	typename std::vector<TestType>::iterator	it;
 
 	SECTION("at the front") {
-		ft_vector.insert(ft_vector.begin(), 21);
-		vector.insert(vector.begin(), 21);
+		ft_it = ft_vector.insert(ft_vector.begin(), 21);
+		it = vector.insert(vector.begin(), 21);
 
+		REQUIRE(*ft_it == *it);
 		REQUIRE(vector.size() == ft_vector.size());
 		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
 	SECTION("at the back") {
-		ft_vector.insert(ft_vector.end(), 21);
-		vector.insert(vector.end(), 21);
+		ft_it = ft_vector.insert(ft_vector.end(), 21);
+		it = vector.insert(vector.end(), 21);
 
+		REQUIRE(*ft_it == *it);
 		REQUIRE(vector.size() == ft_vector.size());
 		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);
 	}
 
 	SECTION("at the middle") {
-		ft_vector.insert(ft_vector.begin() + 5, 21);
-		vector.insert(vector.begin() + 5, 21);
+		ft_it = ft_vector.insert(ft_vector.begin() + 5, 21);
+		it = vector.insert(vector.begin() + 5, 21);
 
+		REQUIRE(*ft_it == *it);
 		REQUIRE(vector.size() == ft_vector.size());
 		for (size_t i = 0; i < ft_vector.size(); ++i)
 			REQUIRE(ft_vector[i] == vector[i]);

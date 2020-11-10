@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_ comparison_operators.cpp                     :+:      :+:    :+:   */
+/*   list_comparison_operators_tests.cpp                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 13:13:50 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 13:38:14 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:45:15 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" list", "[list] [operator more] [comparison operators]",
-																		   ((typename T, int V), T, V), (int, 12)) {
+																   ((typename T, int V), T, V), (int, 12), (char, 28)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;
@@ -68,7 +68,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" list", "[list] [
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" list", "[list] [operator more] [comparison operators]",
-																		   ((typename T, int V), T, V), (int, 12)) {
+																   ((typename T, int V), T, V), (int, 12), (char, 28)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;
@@ -121,7 +121,7 @@ TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" list", "[list] [
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator \"equal\" and \"not equal\" list", "[list] [operator more] [comparison operators]",
-																		   ((typename T, int V), T, V), (int, 12)) {
+															   ((typename T, int V), T, V), (int, 12), (char, 28)) {
 	ft::list<T>		ft_lhs;
 	ft::list<T>		ft_rhs;
 	std::list<T>	lhs;

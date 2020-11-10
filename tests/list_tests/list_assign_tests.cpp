@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:03:13 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 23:00:17 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:43:22 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
-																((typename T, int V), T, V), (int, 10), (char, 20)) {
+																((typename T, int V), T, V), (int, 20), (char, 40)) {
 	ft::list<T>							ft_list_for_assign;
 	std::list<T>						list_for_assign;
 	typename ft::list<T>::iterator		ft_it;
@@ -143,8 +143,8 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
-																((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG("Assign with size and val in list", "[list] [assign]",
+																((typename T, int V), T, V), (int, 29), (char, 43)) {
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
@@ -184,12 +184,12 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(list.size() == ft_list.size());
 	}
 
 	SECTION("Many with greater size") {
@@ -201,12 +201,12 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(list.size() == ft_list.size());
 	}
 
 	SECTION("Many with lower size") {
@@ -218,11 +218,11 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V / 2; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(list.size() == ft_list.size());
 	}
 }

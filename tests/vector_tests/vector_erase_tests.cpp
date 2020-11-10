@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 15:23:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 18:17:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 18:17:45 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in vector through with two iterator", "[vector] [e
 		ft_it = ft_vector.begin();
 		it = vector.begin();
 		for (size_t i = 0; i < ft_vector.size() / 2; ++i) {
-			++it;
-			++ft_it;
+			++it; ++ft_it;
 		}
 		SECTION("First part") {
 			it = vector.erase(vector.begin(), it);

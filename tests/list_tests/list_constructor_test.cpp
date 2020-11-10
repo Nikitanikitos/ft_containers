@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:40:41 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/26 15:24:36 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:46:44 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "list.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [constructor]",
-																((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG( "Default Constructors in list", "[list] [constructor]",
+																((typename T, int V), T, V), (int, 17), (char, 23)) {
 	SECTION("Create empty list") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
@@ -31,9 +31,6 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
-
-			list.clear();
-			ft_list.clear();
 		}
 	}
 
@@ -44,15 +41,12 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in list container", "[list] [const
 
 			REQUIRE(list.empty() == ft_list.empty());
 			REQUIRE(list.size() == ft_list.size());
-
-			list.clear();
-			ft_list.clear();
 		}
 	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructor]",
-																((typename T, int V), T, V), (int, 10), (char, 20)) {
+																((typename T, int V), T, V), (int, 31), (char, 32)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 
@@ -76,8 +70,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 
@@ -95,8 +87,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 
 			ft_list_for_copy.push_back('a' + i);
 			list_for_copy.push_back('a' + i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 }
@@ -126,8 +116,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 
@@ -144,8 +132,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 
 			list_for_copy.push_back(i);
 			ft_list_for_copy.push_back(i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 
@@ -203,8 +189,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 
@@ -222,8 +206,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
-			list.clear();
-			ft_list.clear();
 		}
 	}
 }

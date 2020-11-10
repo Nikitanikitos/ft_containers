@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 13:22:29 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/23 13:35:13 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:58:20 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 #include "list.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename T, int V), T, V), (int, 31), (char, 40)) {
 	ft::list<T>							ft_list;
 	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
 
 	SECTION("Empty list") {
-		ft_it = ft_list.begin();
-
-		REQUIRE(ft_it == ft_list.end());
+		REQUIRE(ft_list.begin() == ft_list.end());
 	}
 
 	SECTION("With one node") {
@@ -88,16 +86,14 @@ TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename 
 }
 
 TEMPLATE_TEST_CASE_SIG("Default constant iterator list", "[list] [iterator]",
-																   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														   ((typename T, int V), T, V), (int, 14), (char, 20)) {
 	ft::list<T>								ft_list;
 	std::list<T>							list;
 	typename ft::list<T>::const_iterator	ft_it;
 	typename std::list<T>::const_iterator	it;
 
 	SECTION("Empty list") {
-		ft_it = ft_list.begin();
-
-		REQUIRE(ft_it == ft_list.end());
+		REQUIRE(ft_list.begin() == ft_list.end());
 	}
 
 	SECTION("With one node") {
@@ -161,16 +157,15 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator list", "[list] [iterator]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]", ((typename T, int V), T, V), (int, 10), (char, 20)) {
+TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]",
+															((typename T, int V), T, V), (int, 101), (char, 20)) {
 	ft::list<T>									ft_list;
 	std::list<T>								list;
 	typename ft::list<T>::reverse_iterator		ft_it;
 	typename std::list<T>::reverse_iterator		it;
 
 	SECTION("Empty list") {
-		ft_it = ft_list.rbegin();
-
-		REQUIRE(ft_it == ft_list.rend());
+		REQUIRE(ft_list.rbegin() == ft_list.rend());
 	}
 
 	SECTION("With one node") {
@@ -235,16 +230,14 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]", ((typename 
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator list", "[list] [iterator]",
-																 ((typename T, int V), T, V), (int, 10), (char, 10)) {
+																 ((typename T, int V), T, V), (int, 5), (char, 105)) {
 	ft::list<T>										ft_list;
 	std::list<T>									list;
 	typename ft::list<T>::const_reverse_iterator	ft_it;
 	typename std::list<T>::const_reverse_iterator	it;
 
 	SECTION("Empty list") {
-		ft_it = ft_list.rbegin();
-
-		REQUIRE(ft_it == ft_list.rend());
+		REQUIRE(ft_list.rbegin() == ft_list.rend());
 	}
 
 	SECTION("With one node") {

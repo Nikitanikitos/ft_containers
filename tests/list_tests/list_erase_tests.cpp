@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 11:57:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/24 14:48:21 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:52:13 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
-																			((typename T, int V), T, V), (int, 10)) {
+																((typename T, int V), T, V), (int, 23), (char, 400)) {
 	ft::list<T>							ft_list(1, 23);
 	std::list<T>						list(1, 23);
 	typename ft::list<T>::iterator		ft_it;
@@ -36,7 +36,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 		SECTION("every two time") {
-			for (int i = 0; ft_it != ft_list.end(); ++ft_it) {
+			for (int i = 0; i < V / 2; ++ft_it) {
 				if (i++ % 2) {
 					ft_it = ft_list.erase(ft_it);
 					it = list.erase(it);
@@ -59,7 +59,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Erase in list through with two iterator", "[list] [erase]",
-																			((typename T, int V), T, V), (int, 10)) {
+																	((typename T, int V), T, V), (int, 28), (char, 123)) {
 	ft::list<T>							ft_list(1, 23);
 	std::list<T>						list(1, 23);
 	typename ft::list<T>::iterator		ft_it;

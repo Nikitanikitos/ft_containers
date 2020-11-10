@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 18:12:18 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 18:19:55 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ public:
 		return (iterator(_ptr + index_for_iter));
 	}
 
-	iterator				erase(vector::iterator first, vector::iterator last) {
+	iterator				erase(iterator first, iterator last) {
 		size_type	n = 0;
 		size_type	i = _index_element(first);
 		size_type	index_for_iter = i;
@@ -244,10 +244,9 @@ public:
 		while (first != last) {
 			_alloc.destroy(_ptr + i);
 			_alloc.construct(_ptr + i, _ptr[i + n]);
-			_alloc.destroy(_ptr + i + n);
-			++first;
-			i++;
+			_alloc.destroy(_ptr + i++ + n);
 			_size--;
+			++first;
 		}
 		return (iterator(_ptr + index_for_iter));
 	}

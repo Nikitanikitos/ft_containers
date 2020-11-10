@@ -14,7 +14,7 @@
 #include <list>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Clear list",  "[list] [clear]", int) {
+TEMPLATE_TEST_CASE("Clear list",  "[list] [clear]", int, float, char) {
 	ft::list<TestType>		ft_list;
 	std::list<TestType>		list;
 
