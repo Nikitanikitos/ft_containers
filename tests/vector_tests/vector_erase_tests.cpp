@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 15:23:40 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/28 18:48:55 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 18:17:04 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,18 @@ TEMPLATE_TEST_CASE_SIG("Erase in vector through one iterator", "[vector] [erase]
 	}
 
 	SECTION("with size = V") {
-		ft::vector<T>		ft_vector(V, 21);
-		std::vector<T>		vector(V, 21);
+		ft::vector<T>		ft_vector;
+		std::vector<T>		vector;
 
+		for (int i = 0; i < V; ++i) {
+			ft_vector.push_back(i);
+			vector.push_back(i);
+		}
 		ft_it = ft_vector.begin();
 		it = vector.begin();
+
 		SECTION("every two time") {
-			for (int i = 0; ft_it != ft_vector.end(); ++ft_it) {
+			for (int i = 0; i < V / 2; ++ft_it) {
 				if (i++ % 2) {
 					ft_it = ft_vector.erase(ft_it);
 					it = vector.erase(it);
@@ -45,16 +50,21 @@ TEMPLATE_TEST_CASE_SIG("Erase in vector through one iterator", "[vector] [erase]
 				}
 				++it;
 			}
+
 			REQUIRE(vector.size() == ft_vector.size());
+			for (size_t i = 0; i < ft_vector.size(); ++i)
+				REQUIRE(vector[i] == ft_vector[i]);
 		}
 
 		SECTION("from the middle") {
 			for (size_t i = 0; i < ft_vector.size() / 2; ++i) {
-				++it;
-				++ft_it;
+				++it; ++ft_it;
 			}
+
 			REQUIRE(*ft_vector.erase(ft_it) == *vector.erase(it));
 			REQUIRE(vector.size() == ft_vector.size());
+			for (size_t i = 0; i < ft_vector.size(); ++i)
+				REQUIRE(vector[i] == ft_vector[i]);
 		}
 	}
 }
@@ -64,7 +74,6 @@ TEMPLATE_TEST_CASE_SIG("Erase in vector through with two iterator", "[vector] [e
 	ft::vector<T>							ft_vector(1, 23);
 	std::vector<T>							vector(1, 23);
 	typename ft::vector<T>::iterator		ft_it;
-	typename ft::vector<T>::iterator		ft_it_2;
 	typename std::vector<T>::iterator		it;
 
 	SECTION("with size = 1") {
@@ -76,48 +85,47 @@ TEMPLATE_TEST_CASE_SIG("Erase in vector through with two iterator", "[vector] [e
 	}
 
 	SECTION("with size = V") {
-		ft::vector<T>		ft_vector(V, 21);
-		std::vector<T>		vector(V, 21);
+		ft::vector<T>		ft_vector;
+		std::vector<T>		vector;
+
+		for (int i = 0; i < V; ++i) {
+			ft_vector.push_back(i);
+			vector.push_back(i);
+		}
 
 		ft_it = ft_vector.begin();
 		it = vector.begin();
-		SECTION("every two time") {
-			for (int i = 0; ft_vector[i] != ft_vector.back(); ++i) {
-				if (!(i % 2)) {
-					REQUIRE(ft_vector[i] == it[i]);
-					REQUIRE(vector.size() == ft_vector.size());
-				}
-			}
+		for (size_t i = 0; i < ft_vector.size() / 2; ++i) {
+			++it;
+			++ft_it;
 		}
-
 		SECTION("First part") {
-			for (size_t i = 0; i < ft_vector.size() / 2; ++i) {
-				++it;
-				++ft_it;
-			}
-			REQUIRE(*ft_vector.erase(ft_vector.begin(), ft_it) == *vector.erase(vector.begin(), it));
+			it = vector.erase(vector.begin(), it);
+			ft_it = ft_vector.erase(ft_vector.begin(), ft_it);
+
+			REQUIRE(*ft_it == *it);
 			REQUIRE(vector.size() == ft_vector.size());
+			for (size_t i = 0; i < ft_vector.size(); ++i)
+				REQUIRE(vector[i] == ft_vector[i]);
 		}
 
 		SECTION("Second part") {
-			for (size_t i = 0; i < ft_vector.size(); ++i) {
-				++it;
-				++ft_it;
-			}
 			ft_vector.erase(ft_it, ft_vector.end());
 			vector.erase(it, vector.end());
-			REQUIRE(vector.front() == ft_vector.front());
-			REQUIRE(vector.back() == ft_vector.back());
+
 			REQUIRE(vector.size() == ft_vector.size());
+			for (size_t i = 0; i < ft_vector.size(); ++i)
+				REQUIRE(vector[i] == ft_vector[i]);
 		}
 
 		SECTION("all vector") {
-			ft_vector.erase(ft_it, --ft_vector.end());
-			vector.erase(it, --vector.end());
-			REQUIRE(vector.front() == ft_vector.front());
-			REQUIRE(vector.back() == ft_vector.back());
+			ft_vector.erase(ft_vector.begin(), ft_vector.end());
+			vector.erase(vector.begin(), vector.end());
+
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.empty() == ft_vector.empty());
+			for (size_t i = 0; i < ft_vector.size(); ++i)
+				REQUIRE(vector[i] == ft_vector[i]);
 		}
 	}
 }

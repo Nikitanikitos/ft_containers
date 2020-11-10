@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 19:51:19 by imicah            #+#    #+#             */
-/*   Updated: 2020/10/27 13:37:13 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 16:52:48 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in vector container", "[vector] [c
 
 			REQUIRE(ft_vector.empty() == ft_vector.empty());
 			REQUIRE(ft_vector.size() == ft_vector.size());
-
-			ft_vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -45,9 +42,6 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in vector container", "[vector] [c
 
 			REQUIRE(vector.empty() == ft_vector.empty());
 			REQUIRE(vector.size() == ft_vector.size());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 }
@@ -75,9 +69,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in vector container", "[vector] [constr
 
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.back() == vector.back());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -94,9 +85,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in vector container", "[vector] [constr
 
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.back() == vector.back());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 }
@@ -124,9 +112,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [co
 
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.back() == ft_vector.back());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -140,9 +125,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [co
 
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.back() == ft_vector.back());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -159,9 +141,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in vector container", "[vector] [co
 
 			REQUIRE(vector.size() == ft_vector.size());
 			REQUIRE(vector.back() == ft_vector.back());
-
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -219,8 +198,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in vector container", "[vector
 
 			ft_vector_for_copy.push_back(i);
 			vector_for_copy.push_back(i);
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 
@@ -238,8 +215,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in vector container", "[vector
 
 			ft_vector_for_copy.push_back(i);
 			vector_for_copy.push_back(i);
-			vector.clear();
-			ft_vector.clear();
 		}
 	}
 }

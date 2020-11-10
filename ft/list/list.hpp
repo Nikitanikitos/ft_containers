@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 23:34:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 16:37:28 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ private:
 	}
 
 	void		_destroy_node(_list_t *node) {
+		_alloc.destroy(node->value);
 		_alloc.deallocate(node->value, 1);
 		_alloc_rebind.deallocate(node, 1);
 		_size--;
@@ -175,16 +176,8 @@ public:
 	}
 
 	~list() {
-		_list_t		*temp_node;
-
-		for (size_type  i = 0; i < _size; ++i) {
-			temp_node = _first_node;
-			_first_node = _first_node->next;
-			_alloc.deallocate(temp_node->value, 1);
-			_alloc_rebind.deallocate(temp_node, 1);
-		}
-		_alloc.deallocate(_end_node->value, 1);
-		_alloc_rebind.deallocate(_end_node, 1);
+		clear();
+		_destroy_node(_end_node);
 	}
 
 	iterator				begin()			{ return (iterator(_end_node->next)); }
@@ -370,15 +363,13 @@ public:
 	void			clear() {
 		_list_t		*temp_node;
 
-		for (size_type i = 0; i < _size; ++i) {
+		while (_size) {
 			temp_node = _first_node;
 			_first_node = _first_node->next;
-			_alloc.deallocate(temp_node->value, 1);
-			_alloc_rebind.deallocate(temp_node, 1);
+			_destroy_node(temp_node);
 		}
 		_first_node = _end_node;
 		_last_node = _end_node;
-		_size = 0;
 		_end_node->prev = _end_node; // TODO вынести в отдельный метод
 		_end_node->next = _end_node;
 	}

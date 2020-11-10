@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/09 23:34:53 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/10 18:12:18 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ public:
 		}
 	}
 
-	~vector() { _alloc.deallocate(_ptr, _capacity); }
+	~vector() {
+		clear();
+		_alloc.deallocate(_ptr, _capacity);
+	}
 
 	vector& operator=(const vector& x) {
 		if (this != &x) {
@@ -219,8 +222,8 @@ public:
 	}
 
 	iterator				erase (iterator position) {
-		size_type i = _index_element(position);
-		size_type index_for_iter = i;
+		size_type	i = _index_element(position);
+		size_type	index_for_iter = i;
 
 		_alloc.destroy(_ptr + i);
 		for (; _ptr + i != _ptr + _size; i++) {
@@ -228,25 +231,23 @@ public:
 			_alloc.destroy(_ptr + i + 1);
 		}
 		_size--;
-		return (iterator(_ptr + index_for_iter - 1));
+		return (iterator(_ptr + index_for_iter));
 	}
 
 	iterator				erase(vector::iterator first, vector::iterator last) {
 		size_type	n = 0;
 		size_type	i = _index_element(first);
 		size_type	index_for_iter = i;
-		iterator	temp_iter;
 
 		for (iterator temp_first = first; temp_first != last ; ++temp_first)
 			n++;
-		index_for_iter += n;
-		_size -= n;
 		while (first != last) {
-			temp_iter = first;
+			_alloc.destroy(_ptr + i);
+			_alloc.construct(_ptr + i, _ptr[i + n]);
+			_alloc.destroy(_ptr + i + n);
 			++first;
-			_alloc.destroy(temp_iter._ptr);
-			_alloc.construct(_ptr + i++, _ptr[n]);
-			_alloc.destroy(_ptr + n++);
+			i++;
+			_size--;
 		}
 		return (iterator(_ptr + index_for_iter));
 	}
