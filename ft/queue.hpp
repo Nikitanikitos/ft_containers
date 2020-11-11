@@ -24,10 +24,10 @@ public:
 	typedef		std::size_t		size_type;
 
 private:
-	container_type	_queue;
+	container_type		_queue;
 
 public:
-	explicit queue (const container_type& ctnr = container_type()) { _queue = ctnr; }
+	explicit queue(const container_type& ctnr = container_type()) { _queue = ctnr; }
 	~queue() { }
 
 	bool				empty() const { return (_queue.empty()); }
@@ -42,16 +42,16 @@ public:
 };
 
 template <class T, class Container>
-bool operator== (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs == rhs); }
+bool	operator==(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs == rhs); }
 template <class T, class Container>
-bool operator!= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs != rhs); }
+bool	operator!=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs != rhs); }
 template <class T, class Container>
-bool operator<(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs < rhs); }
+bool	operator<(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs < rhs); }
 template <class T, class Container>
-bool operator<=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs <= rhs); }
+bool	operator<=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs <= rhs); }
 template <class T, class Container>
-bool operator>(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs > rhs); }
+bool	operator>(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs > rhs); }
 template <class T, class Container>
-bool operator>=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs >= rhs); }
+bool	operator>=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return (lhs >= rhs); }
 
 #endif

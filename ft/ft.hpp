@@ -40,9 +40,6 @@ namespace ft {
 
 	template <class T, class Alloc = std::allocator<T> >
 	class	vector;
-
-	template <class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class	tree;
 }
 
 #endif
