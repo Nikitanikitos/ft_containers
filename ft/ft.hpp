@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 13:57:00 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 14:58:09 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,10 @@ namespace ft {
 	template<class T, class U>
 	class	const_map_iterator;
 
-//	template<class T, class U>
-//	class	list_iterator;
-	template<class T, class U>
-	class	const_list_iterator;
-
-	template<class T>
-	class	vector_iterator;
-	template<class T>
-	class	const_vector_iterator;
-
 	template<class T, class U>
 	class	reverse_map_iterator;
 	template<class T, class U>
 	class	const_reverse_map_iterator;
-
-	template<class T, class U>
-	class	reverse_list_iterator;
-	template<class T, class U>
-	class	const_reverse_list_iterator;
-
-	template<class T>
-	class	reverse_vector_iterator;
-	template<class T>
-	class	const_reverse_vector_iterator;
 }
 
 #endif
