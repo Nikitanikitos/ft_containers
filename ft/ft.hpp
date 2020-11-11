@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 14:58:09 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 14:58:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,6 @@ namespace ft {
 
 	template <class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class	tree;
-
-	template<class T, class U>
-	class	map_iterator;
-	template<class T, class U>
-	class	const_map_iterator;
-
-	template<class T, class U>
-	class	reverse_map_iterator;
-	template<class T, class U>
-	class	const_reverse_map_iterator;
 }
 
 #endif

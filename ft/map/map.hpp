@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 20:29:57 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 15:21:06 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,11 @@
 # include "queue.hpp"
 # include "tree.hpp"
 # include "ft.hpp"
-# include "map_iterator.hpp"
-# include "reverse_map_iterator.hpp"
 
 template < class Key, class Value, class Compare, class Alloc>
 class ft::map
 {
 private:
-	class				_tree;
-
 	typedef				ft::tree<Key, Value, Compare, Alloc>					_tree_type;
 	typedef typename	_tree_type::_node_t										_node_type;
 
@@ -46,10 +42,317 @@ public:
 	typedef				std::ptrdiff_t											difference_type;
 	typedef				std::size_t												size_type;
 
-	typedef 			map_iterator<_node_type, value_type>						iterator;
-	typedef				const_map_iterator<_node_type, value_type>			const_iterator;
-	typedef				reverse_map_iterator<_node_type, value_type>				reverse_iterator;
-	typedef				const_reverse_map_iterator<_node_type, value_type>	const_reverse_iterator;
+private:
+	class	_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+	private:
+		_node_type*		_ptr;
+
+	public:
+		class	_const_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+		private:
+			_node_type*		_ptr;
+
+		public:
+			explicit _const_iterator(_node_type* ptr = 0) : _ptr(ptr) { }
+			_const_iterator(const _const_iterator& it) : _ptr(it._ptr) { }
+			_const_iterator(const _iterator& it) : _ptr(it._ptr) { }
+			~_const_iterator() { }
+
+			_const_iterator&	operator=(const _const_iterator& it) {
+				if (this != &it)
+					_ptr = it._ptr;
+				return (*this);
+			}
+
+			_const_iterator&	operator=(const _iterator& it) {
+				_ptr = it._ptr;
+				return (*this);
+			}
+
+			bool	operator!=(const _const_iterator& it) const { return (_ptr != it._ptr); }
+			bool	operator==(const _const_iterator& it) const { return (_ptr == it._ptr); }
+
+			const value_type&	operator*() const { return (*_ptr->_value); }
+			const value_type*	operator->() const { return (_ptr->_value); }
+
+			_const_iterator&		operator++() {
+				if (_ptr->_right) {
+					_ptr = _ptr->_right;
+					while (_ptr->_left)
+						_ptr = _ptr->_left;
+				} else {
+					_node_type* y = _ptr->_parent;
+					while (_ptr == y->_right) {
+						_ptr = y;
+						y = y->_parent;
+					}
+					if (_ptr->_right != y)
+						_ptr = y;
+				}
+				return (*this);
+			}
+
+			_const_iterator		operator++(int) {
+				_const_iterator		temp(_ptr);
+
+				++temp;
+				return (temp);
+			}
+
+			_const_iterator&	operator--() {
+				if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+					_ptr = _ptr->_right;
+				else if (_ptr->_left) {
+					_node_type* x = _ptr->_left;
+					while (x->_right)
+						x = x->_right;
+					_ptr = x;
+				} else {
+					_node_type* x = _ptr->_parent;
+					while (_ptr == x->_left) {
+						_ptr = x;
+						x = x->_parent;
+					}
+					_ptr = x;
+				}
+				return (*this);
+			}
+
+			_const_iterator		operator--(int) {
+				_const_iterator		temp(_ptr);
+
+				--temp;
+				return (temp);
+			}
+		};
+
+		explicit _iterator(_node_type* ptr = 0) : _ptr(ptr) { }
+		_iterator(const _iterator& it) : _ptr(it._ptr) { }
+		~_iterator() { }
+
+		_iterator&		operator=(const _iterator& it) {
+			if (this != &it)
+				_ptr = it._ptr;
+			return (*this);
+		}
+
+		bool	operator!=(const _iterator& it) const { return (_ptr != it._ptr); }
+		bool	operator==(const _iterator& it) const { return (_ptr == it._ptr); }
+
+		value_type&		operator*() const { return (*_ptr->_value); }
+		value_type*		operator->() const { return (_ptr->_value); }
+
+		_iterator&		operator++() {
+			if (_ptr->_right) {
+				_ptr = _ptr->_right;
+				while (_ptr->_left)
+					_ptr = _ptr->_left;
+			} else {
+				_node_type* y = _ptr->_parent;
+				while (_ptr == y->_right) {
+					_ptr = y;
+					y = y->_parent;
+				}
+				if (_ptr->_right != y)
+					_ptr = y;
+			}
+			return (*this);
+		}
+
+		_iterator		operator++(int) {
+			_iterator	temp(_ptr);
+
+			++temp;
+			return (temp);
+		}
+
+		_iterator&		operator--() {
+			if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+				_ptr = _ptr->_right;
+			else if (_ptr->_left) {
+				_node_type* x = _ptr->_left;
+				while (x->_right)
+					x = x->_right;
+				_ptr = x;
+			} else {
+				_node_type* x = _ptr->_parent;
+				while (_ptr == x->_left) {
+					_ptr = x;
+					x = x->_parent;
+				}
+				_ptr = x;
+			}
+			return (*this);
+		}
+
+		_iterator		operator--(int) {
+			_iterator	temp(_ptr);
+
+			--temp;
+			return (temp);
+		}
+	};
+
+	class	_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+	private:
+		_node_type*		_ptr;
+
+	public:
+		class	_const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+		private:
+			_node_type*		_ptr;
+
+		public:
+
+			_const_reverse_iterator(_node_type* ptr = 0) : _ptr(ptr) { }
+			_const_reverse_iterator(const _const_reverse_iterator& it) : _ptr(it._ptr) { }
+			_const_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
+			~_const_reverse_iterator() { }
+
+			_const_reverse_iterator&		operator=(const _const_reverse_iterator& it) {
+				if (this != &it)
+					_ptr = it._ptr;
+				return (*this);
+			}
+
+			_const_reverse_iterator&		operator=(const _reverse_iterator& it) {
+				_ptr = it._ptr;
+				return (*this);
+			}
+
+			bool		operator!=(const _const_reverse_iterator& it) const { return (_ptr != it._ptr); }
+			bool		operator==(const _const_reverse_iterator& it) const { return (_ptr == it._ptr); }
+
+			const value_type&	operator*() const { return (*_ptr->_value); }
+			const value_type*	operator->() const { return (_ptr->_value); }
+
+			_const_reverse_iterator&		operator--() {
+				if (_ptr->_right) {
+					_ptr = _ptr->_right;
+					while (_ptr->_left)
+						_ptr = _ptr->_left;
+				}
+				else {
+					_node_type*	y = _ptr->_parent;
+					while (_ptr == y->_right) {
+						_ptr = y;
+						y = y->_parent;
+					}
+					if (_ptr->_right != y)
+						_ptr = y;
+				}
+				return (*this);
+			}
+
+			_const_reverse_iterator		operator--(int) {
+				_const_reverse_iterator		temp(_ptr);
+
+				++temp;
+				return (temp);
+			}
+
+			_const_reverse_iterator&		operator++() {
+				if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+					_ptr = _ptr->_right;
+				else if (_ptr->_left) {
+					_node_type*	x = _ptr->_left;
+					while (x->_right)
+						x = x->_right;
+					_ptr = x;
+				}
+				else {
+					_node_type*	x = _ptr->_parent;
+					while (_ptr == x->_left) {
+						_ptr = x;
+						x = x->_parent;
+					}
+					_ptr = x;
+				}
+				return (*this);
+			}
+
+			_const_reverse_iterator		operator++(int) {
+				_const_reverse_iterator		temp(_ptr);
+
+				--temp;
+				return (temp);
+			}
+		};
+
+		_reverse_iterator(_node_type* ptr = 0) : _ptr(ptr) { }
+		_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
+		~_reverse_iterator() { }
+
+		_reverse_iterator& operator=(const _reverse_iterator& it) {
+			if (this != &it)
+				_ptr = it._ptr;
+			return (*this);
+		}
+
+		bool		operator!=(const _reverse_iterator& it) const { return (_ptr != it._ptr); }
+		bool		operator==(const _reverse_iterator& it) const { return (_ptr == it._ptr); }
+
+		value_type&			operator*() const { return (*_ptr->_value); }
+		value_type*			operator->() const { return (_ptr->_value); }
+
+		_reverse_iterator&		operator--() {
+			if (_ptr->_right) {
+				_ptr = _ptr->_right;
+				while (_ptr->_left)
+					_ptr = _ptr->_left;
+			}
+			else {
+				_node_type* y = _ptr->_parent;
+				while (_ptr == y->_right) {
+					_ptr = y;
+					y = y->_parent;
+				}
+				if (_ptr->_right != y)
+					_ptr = y;
+			}
+			return (*this);
+		}
+
+		_reverse_iterator		operator--(int) {
+			_reverse_iterator		temp(_ptr);
+
+			++temp;
+			return (temp);
+		}
+
+		_reverse_iterator&		operator++() {
+			if (_ptr->_color == true && _ptr->_parent->_parent == _ptr)
+				_ptr = _ptr->_right;
+			else if (_ptr->_left) {
+				_node_type* x = _ptr->_left;
+				while (x->_right)
+					x = x->_right;
+				_ptr = x;
+			}
+			else {
+				_node_type* x = _ptr->_parent;
+				while (_ptr == x->_left) {
+					_ptr = x;
+					x = x->_parent;
+				}
+				_ptr = x;
+			}
+			return (*this);
+		}
+
+		_reverse_iterator		operator++(int) {
+			_reverse_iterator		temp(_ptr);
+
+			--temp;
+			return (temp);
+		}
+	};
+
+public:
+	typedef 			_iterator												iterator;
+	typedef				typename _iterator::_const_iterator						const_iterator;
+	typedef				_reverse_iterator										reverse_iterator;
+	typedef				typename _reverse_iterator::_const_reverse_iterator		const_reverse_iterator;
 
 	explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
 		_tree._compare = comp;
@@ -57,16 +360,16 @@ public:
 		_tree._empty_tree_init();
 	}
 
-		template <class InputIterator>
-		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-							const allocator_type& alloc = allocator_type(),
-										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-			_tree._compare = comp;
-			_tree._alloc = alloc;
-			_tree._empty_tree_init();
-			for (; first != last; ++first)
-				insert(*first);
-		}
+	template <class InputIterator>
+	map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+						const allocator_type& alloc = allocator_type(),
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		_tree._compare = comp;
+		_tree._alloc = alloc;
+		_tree._empty_tree_init();
+		for (; first != last; ++first)
+			insert(*first);
+	}
 
 	map(const map& x) {
 		_tree._empty_tree_init();
