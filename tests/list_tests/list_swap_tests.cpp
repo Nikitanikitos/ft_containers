@@ -14,7 +14,7 @@
 #include <list>
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Swap empty lists", "[list] [swap]", int) {
+TEMPLATE_TEST_CASE("Swap empty list", "[list] [swap]", int) {
 	ft::list<TestType>		ft_list_1;
 	ft::list<TestType>		ft_list_2;
 	std::list<TestType>		list_1;
