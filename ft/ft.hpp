@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:15:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 20:32:10 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ namespace ft {
 
 	template <class Key, class Value, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class	map;
+
+	template < class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
+	class	set;
 
 	template<class T, class Alloc = std::allocator<T> >
 	class	list;

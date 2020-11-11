@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 21:44:04 by imicah           ###   ########.fr       */
+/*   Created: 2020/11/11 20:55:23 by imicah            #+#    #+#             */
+/*   Updated: 2020/11/11 21:54:56 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CONTAINERS_MAP_HPP
-# define FT_CONTAINERS_MAP_HPP
+#ifndef FT_CONTAINERS_SET_HPP
+# define FT_CONTAINERS_SET_HPP
 
-# include <utility>
-# include <limits>
-# include "queue.hpp"
 # include "ft.hpp"
 
-template < class Key, class Value, class Compare, class Alloc>
-class ft::map
-{
-public:
-	typedef				Key												key_type;
-	typedef				Value											mapped_type;
+template <class T, class Compare, class Alloc>
+class	ft::set {
+	typedef				T												key_type;
+	typedef				T												mapped_type;
 	typedef				std::pair<const key_type, mapped_type>			value_type;
 	typedef				Compare											key_compare;
 	typedef				Compare											value_compare;
@@ -36,8 +31,8 @@ public:
 	typedef				std::size_t										size_type;
 
 private:
-	# define _RED true
-	# define _BLACK false
+# define _RED true
+# define _BLACK false
 
 	class	_tree {
 	public:
@@ -61,7 +56,7 @@ private:
 		Compare					_compare;
 
 		explicit _tree(const Compare& comp = Compare(), const Alloc& alloc = Alloc())
-																	: _size(0), _alloc(alloc), _compare(comp) {
+																			: _size(0), _alloc(alloc), _compare(comp) {
 			_empty_tree_init();
 		}
 
@@ -198,9 +193,9 @@ private:
 
 		std::pair<_node_t*, bool>		_put(_node_t *node, const value_type& val) {
 			std::pair<_node_t*, bool>	pair;
-			bool		compare = _compare(val.first, node->_value->first);
+			bool		compare = _compare(val, node->_value);
 
-			if (val.first == node->_value->first)
+			if (val == node->_value)
 				return (std::make_pair(node, false));
 			else if (_is_null_node(node->_left) && compare) {
 				node->_left = _create_new_node(val, node);
@@ -266,9 +261,9 @@ private:
 		_node_t*		_delete(_node_t *node, const key_type &key) {
 			if (_is_null_node(node)) return (node);
 
-			bool	compare = _compare(node->_value->first, key);
+			bool	compare = _compare(node->_value, key);
 
-			if (compare == 0 && node->_value->first != key) {
+			if (compare == 0 && node->_value != key) {
 				if (_is_black(node->_left)&& _is_black(node->_left->_left))
 					node = _move_red_left(node);
 				node->_left = _delete(node->_left, key);
@@ -276,11 +271,11 @@ private:
 			else {
 				if (_is_red(node->_left))
 					node = _rotate_right(node);
-				if (node->_value->first == key && _is_null_node(node->_right))
+				if (node->_value == key && _is_null_node(node->_right))
 					return (_destroy_node(node));
 				if (_is_black(node->_right) && _is_black(node->_right->_left))
 					node = _move_red_right(node);
-				if (node->_value->first == key) {
+				if (node->_value == key) {
 					_alloc.destroy(node->_value);
 					_alloc.deallocate(node->_value, 1);
 					node->_value = _min(node->_right);
@@ -296,9 +291,9 @@ private:
 			_node_t*	result = node;
 
 			while (result) {
-				if (key == result->_value->first)
+				if (key == result->_value)
 					break ;
-				else if (_compare(key, result->_value->first))
+				else if (_compare(key, result->_value))
 					result = result->_left;
 				else
 					result = result->_right;
@@ -636,14 +631,14 @@ public:
 	typedef				_reverse_iterator										reverse_iterator;
 	typedef typename	_reverse_iterator::_const_reverse_iterator		const_reverse_iterator;
 
-	explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
+	explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
 		_tree._compare = comp;
 		_tree._alloc = alloc;
 		_tree._empty_tree_init();
 	}
 
 	template <class InputIterator>
-	map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+	set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 																	const allocator_type& alloc = allocator_type()) {
 		_tree._compare = comp;
 		_tree._alloc = alloc;
@@ -652,17 +647,17 @@ public:
 			insert(*first);
 	}
 
-	map(const map& x) {
+	set (const set& x) {
 		_tree._empty_tree_init();
 		for (const_iterator	it = x.begin(); it != x.end(); ++it)
 			insert(*it);
 	}
 
-	~map() {
-			clear();
+	~set() {
+		clear();
 	}
 
-	map&	operator=(const map& x) {
+	set& operator= (const set& x) {
 		if (this == &x)
 			return (*this);
 		clear();
@@ -686,33 +681,6 @@ public:
 	size_type				size() const { return (_tree._size); }
 	size_type				max_size() const { return (std::numeric_limits<size_type>::max()); }
 
-	mapped_type&			operator[](const key_type& k) {
-		_node_type*	node = _tree._search(k, _tree._root);
-		iterator	it;
-
-		if (node == _tree._last_node || node == _tree._first_node || node == 0) {
-			it = insert(std::make_pair(k, mapped_type())).first;
-			node = it._ptr;
-		}
-		return (node->_value->second);
-	}
-
-	mapped_type&				at(const key_type& k) {
-		_node_type*	node = _tree._search(k, _tree._root);
-
-		if (node == _tree._last_node || node == _tree._first_node || node == 0)
-			throw std::out_of_range("Out of range");
-		return (node->_value->second);
-	}
-
-	const mapped_type&			at(const key_type& k) const {
-		_node_type*	node = _search(k, _tree->_root);
-
-		if (node == _tree._last_node || node == _tree._first_node || node == 0)
-			throw std::out_of_range("Out of range");
-		return (node->_value->second);
-	}
-
 	std::pair<iterator,bool>	insert(const value_type& val) {
 		std::pair<_node_type*, bool>	pair;
 
@@ -731,27 +699,27 @@ public:
 		return (std::make_pair(find(val.first), pair.second));
 	}
 
-	iterator					insert(iterator position, const value_type& val) {
+	iterator	insert(iterator position, const value_type& val) {
 		(void )position;
 		return (insert(val).first);
 	}
 
 	template <class InputIterator>
-	void						insert(InputIterator first, InputIterator last,
-								   typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+	void insert (InputIterator first, InputIterator last,
+									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
 		for (; first != last; ++first)
 			insert(*first);
 	}
 
 	void						erase(iterator position) {
 		_node_type*	node = position._ptr;
-		erase(node->_value->first);
+		erase(node->_value);
 	}
 
 	size_type					erase(const key_type& k) {
-		if (k == _tree._last_node->_parent->_value->first)
+		if (k == _tree._last_node->_parent->_value)
 			_tree._root = _tree._delete_max(_tree._root);
-		else if (k == _tree._first_node->_parent->_value->first)
+		else if (k == _tree._first_node->_parent->_value)
 			_tree._root = _tree._delete_min(_tree._root);
 		else
 			_tree._root = _tree._delete(_tree._root, k);
@@ -764,14 +732,14 @@ public:
 		queue<key_type>		queue;
 
 		for (; first != last; ++first)
-			queue.push(first->first);
+			queue.push(first);
 		while (!queue.empty()) {
 			erase(queue.front());
 			queue.pop();
 		}
 	}
 
-	void						swap(map& x) {
+	void						swap(set& x) {
 		std::swap(x._tree._root, _tree._root);
 		std::swap(x._tree._first_node, _tree._first_node);
 		std::swap(x._tree._last_node, _tree._last_node);
@@ -810,28 +778,28 @@ public:
 
 	iterator					lower_bound(const key_type& k) {
 		for (iterator it = begin(); it != end(); ++it)
-			if (_tree._compare(k, it->first) || it->first == k)
+			if (_tree._compare(k, *it) || *it == k)
 				return (it);
 		return (end());
 	}
 
 	const_iterator				lower_bound(const key_type& k) const {
 		for (const_iterator	it = begin(); it != end(); ++it)
-			if (_tree._compare(k, it->first) || it->first == k)
+			if (_tree._compare(k, *it) || *it == k)
 				return (it);
 		return (end());
 	}
 
 	iterator					upper_bound(const key_type& k) {
 		for (iterator it = begin(); it != end(); ++it)
-			if (_tree._compare(k, it->first))
+			if (_tree._compare(k, *it))
 				return (it);
 		return (end());
 	}
 
 	const_iterator				upper_bound(const key_type& k) const {
 		for (const_iterator it = end(); it != begin(); --it)
-			if (_tree._compare(k, it->first))
+			if (_tree._compare(k, *it))
 				return (it);
 		return (end());
 	}
@@ -845,4 +813,4 @@ public:
 	}
 };
 
-#endif
+#endif //FT_CONTAINERS_SET_HPP
