@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 18:10:23 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 19:35:11 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,17 +214,21 @@ private:
 	}
 
 	_node_t*		_delete_min(_node_t* node) {
+		if (_is_null_node(node)) return (node);
+
 		if (_is_null_node(node->_left))
 			return (_destroy_node(node));
+
 		else if (_is_black(node->_left) && _is_black(node->_left->_left))
 			node = _move_red_left(node);
+
 		node->_left = _delete_min(node->_left);
 		return (_fix_up(node));
 	}
 
 	_node_t*		_delete_max(_node_t* node) {
-//		if (_is_red(node))
-//			_flip_color(node);
+		if (_is_null_node(node)) return (node);
+
 		if (_is_red(node->_left))
 			node = _rotate_right(node);
 
@@ -240,14 +244,15 @@ private:
 
 	value_type*		_min(_node_t *node) {
 		value_type*		val = _alloc.allocate(1);
+
 		while (node->_left && node->_left != _first_node)
 			node = node->_left;
+
 		_alloc.construct(val, *node->_value);
 		return (val);
 	}
 
 	bool			_is_null_node(_node_t* node) { return (node == 0 || node == _last_node || node == _first_node); }
-	bool			_is_list(_node_t* node) { return (_is_null_node(node->_right) && _is_null_node(node->_left)); }
 
 	_node_t*		_delete(_node_t *node, const key_type &key) {
 		if (_is_null_node(node)) return (node);
@@ -267,6 +272,7 @@ private:
 			if (_is_black(node->_right) && _is_black(node->_right->_left))
 				node = _move_red_right(node);
 			if (node->_value->first == key) {
+				_alloc.destroy(node->_value);
 				_alloc.deallocate(node->_value, 1);
 				node->_value = _min(node->_right);
 				node->_right = _delete_min(node->_right);
@@ -301,6 +307,7 @@ private:
 			_last_node->_parent = node->_parent;
 			result = _last_node;
 		}
+		_alloc.destroy(node->_value);
 		_alloc.deallocate(node->_value, 1);
 		_alloc_rebind.deallocate(node, 1);
 		_size--;

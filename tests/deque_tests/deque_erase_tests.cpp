@@ -67,7 +67,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in deque through one iterator", "[deque] [erase]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Erase in vector through with two iterator", "[vector] [erase]",
+TEMPLATE_TEST_CASE_SIG("Erase in deque through with two iterator", "[deque] [erase]",
 					   ((typename T, int V), T, V), (int, 10)) {
 	ft::deque<T>							ft_deque(1, 23);
 	std::deque<T>							deque(1, 23);

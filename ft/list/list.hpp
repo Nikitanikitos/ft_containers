@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:47:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 19:20:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ private:
 		_list_s*		prev;
 	}					_list_t;
 
-	class	_iterator  : public std::iterator<std::bidirectional_iterator_tag, T> {
-	private:
+	class	_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
+	public:
 		_list_t*	_ptr;
 
 	public:
@@ -450,7 +450,7 @@ public:
 		}
 	}
 
-	iterator		erase(list::iterator position) {
+	iterator		erase(iterator position) {
 		_list_t		*node_position = position._ptr;
 		iterator	it = node_position->next;
 
@@ -461,7 +461,7 @@ public:
 		return (it);
 	}
 
-	iterator		erase(list::iterator first, list::iterator last) {
+	iterator		erase(iterator first, iterator last) {
 		_list_t		*first_node = first._ptr;
 		_list_t		*last_node = last._ptr;
 		_list_t		*temp_node;

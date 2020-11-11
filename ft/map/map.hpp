@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 16:57:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 20:17:32 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,10 @@ private:
 	public:
 		_node_type*		_ptr;
 
-	public:
 		class	_const_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
-		private:
+		public:
 			_node_type*		_ptr;
 
-		public:
 			explicit _const_iterator(_node_type* ptr = 0) : _ptr(ptr) { }
 			_const_iterator(const _const_iterator& it) : _ptr(it._ptr) { }
 			_const_iterator(const _iterator& it) : _ptr(it._ptr) { }
@@ -194,15 +192,12 @@ private:
 	};
 
 	class	_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
-	private:
+	public:
 		_node_type*		_ptr;
 
-	public:
 		class	_const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
-		private:
-			_node_type*		_ptr;
-
 		public:
+			_node_type*		_ptr;
 
 			_const_reverse_iterator(_node_type* ptr = 0) : _ptr(ptr) { }
 			_const_reverse_iterator(const _const_reverse_iterator& it) : _ptr(it._ptr) { }
@@ -362,8 +357,7 @@ public:
 
 	template <class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-						const allocator_type& alloc = allocator_type(),
-									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+						const allocator_type& alloc = allocator_type()) {
 		_tree._compare = comp;
 		_tree._alloc = alloc;
 		_tree._empty_tree_init();
@@ -443,7 +437,8 @@ public:
 			pair = _tree._put(_tree._root, val);
 			_tree._root = pair.first;
 		}
-		_tree._size++;
+		if (pair.second)
+			_tree._size++;
 		_tree._root->_parent = 0;
 		_tree._root->_color = false;
 		return (std::make_pair(find(val.first), pair.second));
@@ -479,12 +474,13 @@ public:
 	}
 
 	void						erase(iterator first, iterator last) {
-		iterator	temp_it = first;
+		queue<key_type>		queue;
 
-		for (; temp_it != last; ++temp_it) {
-			temp_it = first;
-			++temp_it;
-			erase(first);
+		for (; first != last; ++first)
+			queue.push(first->first);
+		while (!queue.empty()) {
+			erase(queue.front());
+			queue.pop();
 		}
 	}
 
@@ -492,8 +488,7 @@ public:
 		std::swap(x._tree._root, _tree._root);
 		std::swap(x._tree._first_node, _tree._first_node);
 		std::swap(x._tree._last_node, _tree._last_node);
-		std::swap(x._tree._first_node, _tree._first_node);
-		std::swap(x._tree._last_node, _tree._last_node);
+
 		std::swap(x._tree._alloc, _tree._alloc);
 		std::swap(x._tree._alloc_rebind, _tree._alloc_rebind);
 		std::swap(x._tree._size, _tree._size);
@@ -511,8 +506,7 @@ public:
 				queue.push(node->_right);
 			if (node->_left && node->_left != _tree._first_node)
 				queue.push(node->_left);
-			node = queue.front();
-			_tree._destroy_node(node);
+			_tree._destroy_node(queue.front());
 			queue.pop();
 			node = queue.front();
 		}
@@ -520,7 +514,7 @@ public:
 	}
 
 	key_compare					key_comp() const { return (_tree._compare); }
-	value_compare				value_comp() const;
+	value_compare				value_comp() const { return (_tree._compare); }
 
 	iterator					find(const key_type& k) { return (iterator(_tree._search(k, _tree._root))); }
 	const_iterator				find(const key_type& k) const { return (const_iterator(_tree._search(k, _tree._root))); }

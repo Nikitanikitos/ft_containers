@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:51:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 19:51:44 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 19:53:53 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "map.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE("Clear list",  "[list] [clear]", int, float, char) {
+TEMPLATE_TEST_CASE("Clear map",  "[map] [clear]", int, float, char) {
 	ft::map<TestType, char>		ft_map;
 	std::map<TestType, char>	map;
 

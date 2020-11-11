@@ -21,7 +21,7 @@ class	ft::vector
 {
 private:
 	class	_iterator : public std::iterator<std::random_access_iterator_tag, T> {
-	private:
+	public:
 		T*		_ptr;
 
 	public:

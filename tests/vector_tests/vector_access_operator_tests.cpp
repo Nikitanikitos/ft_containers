@@ -75,7 +75,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes vector_tests v
 		}
 }
 
-TEMPLATE_TEST_CASE("method at getting a nonexistent item vector_tests vector", "[vector] [access]", int) {
+TEMPLATE_TEST_CASE("method at getting a non-existent item vector", "[vector] [access]", int) {
 		ft::vector<TestType>		ft_vector;
 		std::vector<TestType>		vector;
 

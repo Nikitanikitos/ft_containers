@@ -75,7 +75,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes deque", "[dequ
 	}
 }
 
-TEMPLATE_TEST_CASE("method at getting a nonexistent item vector_tests vector", "[vector] [access]", int) {
+TEMPLATE_TEST_CASE("method at getting a non-existent item deque", "[deque] [access]", int) {
 	ft::deque<TestType>			ft_deque;
 	std::deque<TestType>		deque;
 
