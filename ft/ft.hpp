@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft.hpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikita <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 23:33:02 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/08 12:19:05 by nikita           ###   ########.fr       */
+/*   Updated: 2020/11/11 13:57:00 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ namespace ft {
 	template<class T, class U>
 	class	const_map_iterator;
 
-	template<class T, class U>
-	class	list_iterator;
+//	template<class T, class U>
+//	class	list_iterator;
 	template<class T, class U>
 	class	const_list_iterator;
 
