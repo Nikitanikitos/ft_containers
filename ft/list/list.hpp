@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:40:55 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 15:42:15 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,48 +38,44 @@ private:
 		public:
 			explicit _const_iterator(_list_t *ptr = 0) : _ptr(ptr) {}
 			_const_iterator(const _iterator &it) : _ptr(it._ptr) {}
-
 			_const_iterator(const _const_iterator &it) : _ptr(it._ptr) {}
-
 			~_const_iterator() {}
 
-			_const_iterator &operator=(const _iterator &it) {
+			_const_iterator&	operator=(const _iterator &it) {
 				_ptr = it._ptr;
 				return (*this);
 			}
 
-			_const_iterator &operator=(const _const_iterator &it) {
+			_const_iterator&	operator=(const _const_iterator &it) {
 				if (this != &it)
 					_ptr - it._ptr;
 				return (*this);
 			}
 
-			bool operator!=(const _const_iterator &it) const { return (_ptr != it._ptr); }
+			bool		operator!=(const _const_iterator &it) const { return (_ptr != it._ptr); }
+			bool		operator==(const _const_iterator &it) const { return (_ptr == it._ptr); }
 
-			bool operator==(const _const_iterator &it) const { return (_ptr == it._ptr); }
+			const T&	operator*() const { return (*_ptr->value); }
+			const T*	operator->() const { return (_ptr->value); }
 
-			const T &operator*() const { return (*_ptr->value); }
-
-			const T *operator->() const { return (_ptr->value); }
-
-			_const_iterator &operator++() {
+			_const_iterator&	operator++() {
 				_ptr = _ptr->next;
 				return (*this);
 			}
 
-			_const_iterator &operator--() {
+			_const_iterator&	operator--() {
 				_ptr = _ptr->prev;
 				return (*this);
 			}
 
-			_const_iterator operator++(int) {
+			_const_iterator		operator++(int) {
 				_const_iterator temp(_ptr);
 
 				_ptr = _ptr->next;
 				return (temp);
 			}
 
-			_const_iterator operator--(int) {
+			_const_iterator		operator--(int) {
 				_const_iterator temp(_ptr);
 
 				_ptr = _ptr->prev;
@@ -102,17 +98,17 @@ private:
 		T&				operator*() const { return (*_ptr->value); }
 		T*				operator->() const { return (_ptr->value); }
 
-		_iterator&	operator++() { _ptr = _ptr->next; return (*this); }
-		_iterator&	operator--() { _ptr = _ptr->prev; return (*this); }
+		_iterator&		operator++() { _ptr = _ptr->next; return (*this); }
+		_iterator&		operator--() { _ptr = _ptr->prev; return (*this); }
 
-		_iterator	operator++(int) {
+		_iterator		operator++(int) {
 			_iterator		temp(_ptr);
 
 			_ptr = _ptr->next;
 			return (temp);
 		}
 
-		_iterator	operator--(int) {
+		_iterator		operator--(int) {
 			_iterator		temp(_ptr);
 
 			_ptr = _ptr->prev;
@@ -173,7 +169,7 @@ private:
 		_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
 		~_reverse_iterator() { }
 
-		_reverse_iterator&	operator=(const _reverse_iterator& it) {
+		_reverse_iterator&		operator=(const _reverse_iterator& it) {
 			if (this != &it)
 				_ptr = it._ptr;
 			return (*this);
