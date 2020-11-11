@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 14:42:34 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 15:40:55 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,65 @@ private:
 	}					_list_t;
 
 	class	_iterator  : public std::iterator<std::bidirectional_iterator_tag, T> {
+	private:
+		_list_t*	_ptr;
 
 	public:
-		_list_t*	_ptr;
+		class	_const_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
+		private:
+			_list_t		*_ptr;
+
+		public:
+			explicit _const_iterator(_list_t *ptr = 0) : _ptr(ptr) {}
+			_const_iterator(const _iterator &it) : _ptr(it._ptr) {}
+
+			_const_iterator(const _const_iterator &it) : _ptr(it._ptr) {}
+
+			~_const_iterator() {}
+
+			_const_iterator &operator=(const _iterator &it) {
+				_ptr = it._ptr;
+				return (*this);
+			}
+
+			_const_iterator &operator=(const _const_iterator &it) {
+				if (this != &it)
+					_ptr - it._ptr;
+				return (*this);
+			}
+
+			bool operator!=(const _const_iterator &it) const { return (_ptr != it._ptr); }
+
+			bool operator==(const _const_iterator &it) const { return (_ptr == it._ptr); }
+
+			const T &operator*() const { return (*_ptr->value); }
+
+			const T *operator->() const { return (_ptr->value); }
+
+			_const_iterator &operator++() {
+				_ptr = _ptr->next;
+				return (*this);
+			}
+
+			_const_iterator &operator--() {
+				_ptr = _ptr->prev;
+				return (*this);
+			}
+
+			_const_iterator operator++(int) {
+				_const_iterator temp(_ptr);
+
+				_ptr = _ptr->next;
+				return (temp);
+			}
+
+			_const_iterator operator--(int) {
+				_const_iterator temp(_ptr);
+
+				_ptr = _ptr->prev;
+				return (temp);
+			}
+		};
 
 		_iterator(_list_t* p = 0) : _ptr(p) { }
 		_iterator(const _iterator &it) : _ptr(it._ptr) { }
@@ -64,65 +120,54 @@ private:
 		}
 	};
 
-	class	_const_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
-	public:
-		_list_t *_ptr;
-
-		explicit _const_iterator(_list_t *ptr = 0) : _ptr(ptr) {}
-		_const_iterator(const _iterator &it) : _ptr(it._ptr) {}
-
-		_const_iterator(const _const_iterator &it) : _ptr(it._ptr) {}
-
-		~_const_iterator() {}
-
-		_const_iterator &operator=(const _iterator &it) {
-			_ptr = it._ptr;
-			return (*this);
-		}
-
-		_const_iterator &operator=(const _const_iterator &it) {
-			if (this != &it)
-				_ptr - it._ptr;
-			return (*this);
-		}
-
-		bool operator!=(const _const_iterator &it) const { return (_ptr != it._ptr); }
-
-		bool operator==(const _const_iterator &it) const { return (_ptr == it._ptr); }
-
-		const T &operator*() const { return (*_ptr->value); }
-
-		const T *operator->() const { return (_ptr->value); }
-
-		_const_iterator &operator++() {
-			_ptr = _ptr->next;
-			return (*this);
-		}
-
-		_const_iterator &operator--() {
-			_ptr = _ptr->prev;
-			return (*this);
-		}
-
-		_const_iterator operator++(int) {
-			_const_iterator temp(_ptr);
-
-			_ptr = _ptr->next;
-			return (temp);
-		}
-
-		_const_iterator operator--(int) {
-			_const_iterator temp(_ptr);
-
-			_ptr = _ptr->prev;
-			return (temp);
-		}
-	};
-
 	class	_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
+	private:
+		_list_t*	_ptr;
 
 	public:
-		_list_t*	_ptr;
+		class	_const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
+		private:
+			_list_t*	_ptr;
+
+		public:
+			explicit _const_reverse_iterator(_list_t* p = 0) : _ptr(p) { }
+			_const_reverse_iterator(const _const_reverse_iterator& it) : _ptr(it._ptr) { }
+			_const_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
+			~_const_reverse_iterator() { }
+
+			_const_reverse_iterator&		operator=(const _reverse_iterator& it) {
+				_ptr = it._ptr;
+				return (*this);
+			}
+
+			_const_reverse_iterator&		operator=(const _const_reverse_iterator& it) {
+				if (this != &it)
+					_ptr - it._ptr;
+				return (*this);
+			}
+
+			bool		operator!=(const _const_reverse_iterator& it) const { return (_ptr != it._ptr); }
+			bool		operator==(const _const_reverse_iterator& it) const { return (_ptr == it._ptr); }
+			const T&	operator*() const { return (*(this->_ptr->value)); }
+			const T*	operator->() const { return (this->_ptr->value); }
+
+			_const_reverse_iterator&		operator++() { _ptr = _ptr->prev; return (*this); }
+			_const_reverse_iterator&		operator--() { _ptr = _ptr->next; return (*this); }
+
+			_const_reverse_iterator		operator++(int) {
+				_const_reverse_iterator		temp(_ptr);
+
+				_ptr = _ptr->prev;
+				return (temp);
+			}
+
+			_const_reverse_iterator		operator--(int) {
+				_const_reverse_iterator		temp(_ptr);
+
+				_ptr = _ptr->next;
+				return (temp);
+			}
+		};
 
 		explicit _reverse_iterator(_list_t* p = 0) : _ptr(p) { }
 		_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
@@ -157,62 +202,19 @@ private:
 		}
 	};
 
-	class	_const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
-	public:
-		_list_t*	_ptr;
-
-		explicit _const_reverse_iterator(_list_t* p = 0) : _ptr(p) { }
-		_const_reverse_iterator(const _const_reverse_iterator& it) : _ptr(it._ptr) { }
-		_const_reverse_iterator(const _reverse_iterator& it) : _ptr(it._ptr) { }
-		~_const_reverse_iterator() { }
-
-		_const_reverse_iterator&		operator=(const _reverse_iterator& it) {
-			_ptr = it._ptr;
-			return (*this);
-		}
-
-		_const_reverse_iterator&		operator=(const _const_reverse_iterator& it) {
-			if (this != &it)
-				_ptr - it._ptr;
-			return (*this);
-		}
-
-		bool		operator!=(const _const_reverse_iterator& it) const { return (_ptr != it._ptr); }
-		bool		operator==(const _const_reverse_iterator& it) const { return (_ptr == it._ptr); }
-		const T&	operator*() const { return (*(this->_ptr->value)); }
-		const T*	operator->() const { return (this->_ptr->value); }
-
-		_const_reverse_iterator&		operator++() { _ptr = _ptr->prev; return (*this); }
-		_const_reverse_iterator&		operator--() { _ptr = _ptr->next; return (*this); }
-
-		_const_reverse_iterator		operator++(int) {
-			_const_reverse_iterator		temp(_ptr);
-
-			_ptr = _ptr->prev;
-			return (temp);
-		}
-
-		_const_reverse_iterator		operator--(int) {
-			_const_reverse_iterator		temp(_ptr);
-
-			_ptr = _ptr->next;
-			return (temp);
-		}
-	};
-
 public:
-	typedef				T									value_type;
-	typedef				Alloc								allocator_type;
-	typedef typename	allocator_type::reference			reference;
-	typedef typename	allocator_type::const_reference		const_reference;
-	typedef typename	allocator_type::pointer				pointer;
-	typedef typename	allocator_type::const_pointer		const_pointer;
-	typedef 			_iterator							iterator;
-	typedef				_const_iterator						const_iterator;
-	typedef				_reverse_iterator					reverse_iterator;
-	typedef				_const_reverse_iterator				const_reverse_iterator;
-	typedef				std::ptrdiff_t						difference_type;
-	typedef				std::size_t							size_type;
+	typedef				T												value_type;
+	typedef				Alloc											allocator_type;
+	typedef typename	allocator_type::reference						reference;
+	typedef typename	allocator_type::const_reference					const_reference;
+	typedef typename	allocator_type::pointer							pointer;
+	typedef typename	allocator_type::const_pointer					const_pointer;
+	typedef 			_iterator										iterator;
+	typedef typename	_iterator::_const_iterator						const_iterator;
+	typedef				_reverse_iterator								reverse_iterator;
+	typedef typename	_reverse_iterator::_const_reverse_iterator		const_reverse_iterator;
+	typedef				std::ptrdiff_t									difference_type;
+	typedef				std::size_t										size_type;
 
 private:
 	typedef typename allocator_type::template rebind<_list_t>::other		alloc_rebind;
