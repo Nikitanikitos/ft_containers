@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 12:19:10 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:42:15 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 15:47:03 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,9 +332,9 @@ public:
 	iterator				end()			{ return (iterator(_end_node)); }
 	const_iterator			end() const		{ return (const_iterator(_end_node)); }
 	reverse_iterator		rbegin()		{ return (reverse_iterator(_end_node->prev)); }
-	_const_reverse_iterator	rbegin() const	{ return (_const_reverse_iterator(_end_node->prev)); }
+	const_reverse_iterator	rbegin() const	{ return (_const_reverse_iterator(_end_node->prev)); }
 	reverse_iterator		rend()			{ return (reverse_iterator(_end_node)); }
-	_const_reverse_iterator	rend() const	{ return _const_reverse_iterator((_end_node)); }
+	const_reverse_iterator	rend() const	{ return _const_reverse_iterator((_end_node)); }
 
 	bool    				empty() const	{ return (!_size); }
 	size_type				size() const	{return (_size); };

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:21:06 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 16:57:47 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ public:
 
 private:
 	class	_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
-	private:
+	public:
 		_node_type*		_ptr;
 
 	public:
@@ -469,6 +469,8 @@ public:
 	size_type					erase(const key_type& k) {
 		if (k == _tree._last_node->_parent->_value->first)
 			_tree._root = _tree._delete_max(_tree._root);
+		else if (k == _tree._first_node->_parent->_value->first)
+			_tree._root = _tree._delete_min(_tree._root);
 		else
 			_tree._root = _tree._delete(_tree._root, k);
 		if (empty()) _tree._empty_nodes_init();

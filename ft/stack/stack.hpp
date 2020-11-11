@@ -13,7 +13,8 @@
 #ifndef FT_CONTAINERS_STACK_HPP
 # define FT_CONTAINERS_STACK_HPP
 
-# include "list.hpp"
+# include "ft.hpp"
+# include "deque.hpp"
 
 template <class T, class Container>
 class	ft::stack {

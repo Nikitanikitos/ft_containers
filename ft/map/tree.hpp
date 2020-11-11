@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:59:39 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/10 22:44:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 18:10:23 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ private:
 		_empty_tree_init();
 	}
 
-	bool		_is_red(const _node_t* node) { return (node && node->_color == _red); }
-	bool		_is_black(const _node_t* node) { return (node && node->_color == _black); }
+	bool		_is_red(const _node_t* node) { return (node ? node->_color == _red : false); }
+
+	bool		_is_black(const _node_t* node) { return (node ?  node->_color == _black : true); }
 
 	void		_flip_color(_node_t* node) {
 		node->_color = !node->_color;
@@ -222,6 +223,8 @@ private:
 	}
 
 	_node_t*		_delete_max(_node_t* node) {
+//		if (_is_red(node))
+//			_flip_color(node);
 		if (_is_red(node->_left))
 			node = _rotate_right(node);
 
