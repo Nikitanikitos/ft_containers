@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 15:17:22 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 23:06:19 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,8 +277,10 @@ private:
 	void		_realloc(const size_type new_offset_front, const size_type new_offset_back) {
 		T*			temp_ptr = _alloc.allocate(new_offset_front + _size + new_offset_back);
 
-		for (size_type  i = new_offset_front; i < _size + new_offset_front; ++i)
-			_alloc.construct(temp_ptr + i, _ptr[_offset_front++]);
+		for (size_type  i = new_offset_front; i < _size + new_offset_front; ++i) {
+			_alloc.construct(temp_ptr + i, _ptr[_offset_front]);
+			_alloc.destroy(_ptr + _offset_front++);
+		}
 		_alloc.deallocate(_ptr, _capacity);
 		_capacity = new_offset_front + _size + new_offset_back;
 		_offset_front = new_offset_front;

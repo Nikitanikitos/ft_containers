@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:55:36 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 14:46:43 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/11 23:04:45 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,8 +276,10 @@ private:
 	void		_realloc(const size_type n) {
 		T*			temp_ptr = _alloc.allocate(_capacity + n);
 
-		for (size_type  i = 0; i < _size; ++i)
+		for (size_type  i = 0; i < _size; ++i) {
 			_alloc.construct(temp_ptr + i, _ptr[i]);
+			_alloc.destroy(_ptr[i]);
+		}
 		_alloc.deallocate(_ptr, _capacity);
 		_capacity += n;
 		_ptr = temp_ptr;
@@ -325,10 +327,12 @@ public:
 
 	vector& operator=(const vector& x) {
 		if (this != &x) {
-			_alloc.deallocate(_ptr, _capacity);
 			_ptr = _alloc.allocate(x._capacity);
-			for (size_type i = 0; i < x._size; ++i)
+			for (size_type i = 0; i < x._size; ++i) {
+				if (i < _size) _alloc.destory(_ptr[i]);
 				_alloc.construct(_ptr + i, x[i]);
+			}
+			_alloc.deallocate(_ptr, _capacity);
 			_size = x._size;
 			_capacity = x._capacity;
 		}

@@ -12,7 +12,7 @@
 
 #include "vector.hpp"
 #include <vector>
-#include "../catch.hpp"
+#include "catch.hpp"
 
 TEMPLATE_TEST_CASE("Insert in empty vector through iterator", "[vector] [insert]", int) {
 	ft::vector<TestType>						ft_vector(10);

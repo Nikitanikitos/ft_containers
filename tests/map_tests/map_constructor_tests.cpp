@@ -12,7 +12,7 @@
 
 #include <map>
 #include "map.hpp"
-#include "../catch.hpp"
+#include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG( "Default Constructors in map container", "[map] [constructor]",
 															((typename T, int V), T, V), (int, 10), (char, 20)) {

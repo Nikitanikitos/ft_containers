@@ -18,6 +18,8 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 								   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::map<T, double>		ft_map;
 	std::map<T, double>		map;
+	typename ft::map<T, double>::iterator		ft_it;
+	typename std::map<T, double>::iterator		it;
 
 	SECTION("1 node") {
 		ft_map.insert(std::make_pair(21, 21.42));
@@ -35,8 +37,10 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 			REQUIRE(*ft_map.begin() == *map.begin());
 		}
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 
 	SECTION("in descending order") {
@@ -47,8 +51,10 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 			REQUIRE(*ft_map.begin() == *map.begin());
 		}
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 
 	SECTION("in random value") {
@@ -65,8 +71,10 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 			REQUIRE(*ft_map.begin() == *map.begin());
 		}
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 }
 
@@ -109,23 +117,29 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through two iterator", "[map] [insert]",
 		ft_map.insert(ft_map_for_insert.begin(), ft_map_for_insert.end());
 		map.insert(map_for_insert.begin(), map_for_insert.end());
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 
 	SECTION("from first to middle") {
 		ft_map.insert(ft_map_for_insert.begin(), ft_it);
 		map.insert(map_for_insert.begin(), it);
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 
 	SECTION("from middle to first") {
 		ft_map.insert(ft_it, ft_map_for_insert.end());
 		map.insert(it, map_for_insert.end());
 
+		it = map.begin();
 		REQUIRE(map.size() == ft_map.size());
-		REQUIRE(*ft_map.begin() == *map.begin());
+		for (ft_it = ft_map.begin(); ft_it != ft_map.end(); ++ft_it)
+			REQUIRE(*ft_it == *it++);
 	}
 }

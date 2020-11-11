@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:55:23 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 21:54:56 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/12 00:52:51 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define FT_CONTAINERS_SET_HPP
 
 # include "ft.hpp"
+# include "queue.hpp"
 
 template <class T, class Compare, class Alloc>
 class	ft::set {
 	typedef				T												key_type;
 	typedef				T												mapped_type;
-	typedef				std::pair<const key_type, mapped_type>			value_type;
+	typedef				key_type										value_type;
 	typedef				Compare											key_compare;
 	typedef				Compare											value_compare;
 	typedef				Alloc											allocator_type;
@@ -137,11 +138,11 @@ private:
 			x->_left = 0;
 			x->_right = 0;
 
-			if (_compare(val.first, _first_node->_parent->_value->first)) {
+			if (_compare(val, *_first_node->_parent->_value)) {
 				x->_left = _first_node;
 				_first_node->_parent = x;
 			}
-			else if (_compare(_last_node->_parent->_value->first, val.first)) {
+			else if (_compare(*_last_node->_parent->_value, val)) {
 				x->_right = _last_node;
 				_last_node->_parent = x;
 			}
@@ -164,7 +165,7 @@ private:
 		}
 
 		void		_empty_tree_init() {
-			value_type	*value = _alloc.allocate(1);
+			value_type*		value = _alloc.allocate(1);
 
 			_alloc.construct(value, value_type());
 			_last_node = _alloc_rebind.allocate(1);
@@ -193,9 +194,9 @@ private:
 
 		std::pair<_node_t*, bool>		_put(_node_t *node, const value_type& val) {
 			std::pair<_node_t*, bool>	pair;
-			bool		compare = _compare(val, node->_value);
+			bool		compare = _compare(val, *node->_value);
 
-			if (val == node->_value)
+			if (val == *node->_value)
 				return (std::make_pair(node, false));
 			else if (_is_null_node(node->_left) && compare) {
 				node->_left = _create_new_node(val, node);
@@ -261,9 +262,9 @@ private:
 		_node_t*		_delete(_node_t *node, const key_type &key) {
 			if (_is_null_node(node)) return (node);
 
-			bool	compare = _compare(node->_value, key);
+			bool	compare = _compare(*node->_value, key);
 
-			if (compare == 0 && node->_value != key) {
+			if (compare == 0 && *node->_value != key) {
 				if (_is_black(node->_left)&& _is_black(node->_left->_left))
 					node = _move_red_left(node);
 				node->_left = _delete(node->_left, key);
@@ -271,11 +272,11 @@ private:
 			else {
 				if (_is_red(node->_left))
 					node = _rotate_right(node);
-				if (node->_value == key && _is_null_node(node->_right))
+				if (*node->_value == key && _is_null_node(node->_right))
 					return (_destroy_node(node));
 				if (_is_black(node->_right) && _is_black(node->_right->_left))
 					node = _move_red_right(node);
-				if (node->_value == key) {
+				if (*node->_value == key) {
 					_alloc.destroy(node->_value);
 					_alloc.deallocate(node->_value, 1);
 					node->_value = _min(node->_right);
@@ -291,9 +292,9 @@ private:
 			_node_t*	result = node;
 
 			while (result) {
-				if (key == result->_value)
+				if (key == *result->_value)
 					break ;
-				else if (_compare(key, result->_value))
+				else if (_compare(key, *result->_value))
 					result = result->_left;
 				else
 					result = result->_right;
@@ -696,7 +697,7 @@ public:
 			_tree._size++;
 		_tree._root->_parent = 0;
 		_tree._root->_color = false;
-		return (std::make_pair(find(val.first), pair.second));
+		return (std::make_pair(find(val), pair.second));
 	}
 
 	iterator	insert(iterator position, const value_type& val) {
@@ -712,14 +713,15 @@ public:
 	}
 
 	void						erase(iterator position) {
-		_node_type*	node = position._ptr;
-		erase(node->_value);
+		_node_type*		node = position._ptr;
+
+		erase(*node->_value);
 	}
 
 	size_type					erase(const key_type& k) {
-		if (k == _tree._last_node->_parent->_value)
+		if (k == *_tree._last_node->_parent->_value)
 			_tree._root = _tree._delete_max(_tree._root);
-		else if (k == _tree._first_node->_parent->_value)
+		else if (k == *_tree._first_node->_parent->_value)
 			_tree._root = _tree._delete_min(_tree._root);
 		else
 			_tree._root = _tree._delete(_tree._root, k);
@@ -732,7 +734,7 @@ public:
 		queue<key_type>		queue;
 
 		for (; first != last; ++first)
-			queue.push(first);
+			queue.push(*first);
 		while (!queue.empty()) {
 			erase(queue.front());
 			queue.pop();
