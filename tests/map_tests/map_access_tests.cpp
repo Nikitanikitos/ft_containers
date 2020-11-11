@@ -14,7 +14,6 @@
 #include "map.hpp"
 #include "../catch.hpp"
 
-
 TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item vector_tests map", "[map] [access]",
 					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::map<T, char>		ft_map;
