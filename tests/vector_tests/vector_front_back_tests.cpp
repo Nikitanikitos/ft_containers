@@ -14,8 +14,7 @@
 #include <vector>
 #include "vector.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Front back vector", "[vector] [front] [back]",
-																			 ((typename T, int V), T, V), (int, 21)) {
+TEMPLATE_TEST_CASE_SIG("Front back vector", "[vector] [front] [back]", ((typename T, int V), T, V), (int, 21)) {
 	ft::vector<T>		ft_vector;
 	std::vector<T>		vector;
 

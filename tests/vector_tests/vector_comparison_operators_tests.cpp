@@ -14,8 +14,8 @@
 #include "vector.hpp"
 #include "../catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" vector", "[vector] [operator more] [comparison operators]",
-																			((typename T, int V), T, V), (int, 12)) {
+TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" vector",
+					   "[vector] [operator more] [comparison operators]", ((typename T, int V), T, V), (int, 12)) {
 	ft::vector<T>		ft_lhs;
 	ft::vector<T>		ft_rhs;
 	std::vector<T>		lhs;
@@ -67,8 +67,8 @@ TEMPLATE_TEST_CASE_SIG("Operator \"more\" and \"more or equal\" vector", "[vecto
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" vector", "[vector] [operator more] [comparison operators]",
-																			   ((typename T, int V), T, V), (int, 12)) {
+TEMPLATE_TEST_CASE_SIG("Operator \"less\" and \"less or equal\" vector",
+				   "[vector] [operator more] [comparison operators]", ((typename T, int V), T, V), (int, 12)) {
 	ft::vector<T>		ft_lhs;
 	ft::vector<T>		ft_rhs;
 	std::vector<T>		lhs;

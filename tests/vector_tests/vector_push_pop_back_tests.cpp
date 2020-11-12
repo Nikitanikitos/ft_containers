@@ -65,7 +65,7 @@ TEMPLATE_TEST_CASE("Push Back in vector with size = 1", "[vector] [push]", int, 
 }
 
 TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
-												   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+											   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::vector<T>						ft_vector_number;
 	std::vector<T>						vector_number;
 	ft::vector<std::string>				ft_vector_string;
@@ -80,9 +80,8 @@ TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
 		REQUIRE(vector_number.size() == ft_vector_number.size());
 		REQUIRE(vector_number.front() == ft_vector_number.front());
 		REQUIRE(vector_number.back() == ft_vector_number.back());
-		for (size_t i = 0; i < vector_number.size(); ++i) {
+		for (size_t i = 0; i < vector_number.size(); ++i)
 			REQUIRE(ft_vector_number[i] == vector_number[i]);
-		}
 	}
 
 	SECTION("Push back string") {
@@ -94,9 +93,8 @@ TEMPLATE_TEST_CASE_SIG("Push back many times", "[vector] [push]",
 		REQUIRE(vector_string.size() == ft_vector_string.size());
 		REQUIRE(vector_string.front() == ft_vector_string.front());
 		REQUIRE(vector_string.back() == ft_vector_string.back());
-		for (size_t i = 0; i < vector_string.size(); ++i) {
+		for (size_t i = 0; i < vector_string.size(); ++i)
 			REQUIRE(ft_vector_string[i] == vector_string[i]);
-		}
 	}
 }
 
@@ -124,7 +122,7 @@ TEMPLATE_TEST_CASE("Pop Back in vector with size = 1", "[vector] [pop]", int, fl
 }
 
 TEMPLATE_TEST_CASE_SIG("Pop back many times", "[vector] [pop]",
-												   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+											   ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::vector<T>						ft_vector_number;
 	std::vector<T>						vector_number;
 	ft::vector<std::string>				ft_vector_string;
@@ -144,9 +142,8 @@ TEMPLATE_TEST_CASE_SIG("Pop back many times", "[vector] [pop]",
 		REQUIRE(vector_number.size() == ft_vector_number.size());
 		REQUIRE(vector_number.front() == ft_vector_number.front());
 		REQUIRE(vector_number.back() == ft_vector_number.back());
-		for (size_t i = 0; i < vector_number.size(); ++i) {
+		for (size_t i = 0; i < vector_number.size(); ++i)
 			REQUIRE(ft_vector_number[i] == vector_number[i]);
-		}
 	}
 
 	SECTION("Push back string") {
@@ -163,8 +160,7 @@ TEMPLATE_TEST_CASE_SIG("Pop back many times", "[vector] [pop]",
 		REQUIRE(vector_string.size() == ft_vector_string.size());
 		REQUIRE(vector_string.front() == ft_vector_string.front());
 		REQUIRE(vector_string.back() == ft_vector_string.back());
-		for (size_t i = 0; i < vector_string.size(); ++i) {
+		for (size_t i = 0; i < vector_string.size(); ++i)
 			REQUIRE(ft_vector_string[i] == vector_string[i]);
-		}
 	}
 }
