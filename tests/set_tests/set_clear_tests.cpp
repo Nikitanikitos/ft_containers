@@ -14,7 +14,7 @@
 #include "set.hpp"
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE("Clear set",  "[set] [clear]", int, float, char) {
+TEMPLATE_TEST_CASE("Clear set", "[set] [clear]", int, float, char) {
 	ft::set<TestType>		ft_set;
 	std::set<TestType>		set;
 

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:08:43 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/12 01:09:30 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/12 01:10:38 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "set.hpp"
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Lower/upper bound test in map", "[map] [lower_bound] [upper_bound]",
-					   ((typename T, int V), T, V), (int, 10)) {
+TEMPLATE_TEST_CASE_SIG("Lower/upper bound test in set", "[set] [lower_bound] [upper_bound]",
+														   ((typename T, int V), T, V), (int, 10)) {
 	ft::set<T>							ft_set;
 	std::set<T>							set;
 	typename ft::set<T>::iterator		ft_it;
@@ -51,7 +51,7 @@ TEMPLATE_TEST_CASE_SIG("Lower/upper bound test in map", "[map] [lower_bound] [up
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Equal range test in map", "[map] [equal_range]", ((typename T, int V), T, V), (int, 10)) {
+TEMPLATE_TEST_CASE_SIG("Equal range test in set", "[set] [equal_range]", ((typename T, int V), T, V), (int, 10)) {
 	ft::set<T>							ft_set;
 	std::set<T>							set;
 	std::pair<typename ft::set<T>::iterator, typename ft::set<T>::iterator>		ft_result;

@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 01:07:03 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/12 01:07:03 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/12 01:08:10 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "set.hpp"
 #include "catch.hpp"
 
-TEMPLATE_TEST_CASE_SIG("Find method in map", "[map] [access]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
-	ft::set<T>		ft_set;
-	std::set<T>		set;
+TEMPLATE_TEST_CASE_SIG("Find method in set", "[set] [access]",
+													   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+	ft::set<T>							ft_set;
+	std::set<T>							set;
 	typename ft::set<T>::iterator		ft_it;
 	typename std::set<T>::iterator		it;
 

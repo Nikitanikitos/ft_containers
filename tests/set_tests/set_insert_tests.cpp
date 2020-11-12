@@ -15,9 +15,9 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Insert in set through value", "[set] [insert]",
-					   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
-	ft::set<T>		ft_set;
-	std::set<T>		set;
+									   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+	ft::set<T>							ft_set;
+	std::set<T>							set;
 	typename ft::set<T>::iterator		ft_it;
 	typename std::set<T>::iterator		it;
 
@@ -77,7 +77,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in set through value", "[set] [insert]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in set through two iterator", "[set] [insert]",
-					   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+										  ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::set<T>							ft_set;
 	std::set<T>							set;
 	ft::set<T>							ft_set_for_insert;
