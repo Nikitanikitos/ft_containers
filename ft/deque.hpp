@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 23:06:19 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/12 14:04:39 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,15 +289,16 @@ private:
 	}
 
 	size_type	_index_element(iterator &position) {
-		size_type	i = 0;
+		size_type	i;
 
-		while (_ptr + i + _offset_front != position._ptr)
+		for (i = 0; _ptr + i + _offset_front != position._ptr;)
 			i++;
 		return(i);
 	}
 
 public:
-	explicit deque (const alloc_type& alloc = alloc_type()) : _ptr(0), _capacity(0), _offset_front(0), _offset_back(0), _size(0), _alloc(alloc) { }
+	explicit deque (const alloc_type& alloc = alloc_type()) : _ptr(0), _capacity(0), _offset_front(0), _offset_back(0),
+																							_size(0), _alloc(alloc) { }
 
 	explicit deque (size_type n, const value_type& val = value_type(), const alloc_type& alloc = alloc_type())
 																									: _alloc(alloc) {
@@ -307,22 +308,22 @@ public:
 		_size = n;
 		_capacity = n + 1;
 		_offset_front = 0;
-		_offset_back = 0;
+		_offset_back = 1;
 	}
 
 	template <class InputIterator>
 	deque (InputIterator first, InputIterator last, const alloc_type& alloc = alloc_type(),
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-									: _ptr(0), _capacity(0), _offset_front(0), _offset_back(0), _size(0), _alloc(alloc) {
+								: _ptr(0), _capacity(0), _offset_front(0), _offset_back(0), _size(0), _alloc(alloc) {
 		for (; first != last; ++first)
 			push_back(*first);
 	}
 
-	deque (const deque& x) : _capacity(x._capacity), _offset_front(x._offset_front), _offset_back(x._offset_back), _size(x._size), _alloc(x._alloc) {
+	deque (const deque& x) : _capacity(x._capacity), _offset_front(x._offset_front), _offset_back(x._offset_back),
+																					_size(x._size), _alloc(x._alloc) {
 		_ptr = _alloc.allocate(_capacity);
-		for (size_type i = 0; i < _size; ++i) {
+		for (size_type i = 0; i < _size; ++i)
 			_alloc.construct(_ptr + i + _offset_front, x[i]);
-		}
 	}
 
 	~deque() {
@@ -332,17 +333,8 @@ public:
 
 	deque& operator=(const deque& x) {
 		if (this != &x) {
-			_alloc.deallocate(_ptr, _capacity);
-
-			_capacity = x._capacity;
-			_offset_front = x._offset_front;
-			_offset_back = x._offset_back;
+			assign(x.begin(), x.end());
 			_alloc = x._alloc;
-			_size = x._size;
-
-			_ptr = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < _size; ++i)
-				_alloc.construct(_ptr + i + _offset_front, x[i]);
 		}
 		return (*this);
 	}
@@ -383,12 +375,15 @@ public:
 	reference				front()			{ return (_ptr[_offset_front]); }
 	const_reference			front() const	{ return (_ptr[_offset_front]); }
 	reference				back()			{ return (_ptr[_size + _offset_front - 1]); }
-	const_reference			back() const	{ return (_ptr[_size - 1 + _offset_front]); }
+	const_reference			back() const	{ return (_ptr[_size + _offset_front - 1]); }
 
 	template <class InputIterator>
 	void					assign(InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
+		for (int i = 0; i < _size; ++i)
+			_alloc.destroy(_ptr + _offset_front + i);
 		_alloc.deallocate(_ptr, _capacity);
+
 		_ptr = _alloc.allocate(_capacity);
 		_offset_front = 0;
 		_offset_back = 0;
@@ -398,27 +393,28 @@ public:
 	}
 
 	void					assign(size_type n, const value_type& val) {
+		for (int i = 0; i < _size; ++i)
+			_alloc.destroy(_ptr + _offset_front + i);
 		_alloc.deallocate(_ptr, _capacity);
-		_ptr = _alloc.allocate(n);
-		_capacity = n;
+
+		_ptr = _alloc.allocate(n + 1);
+		_capacity = n + 1;
 		_offset_front = 0;
-		_offset_back = 0;
+		_offset_back = 1;
 		_size = n;
 		for (size_type i = 0; i < n; i++)
 			_alloc.construct(_ptr + i, val);
 	}
 
 	void					push_back(const value_type& val) {
-		if (_offset_back < 5)
-			_realloc(_offset_front, _offset_back + 20);
+		if (_offset_back < 5) _realloc(_offset_front, _offset_back + 20);
 		_alloc.construct(_ptr + _size + _offset_front, val);
 		_size++;
 		_offset_back--;
 	}
 
 	void					push_front(const value_type& val) {
-		if (_offset_front < 5)
-			_realloc(_offset_front + 15, _offset_back);
+		if (_offset_front < 5) _realloc(_offset_front + 15, _offset_back);
 		_offset_front--;
 		_alloc.construct(_ptr + _offset_front, val);
 		_size++;
@@ -439,8 +435,8 @@ public:
 	}
 
 	iterator				insert(iterator position, const value_type& val) {
-		size_type i = _index_element(position);
-		size_type index_for_iter = i;
+		size_type	i = _index_element(position);
+		size_type	index_for_iter = i;
 
 		if (_offset_back < 2)
 			_realloc(_offset_front, _offset_back + 2);
@@ -455,7 +451,7 @@ public:
 	}
 
 	void					insert(iterator position, size_type n, const value_type& val) {
-		size_type i = _index_element(position);
+		size_type	i = _index_element(position);
 
 		if (_offset_back < n)
 			_realloc(_offset_front, _offset_back + n + 1);
@@ -471,8 +467,8 @@ public:
 	template <class InputIterator>
 	void					insert(iterator position, InputIterator first, InputIterator last,
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-		size_type n = 0;
-		size_type i = _index_element(position);
+		size_type	n = 0;
+		size_type	i = _index_element(position);
 
 		for (InputIterator	temp_first = first; temp_first != last ; ++temp_first)
 			n++;
