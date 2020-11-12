@@ -215,10 +215,10 @@ public:
 private:
 	typedef typename allocator_type::template rebind<_list_t>::other		alloc_rebind;
 
-	_list_t			*_end_node;
-	size_type		_size;
-	alloc_rebind	_alloc_rebind;
-	allocator_type	_alloc;
+	_list_t*			_end_node;
+	size_type			_size;
+	alloc_rebind		_alloc_rebind;
+	allocator_type		_alloc;
 
 	void		_create_end_node() {
 		value_type	*value_node = _alloc.allocate(1);
@@ -272,7 +272,8 @@ private:
 public:
 	explicit list(const allocator_type& alloc = allocator_type()) : _size(0), _alloc(alloc) { _create_end_node(); };
 
-	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc) {
+	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+																							: _size(0), _alloc(alloc) {
 		_create_end_node();
 
 		for (size_type i = 0; i < n; ++i)
@@ -282,7 +283,7 @@ public:
 	template <class InputIterator>
 	list(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 										typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0)
-															: _size(0), _alloc(alloc) {
+																							: _size(0), _alloc(alloc) {
 		_create_end_node();
 
 		for(; first != last; ++first)
@@ -290,11 +291,9 @@ public:
 	}
 
 	list(const list& list) : _size(0), _alloc(list._alloc) {
-		const_iterator	it = list.begin();
-
 		_create_end_node();
 
-		for(; it != list.end(); ++it)
+		for(const_iterator	it = list.begin(); it != list.end(); ++it)
 			push_back(*it);
 	}
 
@@ -302,12 +301,10 @@ public:
 		if (this == &list)
 			return (*this);
 
-		const_iterator	begin = list.begin();
-		const_iterator	end = list.end();
 		size_type		i = 0;
 		_list_t			*temp_node = _end_node->next;
 
-		for (; begin != end; begin++) {
+		for (const_iterator	begin = list.begin(); begin != list.end(); begin++) {
 			if (_size >= list._size)
 				break ;
 			else if (i++ < _size) {
@@ -498,7 +495,7 @@ public:
 			_end_node->next = temp_node->next;
 			_destroy_node(temp_node);
 		}
-		_end_node->prev = _end_node; // TODO вынести в отдельный метод
+		_end_node->prev = _end_node;
 		_end_node->next = _end_node;
 	}
 
@@ -571,7 +568,7 @@ public:
 
 	void			unique() {
 		for (_list_t*	list = _end_node->next; list != _end_node;)
-			(*list->value == *list->next->value) ? list = erase(list)._ptr :list = list->next;
+			(*list->value == *list->next->value) ? list = erase(list)._ptr : list = list->next;
 	}
 
 	template <class BinaryPredicate>
@@ -611,8 +608,8 @@ public:
 
 	void			sort() {
 		value_type	temp_value;
-		_list_t		*temp_node;
-		_list_t		*list;
+		_list_t*	temp_node;
+		_list_t*	list;
 
 		list = _end_node->next;
 		while (list != _end_node->prev) {
@@ -631,9 +628,9 @@ public:
 
 	template <class Compare>
 	void			sort(Compare comp) {
-		value_type temp_value;
-		_list_t *temp_node;
-		_list_t *list;
+		value_type	temp_value;
+		_list_t*	temp_node;
+		_list_t*	list;
 
 		list = _end_node->next;
 		while (list != _end_node->prev) {
@@ -652,8 +649,8 @@ public:
 
 	void			reverse() {
 		value_type	temp_value;
-		_list_t		*start_list = _end_node->next;
-		_list_t		*end_list = _end_node->prev;
+		_list_t*	start_list = _end_node->next;
+		_list_t*	end_list = _end_node->prev;
 
 		for (int i = 0; i < _size / 2; ++i) {
 			temp_value = start_list->value;
