@@ -16,42 +16,36 @@
 
 TEMPLATE_TEST_CASE_SIG( "Default Constructors in deque container", "[deque] [constructor]",
 																((typename T, int V), T, V), (int, 10), (char, 20)) {
+	SECTION("Create empty deque") {
+		ft::deque<T>		ft_deque;
+		std::deque<T>		deque;
 
-		SECTION("Create empty deque") {
-			ft::deque<T>		ft_deque;
-			std::deque<T>		deque;
+		REQUIRE(deque.empty() == ft_deque.empty());
+		REQUIRE(deque.size() == ft_deque.size());
+	}
+
+	SECTION("Create with size") {
+		for (int i = 1; i < V; i++) {
+			ft::deque<T>		ft_deque(i);
+			std::deque<T>		deque(i);
+
+			REQUIRE(ft_deque.empty() == ft_deque.empty());
+			REQUIRE(ft_deque.size() == ft_deque.size());
+			REQUIRE(ft_deque.front() == ft_deque.front());
+			REQUIRE(ft_deque.back() == ft_deque.back());
+		}
+	}
+
+	SECTION("Create with size and default value") {
+		for (int i = 1; i < V; i++) {
+			ft::deque<T>		ft_deque(i, 'a' + i);
+			std::deque<T>		deque(i, 'a' + i);
 
 			REQUIRE(deque.empty() == ft_deque.empty());
 			REQUIRE(deque.size() == ft_deque.size());
+			REQUIRE(ft_deque.front() == ft_deque.front());
+			REQUIRE(ft_deque.back() == ft_deque.back());
 		}
-
-		SECTION("Create with size") {
-			for (int i = 1; i < V; i++) {
-				ft::deque<T>		ft_deque(i);
-				std::deque<T>		deque(i);
-
-				REQUIRE(ft_deque.empty() == ft_deque.empty());
-				REQUIRE(ft_deque.size() == ft_deque.size());
-				REQUIRE(ft_deque.front() == ft_deque.front());
-				REQUIRE(ft_deque.back() == ft_deque.back());
-
-				ft_deque.clear();
-			}
-		}
-
-		SECTION("Create with size and default value") {
-			for (int i = 1; i < V; i++) {
-				ft::deque<T>		ft_deque(i, 'a' + i);
-				std::deque<T>		deque(i, 'a' + i);
-
-				REQUIRE(deque.empty() == ft_deque.empty());
-				REQUIRE(deque.size() == ft_deque.size());
-				REQUIRE(ft_deque.front() == ft_deque.front());
-				REQUIRE(ft_deque.back() == ft_deque.back());
-
-				deque.clear();
-				ft_deque.clear();
-			}
 	}
 }
 
@@ -81,9 +75,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in deque container", "[deque] [construc
 			REQUIRE(deque.size() == ft_deque.size());
 			REQUIRE(deque.back() == ft_deque.back());
 			REQUIRE(deque.front() == ft_deque.front());
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 
@@ -103,9 +94,6 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in deque container", "[deque] [construc
 			REQUIRE(deque.size() == ft_deque.size());
 			REQUIRE(deque.back() == ft_deque.back());
 			REQUIRE(deque.front() == ft_deque.front());
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 }
@@ -136,9 +124,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in deque container", "[deque] [cons
 			REQUIRE(deque.size() == ft_deque.size());
 			REQUIRE(deque.back() == ft_deque.back());
 			REQUIRE(deque.front() == ft_deque.front());
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 
@@ -155,9 +140,6 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in deque container", "[deque] [cons
 
 			REQUIRE(deque.size() == ft_deque.size());
 			REQUIRE(deque.back() == ft_deque.back());
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 
@@ -206,7 +188,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in deque container", "[deque] 
 
 	SECTION("With size") {
 		for (int i = 0; i < V; i++) {
-
 			ft::deque<T>	ft_deque(ft_deque_for_copy.begin(), ft_deque_for_copy.end());
 			std::deque<T>	deque(deque_for_copy.begin(), deque_for_copy.end());
 
@@ -221,9 +202,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in deque container", "[deque] 
 			ft_deque_for_copy.push_front(2 - i);
 			deque_for_copy.push_front(2 - i);
 			deque_for_copy.push_back(i);
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 
@@ -232,7 +210,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in deque container", "[deque] 
 		std::deque<T>		deque_for_copy(0, 'a');
 
 		for (int i = 0; i < V; i++) {
-
 			ft::deque<T>	ft_deque(ft_deque_for_copy.begin(), ft_deque_for_copy.end());
 			std::deque<T>	deque(deque_for_copy.begin(), deque_for_copy.end());
 
@@ -247,9 +224,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in deque container", "[deque] 
 			ft_deque_for_copy.push_front(2 - i);
 			deque_for_copy.push_front(2 - i);
 			deque_for_copy.push_back(i);
-
-			deque.clear();
-			ft_deque.clear();
 		}
 	}
 }

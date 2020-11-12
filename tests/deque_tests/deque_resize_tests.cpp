@@ -15,25 +15,25 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Resize deque with empty vector", "[deque] [resize]",
-																			((typename T,  int V), T, V), (int, 14)) {
-	ft::deque<T>			ft_deque;
-	std::deque<T>			deque;
+																		((typename T,  int V), T, V), (int, 14)) {
+	ft::deque<T>		ft_deque;
+	std::deque<T>		deque;
 
 	SECTION("resize = 0") {
-	ft_deque.resize(0, 13);
-	deque.resize(0, 13);
+		ft_deque.resize(0, 13);
+		deque.resize(0, 13);
 
-	REQUIRE(deque.size() == ft_deque.size());
-	REQUIRE(deque.empty() == ft_deque.empty());
+		REQUIRE(deque.size() == ft_deque.size());
+		REQUIRE(deque.empty() == ft_deque.empty());
 	}
 
 	SECTION("resize = 1") {
-	ft_deque.resize(1, 13);
-	deque.resize(1, 13);
+		ft_deque.resize(1, 13);
+		deque.resize(1, 13);
 
-	REQUIRE(deque.size() == ft_deque.size());
-	REQUIRE(deque.empty() == ft_deque.empty());
-	REQUIRE(deque.front() == ft_deque.front());
+		REQUIRE(deque.size() == ft_deque.size());
+		REQUIRE(deque.empty() == ft_deque.empty());
+		REQUIRE(deque.front() == ft_deque.front());
 	}
 
 	SECTION("resize = V") {

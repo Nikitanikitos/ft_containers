@@ -40,17 +40,17 @@ TEMPLATE_TEST_CASE_SIG("Erase in deque through one iterator", "[deque] [erase]",
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 		SECTION("every two time") {
-			for (int i = 0; i < V / 2; ++ft_it) {
-				if (i++ % 2) {
-					ft_it = ft_deque.erase(ft_it);
-					it = deque.erase(it);
-					REQUIRE(*ft_it == *it);
-					REQUIRE(deque.size() == ft_deque.size());
-				}
-				++it;
+		for (int i = 0; i < V / 2; ++ft_it) {
+			if (i++ % 2) {
+				ft_it = ft_deque.erase(ft_it);
+				it = deque.erase(it);
+				REQUIRE(*ft_it == *it);
+				REQUIRE(deque.size() == ft_deque.size());
 			}
+			++it;
+		}
 
-			REQUIRE(deque.size() == ft_deque.size());
+		REQUIRE(deque.size() == ft_deque.size());
 			for (size_t i = 0; i < ft_deque.size(); ++i)
 				REQUIRE(deque[i] == ft_deque[i]);
 		}
@@ -59,6 +59,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in deque through one iterator", "[deque] [erase]",
 			for (size_t i = 0; i < ft_deque.size() / 2; ++i) {
 				++it; ++ft_it;
 			}
+
 			REQUIRE(*ft_deque.erase(ft_it) == *deque.erase(it));
 			REQUIRE(deque.size() == ft_deque.size());
 			for (size_t i = 0; i < ft_deque.size(); ++i)
@@ -68,7 +69,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in deque through one iterator", "[deque] [erase]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Erase in deque through with two iterator", "[deque] [erase]",
-					   ((typename T, int V), T, V), (int, 10)) {
+																	   ((typename T, int V), T, V), (int, 10)) {
 	ft::deque<T>							ft_deque(1, 23);
 	std::deque<T>							deque(1, 23);
 	typename ft::deque<T>::iterator			ft_it;

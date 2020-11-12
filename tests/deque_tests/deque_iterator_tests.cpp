@@ -30,10 +30,8 @@ TEMPLATE_TEST_CASE_SIG("Default iterator deque", "[deque] [iterator]",
 	SECTION("With one node") {
 		ft_deque.push_back(1);
 		deque.push_back(1);
-		ft_it = ft_deque.begin();
 
-		REQUIRE(ft_it != ft_deque.end());
-		REQUIRE(*ft_it == *deque.begin());
+		REQUIRE(*ft_deque.begin() == *deque.begin());
 	}
 
 	SECTION("With many node") {
@@ -89,7 +87,7 @@ TEMPLATE_TEST_CASE_SIG("Default iterator deque", "[deque] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Default constant iterator deque", "[deque] [iterator]",
-															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::deque<T>								ft_deque;
 	std::deque<T>								deque;
 	typename ft::deque<T>::const_iterator		ft_it;
@@ -104,10 +102,8 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator deque", "[deque] [iterator]",
 	SECTION("With one node") {
 		ft_deque.push_back(1);
 		deque.push_back(1);
-		ft_it = ft_deque.begin();
 
-		REQUIRE(ft_it != ft_deque.end());
-		REQUIRE(*ft_it == *deque.begin());
+		REQUIRE(*ft_deque.begin() == *deque.begin());
 	}
 
 	SECTION("With many node") {
@@ -163,7 +159,7 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator deque", "[deque] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse iterator deque", "[deque] [iterator]",
-															 ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														 ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::deque<T>								ft_deque;
 	std::deque<T>								deque;
 	typename ft::deque<T>::reverse_iterator		ft_it;
@@ -178,10 +174,8 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator deque", "[deque] [iterator]",
 	SECTION("With one node") {
 		ft_deque.push_back(1);
 		deque.push_back(1);
-		ft_it = ft_deque.rbegin();
 
-		REQUIRE(ft_it != ft_deque.rend());
-		REQUIRE(*ft_it == *deque.rbegin());
+		REQUIRE(*ft_deque.rbegin() == *deque.rbegin());
 	}
 
 	SECTION("With many node") {
@@ -237,7 +231,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator deque", "[deque] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator deque", "[deque] [iterator]",
-															   ((typename T, int V), T, V), (int, 10), (char, 10)) {
+														   ((typename T, int V), T, V), (int, 10), (char, 10)) {
 	ft::deque<T>										ft_deque;
 	std::deque<T>										deque;
 	typename ft::deque<T>::const_reverse_iterator		ft_it;
@@ -253,9 +247,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator deque", "[deque] [iterator]",
 		ft_deque.push_back(1);
 		deque.push_back(1);
 
-		ft_it = ft_deque.rbegin();
-		REQUIRE(ft_it != ft_deque.rend());
-		REQUIRE(*ft_it == *deque.rbegin());
+		REQUIRE(*ft_deque.rbegin() == *deque.rbegin());
 	}
 
 	SECTION("With many node") {

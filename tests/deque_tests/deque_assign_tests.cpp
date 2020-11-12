@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Assign with iterators in deque", "[deque] [assign]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::deque<T>							ft_deque_for_assign;
 	std::deque<T>							deque_for_assign;
 	typename ft::deque<T>::iterator			ft_it;
@@ -39,6 +39,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in deque", "[deque] [assign]",
 	SECTION("One node") {
 		ft::deque<T>		ft_deque;
 		std::deque<T>		deque;
+
 		ft_deque_for_assign.push_back(T());
 		deque_for_assign.push_back(T());
 
@@ -68,23 +69,25 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in deque", "[deque] [assign]",
 
 		ft_deque.assign(ft_deque_for_assign.begin(), ft_deque_for_assign.end());
 		deque.assign(deque_for_assign.begin(), deque_for_assign.end());
+
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
+		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
+		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
-		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
-		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 
 	SECTION("Many with greater size") {
 		ft::deque<T>	ft_deque;
 		std::deque<T>	deque;
+
 		for (int i = 0; i < V; ++i) {
 			ft_deque_for_assign.push_back(i + 3);
 			deque_for_assign.push_back(i + 3);
@@ -96,18 +99,19 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in deque", "[deque] [assign]",
 
 		ft_deque.assign(ft_deque_for_assign.begin(), ft_deque_for_assign.end());
 		deque.assign(deque_for_assign.begin(), deque_for_assign.end());
+
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
+		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
+		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
-		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
-		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 
 	SECTION("Many with lower size") {
@@ -124,24 +128,25 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in deque", "[deque] [assign]",
 
 		ft_deque.assign(ft_deque_for_assign.begin(), ft_deque_for_assign.end());
 		deque.assign(deque_for_assign.begin(), deque_for_assign.end());
+
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
+		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
+		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V / 2; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_deque_for_assign.front() == ft_deque.front());
-		REQUIRE(ft_deque_for_assign.back() == ft_deque.back());
-		REQUIRE(ft_deque_for_assign.size() == ft_deque.size());
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Assign with size and val in deque", "[deque] [assign]",
-					   ((typename T, int V), T, V), (int, 10), (char, 20)) {
-	typename ft::deque<T>::iterator		ft_it;
+					   								((typename T, int V), T, V), (int, 10), (char, 20)) {
+	typename ft::deque<T>::iterator			ft_it;
 	typename std::deque<T>::iterator		it;
 
 	SECTION("Empty list") {
@@ -180,12 +185,12 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val in deque", "[deque] [assign]",
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 
 	SECTION("Many with greater size") {
@@ -197,12 +202,12 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val in deque", "[deque] [assign]",
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 
 	SECTION("Many with lower size") {
@@ -214,11 +219,11 @@ TEMPLATE_TEST_CASE_SIG("Assign with size and val in deque", "[deque] [assign]",
 		ft_it = ft_deque.begin();
 		it = deque.begin();
 
+		REQUIRE(deque.size() == ft_deque.size());
 		for (int i = 0; i < V / 2; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(deque.size() == ft_deque.size());
 	}
 }

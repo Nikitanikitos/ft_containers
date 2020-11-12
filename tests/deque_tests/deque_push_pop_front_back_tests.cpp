@@ -101,7 +101,7 @@ TEMPLATE_TEST_CASE("Push back/front in deque with size = 1", "[deque] [push]", i
 }
 
 TEMPLATE_TEST_CASE_SIG("Push back/pop many times in deque", "[deque] [push]",
-					 								  ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+											  ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::deque<T>					ft_deque_number;
 	std::deque<T>					deque_number;
 	ft::deque<std::string>			ft_deque_string;
@@ -204,7 +204,7 @@ TEMPLATE_TEST_CASE("Pop back/front in deque with size = 1", "[deque] [pop]", int
 }
 
 TEMPLATE_TEST_CASE_SIG("Pop back/front many times", "[deque] [pop]",
-													 ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+											 ((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::deque<T>					ft_deque_number;
 	std::deque<T>					deque_number;
 	ft::deque<std::string>			ft_deque_string;
@@ -231,7 +231,6 @@ TEMPLATE_TEST_CASE_SIG("Pop back/front many times", "[deque] [pop]",
 				REQUIRE(ft_deque_number[q] == deque_number[q]);
 			}
 		}
-
 	}
 
 	SECTION("Push back string") {

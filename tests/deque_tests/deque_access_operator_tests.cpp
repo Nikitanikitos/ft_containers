@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item deque", "[deque] [access]",
-	((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+												((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::deque<T>		ft_deque;
 	std::deque<T>		deque;
 
@@ -33,18 +33,18 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at getting an item deque", "[dequ
 	REQUIRE(ft_deque.size() == deque.size());
 
 	SECTION("Operator []") {
-	for (int i = 0; i < V; ++i)
-		REQUIRE(ft_deque[i] == deque[i]);
+		for (int i = 0; i < V; ++i)
+			REQUIRE(ft_deque[i] == deque[i]);
 	}
 
 	SECTION("Method at") {
-	for (size_t i = 0; i < ft_deque.size(); ++i)
-		REQUIRE(ft_deque.at(i) == deque.at(i));
+		for (size_t i = 0; i < ft_deque.size(); ++i)
+			REQUIRE(ft_deque.at(i) == deque.at(i));
 	}
 }
 
 TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes deque", "[deque] [access]",
-													((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
+												((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::deque<T>		ft_deque;
 	std::deque<T>		deque;
 
@@ -70,6 +70,7 @@ TEMPLATE_TEST_CASE_SIG("Operator [] and method at element changes deque", "[dequ
 			ft_deque.at(i) = i - 42;
 			deque.at(i) = i - 42;
 		}
+
 		for (size_t i = 0; i < ft_deque.size(); ++i)
 			REQUIRE(ft_deque.at(i) == deque.at(i));
 	}

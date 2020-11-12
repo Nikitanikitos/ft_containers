@@ -15,8 +15,8 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE("Swap empty deque", "[deque] [swap]", int) {
-	ft::deque<TestType>		ft_deque_1;
-	ft::deque<TestType>		ft_deque_2;
+	ft::deque<TestType>			ft_deque_1;
+	ft::deque<TestType>			ft_deque_2;
 	std::deque<TestType>		deque_1;
 	std::deque<TestType>		deque_2;
 
@@ -31,7 +31,7 @@ TEMPLATE_TEST_CASE("Swap empty deque", "[deque] [swap]", int) {
 	}
 
 	SECTION("Empty with not empty") {
-		ft::deque<TestType>		ft_deque_2(4);
+		ft::deque<TestType>			ft_deque_2(4);
 		std::deque<TestType>		deque_2(4);
 
 		ft_deque_1.swap(ft_deque_2);
@@ -75,7 +75,6 @@ TEMPLATE_TEST_CASE_SIG("Swap deque with equal size", "[deque] [swap]", ((typenam
 	for (size_t i = 0; i < deque_1.size(); ++i) {
 		REQUIRE(deque_1[i] == ft_deque_1[i]);
 		REQUIRE(deque_2[i] == ft_deque_2[i]);
-
 	}
 }
 
