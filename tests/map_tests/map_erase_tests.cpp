@@ -78,7 +78,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through key", "[map] [erase]", ((typename T
 TEMPLATE_TEST_CASE_SIG("Erase in map through iterator", "[map] [erase]", ((typename T, int V), T, V), (int, 10)) {
 	ft::map<T, char>							ft_map;
 	std::map<T, char>							map;
-	typename ft::map<T, char>::iterator		ft_it;
+	typename ft::map<T, char>::iterator			ft_it;
 	typename std::map<T, char>::iterator		it;
 
 	SECTION("with size = 1") {
@@ -133,7 +133,6 @@ TEMPLATE_TEST_CASE_SIG("Erase in map through iterator", "[map] [erase]", ((typen
 				REQUIRE(*it++ == *ft_it);
 		}
 	}
-
 }
 
 TEMPLATE_TEST_CASE_SIG("Erase in map through with two iterator", "[map] [erase]",

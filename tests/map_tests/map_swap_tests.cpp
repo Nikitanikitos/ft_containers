@@ -105,8 +105,8 @@ TEMPLATE_TEST_CASE_SIG("Swap map with greater size", "[map] [swap]", ((typename 
 	std::map<T, char>		map_1;
 	std::map<T, char>		map_2;
 
-	typename ft::map<T, char>::iterator		ft_it_1;
-	typename ft::map<T, char>::iterator		ft_it_2;
+	typename ft::map<T, char>::iterator			ft_it_1;
+	typename ft::map<T, char>::iterator			ft_it_2;
 	typename std::map<T, char>::iterator		it_1;
 	typename std::map<T, char>::iterator		it_2;
 
@@ -146,8 +146,8 @@ TEMPLATE_TEST_CASE_SIG("Swap map with lower size", "[map] [swap]", ((typename T,
 	std::map<T, char>		map_1;
 	std::map<T, char>		map_2;
 
-	typename ft::map<T, char>::iterator		ft_it_1;
-	typename ft::map<T, char>::iterator		ft_it_2;
+	typename ft::map<T, char>::iterator			ft_it_1;
+	typename ft::map<T, char>::iterator			ft_it_2;
 	typename std::map<T, char>::iterator		it_1;
 	typename std::map<T, char>::iterator		it_2;
 

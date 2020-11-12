@@ -15,7 +15,7 @@
 #include "catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Lower/upper bound test in map", "[map] [lower_bound] [upper_bound]",
-					 														  ((typename T, int V), T, V), (int, 10)) {
+																		  ((typename T, int V), T, V), (int, 10)) {
 	ft::map<T, int>							ft_map;
 	std::map<T, int>						map;
 	typename ft::map<T, int>::iterator		ft_it;
@@ -72,6 +72,5 @@ TEMPLATE_TEST_CASE_SIG("Equal range test in map", "[map] [equal_range]", ((typen
 		result = map.equal_range(1);
 		REQUIRE(*ft_result.first == *result.first);
 		REQUIRE(*ft_result.second == *result.second);
-
 	}
 }

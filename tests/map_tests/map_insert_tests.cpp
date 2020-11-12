@@ -16,8 +16,8 @@
 
 TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 								   ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
-	ft::map<T, double>		ft_map;
-	std::map<T, double>		map;
+	ft::map<T, double>							ft_map;
+	std::map<T, double>							map;
 	typename ft::map<T, double>::iterator		ft_it;
 	typename std::map<T, double>::iterator		it;
 
@@ -79,7 +79,7 @@ TEMPLATE_TEST_CASE_SIG("Insert in map through value", "[map] [insert]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Insert in map through two iterator", "[map] [insert]",
-													 ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+												 ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::map<T, float>							ft_map;
 	std::map<T, float>							map;
 	ft::map<T, float>							ft_map_for_insert;

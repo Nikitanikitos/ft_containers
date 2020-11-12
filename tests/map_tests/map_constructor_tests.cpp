@@ -27,13 +27,13 @@ TEMPLATE_TEST_CASE_SIG( "Default Constructors in map container", "[map] [constru
 }
 
 TEMPLATE_TEST_CASE_SIG("Copy constructor in map container", "[map] [constructor]",
-															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::map<T, float>		ft_map_for_copy;
 	std::map<T, float>		map_for_copy;
 
 	SECTION("Empty map") {
-		ft::map<T, float>			ft_map(ft_map_for_copy);
-		std::map<T, float>			map(map_for_copy);
+		ft::map<T, float>		ft_map(ft_map_for_copy);
+		std::map<T, float>		map(map_for_copy);
 
 		REQUIRE(map.empty() == ft_map.empty());
 		REQUIRE(map.size() == ft_map.size());
@@ -69,8 +69,8 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in map container", "[map] [construc
 
 	SECTION("With size") {
 		for (int i = 0; i < V; i++) {
-			ft::map<T, float>			ft_map = ft_map_for_copy;
-			std::map<T, float>			map = map_for_copy;
+			ft::map<T, float>		ft_map = ft_map_for_copy;
+			std::map<T, float>		map = map_for_copy;
 
 			REQUIRE(map.size() == ft_map.size());
 			if (i > 1) REQUIRE(*map.begin() == *ft_map.begin());
