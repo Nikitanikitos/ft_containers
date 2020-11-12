@@ -14,9 +14,7 @@
 #include <list>
 #include "../catch.hpp"
 
-bool	negative_pred(int &i, int &q) {
-	return (-i == -q);
-}
+bool	negative_pred(int &i, int &q) { return (-i == -q); }
 
 bool	module_pred(const int &i, const int &q) {
 	int 	i_temp = (i < 0) ? -i : i;

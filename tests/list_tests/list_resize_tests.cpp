@@ -15,11 +15,10 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Resize list with empty list", "[list] [resize]", ((typename T,  int V), T, V), (int, 14)) {
-	ft::list<T>		ft_list;
-	std::list<T>	list;
+	ft::list<T>							ft_list;
+	std::list<T>						list;
 	typename ft::list<T>::iterator		ft_it;
 	typename std::list<T>::iterator		it;
-
 
 	SECTION("resize = 0") {
 		ft_list.resize(0, 13);

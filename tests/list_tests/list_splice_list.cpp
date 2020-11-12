@@ -42,7 +42,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_1.size(); ++i) {
+		for (size_t i = 0; i < ft_list_1.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;
@@ -63,7 +63,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_1.size(); ++i) {
+		for (size_t i = 0; i < ft_list_1.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;
@@ -73,7 +73,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 	SECTION("with list size = V at the middle") {
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
-		for (typename ft::list<T>::size_type i = 0; i < list_1.size() / 2; ++i) {
+		for (size_t i = 0; i < list_1.size() / 2; ++i) {
 			++ft_it;
 			++it;
 		}
@@ -85,7 +85,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_1.size(); ++i) {
+		for (size_t i = 0; i < ft_list_1.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;
@@ -93,7 +93,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 
 		ft_it = ft_list_2.begin();
 		it = list_2.begin();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_2.size(); ++i) {
+		for (size_t i = 0; i < ft_list_2.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;
@@ -102,7 +102,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position and x", "[list] [splice]", ((
 }
 
 TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, and i", "[list] [splice]",
-																				((typename T, int V), T, V), (int, 8)) {
+																		((typename T, int V), T, V), (int, 8)) {
 	ft::list<T>							ft_list_1;
 	ft::list<T>							ft_list_2;
 	std::list<T>						list_1;
@@ -130,7 +130,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, and i", "[list] [splice]"
 
 		ft_it = ft_list_2.begin();
 		it = list_2.begin();
-		for (typename ft::list<T>::size_type i = 0; i < list_1.size() / 2; ++i) {
+		for (size_t i = 0; i < list_1.size() / 2; ++i) {
 			++ft_it;
 			++it;
 		}
@@ -143,7 +143,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, and i", "[list] [splice]"
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
 		*ft_list_1.end() = list_1.size();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_1.size(); ++i) {
+		for (size_t i = 0; i < ft_list_1.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;
@@ -180,7 +180,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, first and last", "[list] 
 
 		ft_it = ft_list_2.begin();
 		it = list_2.begin();
-		for (typename ft::list<T>::size_type i = 0; i < list_2.size() / 2; ++i) {
+		for (size_t i = 0; i < list_2.size() / 2; ++i) {
 			++ft_it;
 			++it;
 		}
@@ -194,7 +194,7 @@ TEMPLATE_TEST_CASE_SIG("Splice lists with position, x, first and last", "[list] 
 		ft_it = ft_list_1.begin();
 		it = list_1.begin();
 		*ft_list_1.end() = list_1.size();
-		for (typename ft::list<T>::size_type i = 0; i < ft_list_1.size(); ++i) {
+		for (size_t i = 0; i < ft_list_1.size(); ++i) {
 			REQUIRE(*it == *ft_it);
 			++it;
 			++ft_it;

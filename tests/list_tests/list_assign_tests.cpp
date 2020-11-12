@@ -43,6 +43,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 	SECTION("One node") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
+
 		ft_list_for_assign.push_back(T());
 		list_for_assign.push_back(T());
 
@@ -63,6 +64,7 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 	SECTION("Many with equal size") {
 		ft::list<T>		ft_list;
 		std::list<T>	list;
+
 		for (int i = 0; i < V; ++i) {
 			ft_list_for_assign.push_back(i + 3);
 			list_for_assign.push_back(i + 3);
@@ -75,15 +77,15 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(ft_list_for_assign.front() == ft_list.front());
+		REQUIRE(ft_list_for_assign.back() == ft_list.back());
+		REQUIRE(ft_list_for_assign.size() == ft_list.size());
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_list_for_assign.front() == ft_list.front());
-		REQUIRE(ft_list_for_assign.back() == ft_list.back());
-		REQUIRE(ft_list_for_assign.size() == ft_list.size());
-		REQUIRE(list.size() == ft_list.size());
 	}
 
 	SECTION("Many with greater size") {
@@ -103,15 +105,15 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(ft_list_for_assign.front() == ft_list.front());
+		REQUIRE(ft_list_for_assign.back() == ft_list.back());
+		REQUIRE(ft_list_for_assign.size() == ft_list.size());
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_list_for_assign.front() == ft_list.front());
-		REQUIRE(ft_list_for_assign.back() == ft_list.back());
-		REQUIRE(ft_list_for_assign.size() == ft_list.size());
-		REQUIRE(list.size() == ft_list.size());
 	}
 
 	SECTION("Many with lower size") {
@@ -131,15 +133,15 @@ TEMPLATE_TEST_CASE_SIG("Assign with iterators in list", "[list] [assign]",
 		ft_it = ft_list.begin();
 		it = list.begin();
 
+		REQUIRE(ft_list_for_assign.front() == ft_list.front());
+		REQUIRE(ft_list_for_assign.back() == ft_list.back());
+		REQUIRE(ft_list_for_assign.size() == ft_list.size());
+		REQUIRE(list.size() == ft_list.size());
 		for (int i = 0; i < V / 2; ++i) {
 			REQUIRE(*ft_it == *it);
 			++ft_it;
 			++it;
 		}
-		REQUIRE(ft_list_for_assign.front() == ft_list.front());
-		REQUIRE(ft_list_for_assign.back() == ft_list.back());
-		REQUIRE(ft_list_for_assign.size() == ft_list.size());
-		REQUIRE(list.size() == ft_list.size());
 	}
 }
 

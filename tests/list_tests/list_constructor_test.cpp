@@ -67,6 +67,7 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 
 			REQUIRE(list.size() == ft_list.size());
 			REQUIRE(list.back() == list.back());
+			REQUIRE(list.front() == list.front());
 
 			ft_list_for_copy.push_back(i);
 			list_for_copy.push_back(i);
@@ -78,12 +79,12 @@ TEMPLATE_TEST_CASE_SIG("Copy constructor in list container", "[list] [constructo
 		std::list<T>	list_for_copy(0, 'a');
 
 		for (int i = 0; i < V; i++) {
-
 			ft::list<T>		ft_list(ft_list_for_copy);
 			std::list<T>		list(list_for_copy);
 
 			REQUIRE(list.size() == ft_list.size());
 			REQUIRE(list.back() == list.back());
+			REQUIRE(list.front() == list.front());
 
 			ft_list_for_copy.push_back('a' + i);
 			list_for_copy.push_back('a' + i);
@@ -166,7 +167,7 @@ TEMPLATE_TEST_CASE_SIG("Assignation operator in list container", "[list] [constr
 }
 
 TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [constructor]",
-															   ((typename T, int V), T, V), (int, 10), (char, 20)) {
+														   ((typename T, int V), T, V), (int, 10), (char, 20)) {
 	ft::list<T>		ft_list_for_copy;
 	std::list<T>	list_for_copy;
 
@@ -180,7 +181,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 
 	SECTION("With size") {
 		for (int i = 0; i < V; i++) {
-
 			ft::list<T>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
 			std::list<T>	list(list_for_copy.begin(), list_for_copy.end());
 
@@ -197,7 +197,6 @@ TEMPLATE_TEST_CASE_SIG("Constructor via iterators in list container", "[list] [c
 		std::list<T>	list_for_copy(0, 'a');
 
 		for (int i = 0; i < V; i++) {
-
 			ft::list<T>		ft_list(ft_list_for_copy.begin(), ft_list_for_copy.end());
 			std::list<T>	list(list_for_copy.begin(), list_for_copy.end());
 

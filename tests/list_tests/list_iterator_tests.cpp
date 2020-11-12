@@ -55,7 +55,6 @@ TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename 
 				++ft_it;
 				++it;
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 
@@ -72,7 +71,6 @@ TEMPLATE_TEST_CASE_SIG("Default iterator list", "[list] [iterator]", ((typename 
 				--it;
 				REQUIRE(*ft_it == *it);
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
@@ -127,7 +125,6 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator list", "[list] [iterator]",
 				++ft_it;
 				++it;
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 
@@ -144,7 +141,6 @@ TEMPLATE_TEST_CASE_SIG("Default constant iterator list", "[list] [iterator]",
 				--it;
 				REQUIRE(*ft_it == *it);
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
@@ -199,7 +195,6 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]",
 				++ft_it;
 				++it;
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 
@@ -216,7 +211,6 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]",
 				--it;
 				REQUIRE(*ft_it == *it);
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 	}
@@ -230,7 +224,7 @@ TEMPLATE_TEST_CASE_SIG("Reverse iterator list", "[list] [iterator]",
 }
 
 TEMPLATE_TEST_CASE_SIG("Reverse constant iterator list", "[list] [iterator]",
-																 ((typename T, int V), T, V), (int, 5), (char, 105)) {
+															 ((typename T, int V), T, V), (int, 5), (char, 105)) {
 	ft::list<T>										ft_list;
 	std::list<T>									list;
 	typename ft::list<T>::const_reverse_iterator	ft_it;
@@ -271,7 +265,6 @@ TEMPLATE_TEST_CASE_SIG("Reverse constant iterator list", "[list] [iterator]",
 				++ft_it;
 				++it;
 			}
-
 			REQUIRE(ft_count_iterations == count_iterations);
 		}
 

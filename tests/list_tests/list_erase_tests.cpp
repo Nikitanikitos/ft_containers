@@ -15,7 +15,7 @@
 #include "../catch.hpp"
 
 TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
-																((typename T, int V), T, V), (int, 23), (char, 400)) {
+															((typename T, int V), T, V), (int, 23), (char, 400)) {
 	ft::list<T>							ft_list(1, 23);
 	std::list<T>						list(1, 23);
 	typename ft::list<T>::iterator		ft_it;
@@ -52,6 +52,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through one iterator", "[list] [erase]",
 				++it;
 				++ft_it;
 			}
+
 			REQUIRE(*ft_list.erase(ft_it) == *list.erase(it));
 			REQUIRE(list.size() == ft_list.size());
 		}
@@ -96,6 +97,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through with two iterator", "[list] [erase
 				++it;
 				++ft_it;
 			}
+
 			REQUIRE(*ft_list.erase(ft_list.begin(), ft_it) == *list.erase(list.begin(), it));
 			REQUIRE(list.size() == ft_list.size());
 		}
@@ -107,6 +109,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through with two iterator", "[list] [erase
 			}
 			ft_list.erase(ft_it, ft_list.end());
 			list.erase(it, list.end());
+
 			REQUIRE(list.front() == ft_list.front());
 			REQUIRE(list.back() == ft_list.back());
 			REQUIRE(list.size() == ft_list.size());
@@ -115,6 +118,7 @@ TEMPLATE_TEST_CASE_SIG("Erase in list through with two iterator", "[list] [erase
 		SECTION("all list") {
 			ft_list.erase(ft_it, --ft_list.end());
 			list.erase(it, --list.end());
+
 			REQUIRE(list.front() == ft_list.front());
 			REQUIRE(list.back() == ft_list.back());
 			REQUIRE(list.size() == ft_list.size());

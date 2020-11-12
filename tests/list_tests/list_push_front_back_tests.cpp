@@ -100,7 +100,7 @@ TEMPLATE_TEST_CASE("Push Back/Front in list with size = 1", "[list] [push]", int
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
+TEMPLATE_TEST_CASE_SIG("Push back/front many times in list", "[list] [push]",
 													((typename T, int V), T, V), (int, 10), (char, 20), (float, 12)) {
 	ft::list<T>							ft_list_number;
 	std::list<T>						list_number;
@@ -185,8 +185,8 @@ TEMPLATE_TEST_CASE_SIG("Push back/front many times", "[list] [push]",
 	}
 }
 
-TEMPLATE_TEST_CASE_SIG("Alternation push back/front", "[list] [push]",
-												  ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
+TEMPLATE_TEST_CASE_SIG("Alternation push back/front in list", "[list] [push]",
+											  ((typename T, int V), T, V), (int, 13), (char, 29), (float, 24)) {
 	ft::list<T>							ft_list_number;
 	std::list<T>						list_number;
 	ft::list<std::string>				ft_list_string;
