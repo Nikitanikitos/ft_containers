@@ -278,7 +278,7 @@ private:
 
 		for (size_type  i = 0; i < _size; ++i) {
 			_alloc.construct(temp_ptr + i, _ptr[i]);
-			_alloc.destroy(_ptr[i]);
+			_alloc.destroy(_ptr + i);
 		}
 		_alloc.deallocate(_ptr, _capacity);
 		_capacity += n;
@@ -327,15 +327,9 @@ public:
 
 	vector& operator=(const vector& x) {
 		if (this != &x) {
-			_ptr = _alloc.allocate(x._capacity);
-			for (size_type i = 0; i < x._size; ++i) {
-				if (i < _size) _alloc.destory(_ptr[i]);
-				_alloc.construct(_ptr + i, x[i]);
+			assign(x.begin(), x.end());
+			_alloc = x._alloc;
 			}
-			_alloc.deallocate(_ptr, _capacity);
-			_size = x._size;
-			_capacity = x._capacity;
-		}
 		return (*this);
 	}
 
@@ -382,7 +376,10 @@ public:
 
 	template <class InputIterator>
 	void					assign(InputIterator first, InputIterator last) {
+		for (int i = 0; i < _size; ++i)
+			_alloc.destroy(_ptr + i);
 		_alloc.deallocate(_ptr, _capacity);
+
 		_ptr = _alloc.allocate(_capacity);
 		_size = 0;
 		for (; first != last; ++first)
@@ -390,12 +387,15 @@ public:
 	}
 
 	void					assign(size_type n, const value_type& val) {
+		for (int i = 0; i < _size; ++i)
+			_alloc.destroy(_ptr + i);
 		_alloc.deallocate(_ptr, _capacity);
-		_ptr = _alloc.allocate(n);
-		_capacity = n;
+
+		_ptr = _alloc.allocate(n + 1);
+		_capacity = n + 1;
+		_size = n;
 		for (size_type i = 0; i < n; i++)
 			_alloc.construct(_ptr + i, val);
-		_size = n;
 	}
 
 	void					push_back(const value_type& val) {
