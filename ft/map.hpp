@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/11 21:44:04 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/12 14:51:41 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ private:
 
 		std::pair<_node_t*, bool>		_put(_node_t *node, const value_type& val) {
 			std::pair<_node_t*, bool>	pair;
-			bool		compare = _compare(val.first, node->_value->first);
+			bool						compare = _compare(val.first, node->_value->first);
 
 			if (val.first == node->_value->first)
 				return (std::make_pair(node, false));
@@ -223,11 +223,10 @@ private:
 		}
 
 		_node_t*		_delete_min(_node_t* node) {
-			if (_is_null_node(node)) return (node);
-
-			if (_is_null_node(node->_left))
+			if (_is_null_node(node))
+				return (node);
+			else if (_is_null_node(node->_left))
 				return (_destroy_node(node));
-
 			else if (_is_black(node->_left) && _is_black(node->_left->_left))
 				node = _move_red_left(node);
 
@@ -236,15 +235,14 @@ private:
 		}
 
 		_node_t*		_delete_max(_node_t* node) {
-			if (_is_null_node(node)) return (node);
-
-			if (_is_red(node->_left))
+			if (_is_null_node(node))
+				return (node);
+			else if (_is_red(node->_left))
 				node = _rotate_right(node);
 
 			if (_is_null_node(node->_right))
 				return (_destroy_node(node));
-
-			if (_is_black(node->_right) && _is_black(node->_right->_left))
+			else if (_is_black(node->_right) && _is_black(node->_right->_left))
 				node = _move_red_right(node);
 
 			node->_right = _delete_max(node->_right);
@@ -269,7 +267,7 @@ private:
 			bool	compare = _compare(node->_value->first, key);
 
 			if (compare == 0 && node->_value->first != key) {
-				if (_is_black(node->_left)&& _is_black(node->_left->_left))
+				if (_is_black(node->_left) && _is_black(node->_left->_left))
 					node = _move_red_left(node);
 				node->_left = _delete(node->_left, key);
 			}
@@ -316,8 +314,10 @@ private:
 				_last_node->_parent = node->_parent;
 				result = _last_node;
 			}
-			_alloc.destroy(node->_value);
-			_alloc.deallocate(node->_value, 1);
+			if (node == _first_node) {
+				_alloc.destroy(node->_value);
+				_alloc.deallocate(node->_value, 1);
+			}
 			_alloc_rebind.deallocate(node, 1);
 			_size--;
 			return (result);
@@ -631,9 +631,9 @@ private:
 	};
 
 public:
-	typedef 			_iterator												iterator;
+	typedef 			_iterator										iterator;
 	typedef typename	_iterator::_const_iterator						const_iterator;
-	typedef				_reverse_iterator										reverse_iterator;
+	typedef				_reverse_iterator								reverse_iterator;
 	typedef typename	_reverse_iterator::_const_reverse_iterator		const_reverse_iterator;
 
 	explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
@@ -660,6 +660,8 @@ public:
 
 	~map() {
 			clear();
+			_tree._destroy_node(_tree._first_node);
+			_tree._destroy_node(_tree._last_node);
 	}
 
 	map&	operator=(const map& x) {
@@ -690,7 +692,7 @@ public:
 		_node_type*	node = _tree._search(k, _tree._root);
 		iterator	it;
 
-		if (node == _tree._last_node || node == _tree._first_node || node == 0) {
+		if (_tree._is_null_node(node)) {
 			it = insert(std::make_pair(k, mapped_type())).first;
 			node = it._ptr;
 		}
@@ -700,7 +702,7 @@ public:
 	mapped_type&				at(const key_type& k) {
 		_node_type*	node = _tree._search(k, _tree._root);
 
-		if (node == _tree._last_node || node == _tree._first_node || node == 0)
+		if (_tree._is_null_node(node))
 			throw std::out_of_range("Out of range");
 		return (node->_value->second);
 	}
@@ -708,12 +710,12 @@ public:
 	const mapped_type&			at(const key_type& k) const {
 		_node_type*	node = _search(k, _tree->_root);
 
-		if (node == _tree._last_node || node == _tree._first_node || node == 0)
+		if (_tree._is_null_node(node))
 			throw std::out_of_range("Out of range");
 		return (node->_value->second);
 	}
 
-	std::pair<iterator,bool>	insert(const value_type& val) {
+	std::pair<iterator, bool>	insert(const value_type& val) {
 		std::pair<_node_type*, bool>	pair;
 
 		if (empty()) {
@@ -727,7 +729,7 @@ public:
 		if (pair.second)
 			_tree._size++;
 		_tree._root->_parent = 0;
-		_tree._root->_color = false;
+		_tree._root->_color = _BLACK;
 		return (std::make_pair(find(val.first), pair.second));
 	}
 
@@ -775,7 +777,6 @@ public:
 		std::swap(x._tree._root, _tree._root);
 		std::swap(x._tree._first_node, _tree._first_node);
 		std::swap(x._tree._last_node, _tree._last_node);
-
 		std::swap(x._tree._alloc, _tree._alloc);
 		std::swap(x._tree._alloc_rebind, _tree._alloc_rebind);
 		std::swap(x._tree._size, _tree._size);
@@ -789,9 +790,9 @@ public:
 		if ((node = _tree._root))
 			queue.push(node);
 		while (!queue.empty()) {
-			if (node->_right && node->_right != _tree._last_node)
+			if (!_tree._is_null_node(node->_right))
 				queue.push(node->_right);
-			if (node->_left && node->_left != _tree._first_node)
+			if (!_tree._is_null_node(node->_left))
 				queue.push(node->_left);
 			_tree._destroy_node(queue.front());
 			queue.pop();
@@ -830,7 +831,7 @@ public:
 	}
 
 	const_iterator				upper_bound(const key_type& k) const {
-		for (const_iterator it = end(); it != begin(); --it)
+		for (const_iterator it = begin(); it != end(); ++it)
 			if (_tree._compare(k, it->first))
 				return (it);
 		return (end());
