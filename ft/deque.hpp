@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:07:44 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/12 14:04:39 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/24 17:48:52 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ public:
 	template <class InputIterator>
 	void					assign(InputIterator first, InputIterator last,
 									typename enable_if<std::__is_input_iterator <InputIterator>::value>::type* = 0) {
-		for (int i = 0; i < _size; ++i)
+		for (size_t i = 0; i < _size; ++i)
 			_alloc.destroy(_ptr + _offset_front + i);
 		_alloc.deallocate(_ptr, _capacity);
 
@@ -393,7 +393,7 @@ public:
 	}
 
 	void					assign(size_type n, const value_type& val) {
-		for (int i = 0; i < _size; ++i)
+		for (size_t i = 0; i < _size; ++i)
 			_alloc.destroy(_ptr + _offset_front + i);
 		_alloc.deallocate(_ptr, _capacity);
 

@@ -376,7 +376,7 @@ private:
 			_const_iterator		operator++(int) {
 				_const_iterator		temp(_ptr);
 
-				++temp;
+				operator++();
 				return (temp);
 			}
 
@@ -402,7 +402,7 @@ private:
 			_const_iterator		operator--(int) {
 				_const_iterator		temp(_ptr);
 
-				--temp;
+				operator--();
 				return (temp);
 			}
 		};
@@ -443,7 +443,7 @@ private:
 		_iterator		operator++(int) {
 			_iterator	temp(_ptr);
 
-			++temp;
+			operator++();
 			return (temp);
 		}
 
@@ -469,7 +469,7 @@ private:
 		_iterator		operator--(int) {
 			_iterator	temp(_ptr);
 
-			--temp;
+			operator--();
 			return (temp);
 		}
 	};
@@ -525,7 +525,7 @@ private:
 			_const_reverse_iterator		operator--(int) {
 				_const_reverse_iterator		temp(_ptr);
 
-				++temp;
+				operator--();
 				return (temp);
 			}
 
@@ -552,7 +552,7 @@ private:
 			_const_reverse_iterator		operator++(int) {
 				_const_reverse_iterator		temp(_ptr);
 
-				--temp;
+				operator++();
 				return (temp);
 			}
 		};
@@ -594,7 +594,7 @@ private:
 		_reverse_iterator		operator--(int) {
 			_reverse_iterator		temp(_ptr);
 
-			++temp;
+			operator--();
 			return (temp);
 		}
 
@@ -621,7 +621,7 @@ private:
 		_reverse_iterator		operator++(int) {
 			_reverse_iterator		temp(_ptr);
 
-			--temp;
+			operator++();
 			return (temp);
 		}
 	};

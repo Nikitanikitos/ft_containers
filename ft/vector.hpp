@@ -376,7 +376,7 @@ public:
 
 	template <class InputIterator>
 	void					assign(InputIterator first, InputIterator last) {
-		for (int i = 0; i < _size; ++i)
+		for (size_t i = 0; i < _size; ++i)
 			_alloc.destroy(_ptr + i);
 		_alloc.deallocate(_ptr, _capacity);
 
@@ -387,7 +387,7 @@ public:
 	}
 
 	void					assign(size_type n, const value_type& val) {
-		for (int i = 0; i < _size; ++i)
+		for (size_t i = 0; i < _size; ++i)
 			_alloc.destroy(_ptr + i);
 		_alloc.deallocate(_ptr, _capacity);
 

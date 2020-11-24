@@ -6,7 +6,7 @@
 /*   By: imicah <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:09:48 by imicah            #+#    #+#             */
-/*   Updated: 2020/11/12 14:51:41 by imicah           ###   ########.fr       */
+/*   Updated: 2020/11/24 17:55:50 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ private:
 			_const_iterator		operator++(int) {
 				_const_iterator		temp(_ptr);
 
-				++_ptr;
+				operator++();
 				return (temp);
 			}
 
@@ -406,7 +406,7 @@ private:
 			_const_iterator		operator--(int) {
 				_const_iterator		temp(_ptr);
 
-				--_ptr;
+				operator--();
 				return (temp);
 			}
 		};
@@ -447,7 +447,7 @@ private:
 		_iterator		operator++(int) {
 			_iterator	temp(_ptr);
 
-			++_ptr;
+			operator++();
 			return (temp);
 		}
 
@@ -473,7 +473,7 @@ private:
 		_iterator		operator--(int) {
 			_iterator	temp(_ptr);
 
-			--_ptr;
+			operator--();
 			return (temp);
 		}
 	};
@@ -529,7 +529,7 @@ private:
 			_const_reverse_iterator		operator--(int) {
 				_const_reverse_iterator		temp(_ptr);
 
-				--_ptr;
+				operator--();
 				return (temp);
 			}
 
@@ -556,7 +556,7 @@ private:
 			_const_reverse_iterator		operator++(int) {
 				_const_reverse_iterator		temp(_ptr);
 
-				++_ptr;
+				operator++();
 				return (temp);
 			}
 		};
@@ -598,7 +598,7 @@ private:
 		_reverse_iterator		operator--(int) {
 			_reverse_iterator		temp(_ptr);
 
-			--_ptr;
+			operator--();
 			return (temp);
 		}
 
@@ -625,7 +625,7 @@ private:
 		_reverse_iterator		operator++(int) {
 			_reverse_iterator		temp(_ptr);
 
-			++_ptr;
+			operator++();
 			return (temp);
 		}
 	};

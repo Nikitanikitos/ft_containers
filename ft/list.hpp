@@ -48,7 +48,7 @@ private:
 
 			_const_iterator&	operator=(const _const_iterator &it) {
 				if (this != &it)
-					_ptr - it._ptr;
+					_ptr = it._ptr;
 				return (*this);
 			}
 
