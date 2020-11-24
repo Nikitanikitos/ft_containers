@@ -447,7 +447,7 @@ private:
 		_iterator		operator++(int) {
 			_iterator	temp(_ptr);
 
-			+++ptr;
+			++_ptr;
 			return (temp);
 		}
 
